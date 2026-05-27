@@ -926,30 +926,33 @@ h3 {
   .hero,
   .section {
     height: 100svh;
+    height: 100dvh;
   }
 
   .hero,
   .section {
     overflow-y: auto;
+    overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }
 
   .deck-progress {
     right: 14px;
-    bottom: 8px;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
     left: 14px;
     height: 5px;
   }
 
   .deck-nav {
+    top: calc(env(safe-area-inset-top, 0px) + 14px);
     right: 14px;
-    bottom: 22px;
+    bottom: auto;
   }
 
   .deck-nav-button {
-    width: 38px;
-    height: 38px;
-    font-size: 1.2rem;
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
     box-shadow: 4px 4px 0 var(--blue);
   }
 
@@ -960,19 +963,19 @@ h3 {
   .hero-inner {
     min-height: auto;
     align-content: start;
-    padding: 12px 0 62px;
-    gap: 8px;
+    padding: 22px 0 94px;
+    gap: 14px;
   }
 
   .eyebrow {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     padding: 4px 6px;
-    font-size: 0.58rem;
+    font-size: 0.64rem;
   }
 
   h1 {
-    margin-bottom: 8px;
-    font-size: clamp(1.8rem, 12.2vw, 2.38rem);
+    margin-bottom: 12px;
+    font-size: clamp(2rem, 12.2vw, 2.9rem);
     line-height: 0.9;
   }
 
@@ -982,8 +985,8 @@ h3 {
 
   .lead {
     margin-bottom: 0;
-    font-size: 0.78rem;
-    line-height: 1.16;
+    font-size: 0.94rem;
+    line-height: 1.2;
   }
 
   .trend-tags {
@@ -1006,8 +1009,8 @@ h3 {
   }
 
   .path-card {
-    min-height: 68px;
-    padding: 27px 8px 8px;
+    min-height: 104px;
+    padding: 34px 10px 10px;
   }
 
   .path-card span {
@@ -1018,47 +1021,61 @@ h3 {
   }
 
   .path-card strong {
-    font-size: 0.88rem;
+    font-size: 1.02rem;
   }
 
   .path-card p {
-    margin-top: 4px;
-    font-size: 0.58rem;
+    margin-top: 6px;
+    font-size: 0.72rem;
+    line-height: 1.18;
+  }
+
+  .path-card.hard {
+    background: var(--paper);
   }
 
   .section {
-    gap: 6px;
-    padding: 12px 14px 62px;
+    align-content: start;
+    gap: 14px;
+    padding: 22px 14px 94px;
   }
 
   .section-label {
-    font-size: 0.78rem;
+    font-size: 0.84rem;
+  }
+
+  .section-body {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
   }
 
   h2 {
-    margin-bottom: 8px;
-    font-size: clamp(1.42rem, 9.8vw, 2.05rem);
+    margin-bottom: 16px;
+    font-size: clamp(2rem, 10.6vw, 2.78rem);
     line-height: 0.94;
+    overflow-wrap: break-word;
   }
 
   h3 {
-    margin-bottom: 5px;
-    font-size: 1.05rem;
+    margin-bottom: 7px;
+    font-size: 1.16rem;
   }
 
   .section p,
   .lesson p {
-    font-size: 0.7rem;
-    line-height: 1.16;
+    font-size: 0.92rem;
+    line-height: 1.22;
   }
 
   .vibe-grid {
-    gap: 8px;
+    gap: 10px;
   }
 
   .vibe-card {
-    min-height: 100px;
-    padding: 8px;
+    min-height: auto;
+    padding: 12px;
+    justify-content: flex-start;
   }
 
   .vibe-card span {
@@ -1067,31 +1084,32 @@ h3 {
   }
 
   .vibe-card p {
-    margin-top: 8px;
-    font-size: 0.66rem;
-    line-height: 1.12;
+    margin-top: 12px;
+    font-size: 0.9rem;
+    line-height: 1.22;
   }
 
   .section .vibe-note {
-    margin-top: 8px;
+    margin-top: 14px;
     border-left-width: 6px;
     padding: 4px 0 4px 10px;
-    font-size: 0.66rem;
+    font-size: 0.88rem;
+    line-height: 1.22;
   }
 
   .section-body.intro-body {
-    gap: 8px;
+    gap: 14px;
   }
 
   .intro-text {
-    gap: 8px;
-    padding: 10px;
+    gap: 12px;
+    padding: 14px;
     box-shadow: 6px 6px 0 var(--black);
   }
 
   .intro-text p {
-    font-size: 0.68rem;
-    line-height: 1.14;
+    font-size: 0.92rem;
+    line-height: 1.24;
   }
 
   .meme {
@@ -1099,19 +1117,21 @@ h3 {
   }
 
   .intro-note {
-    padding: 8px 10px;
-    font-size: 0.82rem;
+    padding: 12px 14px;
+    font-size: 1rem;
     box-shadow: 6px 6px 0 var(--black);
   }
 
   .outcome-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .outcome-grid div {
-    min-height: 70px;
-    padding: 28px 7px 7px;
+    min-height: auto;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 48px 12px 12px;
   }
 
   .outcome-grid div::before {
@@ -1123,39 +1143,40 @@ h3 {
   }
 
   .outcome-grid h3 {
-    margin-bottom: 3px;
-    font-size: 0.72rem;
+    margin-bottom: 6px;
+    font-size: 1.1rem;
+    line-height: 1.02;
   }
 
   .outcome-grid p {
-    font-size: 0.54rem;
-    line-height: 1.1;
+    font-size: 0.82rem;
+    line-height: 1.22;
   }
 
   .program {
-    padding-top: 12px;
-    padding-bottom: 62px;
+    padding-top: 22px;
+    padding-bottom: 94px;
   }
 
   .program h2 {
-    margin-bottom: 6px;
-    font-size: clamp(1.36rem, 8.8vw, 1.82rem);
+    margin-bottom: 12px;
+    font-size: clamp(2rem, 10.2vw, 2.72rem);
   }
 
   .program .lesson {
-    grid-template-columns: 58px minmax(0, 1fr);
-    column-gap: 8px;
-    padding: 5px 0 5px 14px;
+    grid-template-columns: 1fr;
+    row-gap: 4px;
+    padding: 12px 0 12px 22px;
   }
 
   .program .lesson::before {
-    top: 9px;
-    width: 7px;
-    height: 7px;
+    top: 17px;
+    width: 10px;
+    height: 10px;
   }
 
   .program .lesson-date {
-    font-size: 0.5rem;
+    font-size: 0.78rem;
   }
 
   .program .lesson-date span {
@@ -1164,12 +1185,14 @@ h3 {
 
   .program .lesson h3 {
     margin-bottom: 2px;
-    font-size: 0.76rem;
+    font-size: 1.22rem;
+    line-height: 1.02;
   }
 
   .program .lesson p:not(.lesson-date) {
-    font-size: 0.52rem;
-    line-height: 1.1;
+    grid-column: 1;
+    font-size: 0.86rem;
+    line-height: 1.2;
   }
 
   .program .homework {
@@ -1177,36 +1200,37 @@ h3 {
   }
 
   .program .summary-strip {
-    margin-top: 6px;
-    padding: 8px 10px;
-    font-size: 0.66rem;
-    line-height: 1.14;
+    margin-top: 10px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    line-height: 1.18;
     box-shadow: 6px 6px 0 var(--black);
   }
 
   .speaker-card {
     display: grid;
-    grid-template-columns: 52px minmax(0, 1fr);
+    grid-template-columns: 68px minmax(0, 1fr);
     align-items: flex-start;
     gap: 10px;
   }
 
   .speaker-avatar {
-    width: 52px;
+    width: 68px;
   }
 
   .speaker-card h3 {
     margin-bottom: 4px;
-    font-size: 1rem;
+    font-size: 1.25rem;
   }
 
   .speaker-role {
     margin-bottom: 4px;
-    font-size: 0.58rem;
+    font-size: 0.76rem;
+    line-height: 1.18;
   }
 
   .speaker-link {
-    font-size: 0.66rem;
+    font-size: 0.82rem;
   }
 
   .speaker-panel {
@@ -1216,8 +1240,8 @@ h3 {
 
   .speaker-text p {
     margin-bottom: 6px;
-    font-size: 0.58rem;
-    line-height: 1.14;
+    font-size: 0.82rem;
+    line-height: 1.22;
   }
 
   .logo-wall {
@@ -1227,8 +1251,8 @@ h3 {
   .speaker-quote {
     margin-top: 0;
     padding: 8px 10px;
-    font-size: 0.64rem;
-    line-height: 1.14;
+    font-size: 0.82rem;
+    line-height: 1.22;
   }
 
   .price-panel {
@@ -1237,29 +1261,30 @@ h3 {
 
   .price-main {
     min-height: auto;
-    padding: 12px;
+    padding: 16px;
   }
 
   .price-main .price-label {
-    margin-bottom: 6px;
-    font-size: 0.66rem;
+    margin-bottom: 8px;
+    font-size: 0.78rem;
   }
 
   .price-main .price-number {
-    font-size: 1.9rem;
+    font-size: clamp(2rem, 11vw, 2.7rem);
   }
 
   .price-main .price-caption {
-    font-size: 0.82rem;
+    font-size: 1rem;
   }
 
   .price-main .price-subcaption,
   .price-details p {
-    font-size: 0.62rem;
+    font-size: 0.86rem;
+    line-height: 1.24;
   }
 
   .price-details {
-    gap: 6px;
-    padding: 10px;
+    gap: 10px;
+    padding: 14px;
   }
 }
