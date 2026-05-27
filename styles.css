@@ -164,9 +164,10 @@ h3,
 .eyebrow,
 .trend-tags span,
 .window-titlebar,
-.desktop-icon,
-.agent-card,
-.agent-cursor,
+.folder-title,
+.folder-item,
+.file-row,
+.agent-pointer,
 .taskbar,
 .vibe-card span,
 .section-label,
@@ -285,109 +286,122 @@ h1 span {
   background: rgba(255, 255, 255, 0.52);
 }
 
-.desktop-icon,
-.agent-card,
-.agent-cursor {
+.folder-window {
   position: absolute;
+  inset: 36px 38px 42px;
   z-index: 1;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border: 2px solid var(--black);
+  background: var(--white);
+  box-shadow: 10px 10px 0 var(--blue);
 }
 
-.desktop-icon {
+.folder-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid var(--black);
+  padding: 12px 14px;
+  font-size: clamp(0.92rem, 1.2vw, 1.14rem);
+  font-weight: 1000;
+  text-transform: uppercase;
+}
+
+.folder-title span,
+.folder-item span {
+  width: 32px;
+  height: 22px;
+  border: 2px solid var(--black);
+  background:
+    linear-gradient(var(--white) 0 36%, var(--sky) 36%),
+    var(--sky);
+}
+
+.folder-body {
   display: grid;
-  justify-items: center;
-  gap: 7px;
-  width: 82px;
-  color: var(--black);
-  font-size: 0.78rem;
-  font-weight: 900;
+  grid-template-columns: minmax(120px, 0.34fr) minmax(0, 1fr);
+  min-height: 0;
+}
+
+.folder-sidebar {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  border-right: 2px solid var(--black);
+  background: var(--paper);
+  padding: 18px 14px;
+}
+
+.folder-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: clamp(0.78rem, 1vw, 0.92rem);
+  font-weight: 1000;
   line-height: 1;
   text-transform: uppercase;
 }
 
-.desktop-icon span {
-  width: 44px;
-  height: 38px;
-  border: 2px solid var(--black);
-  background:
-    linear-gradient(135deg, transparent 0 46%, var(--black) 47% 52%, transparent 53%),
-    var(--white);
+.folder-item.active {
+  color: var(--blue);
 }
 
-.desktop-icon.site {
-  top: 40px;
-  left: 42px;
+.file-list {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 22px;
 }
 
-.desktop-icon.bot {
-  top: 136px;
-  left: 48px;
-}
-
-.desktop-icon.files {
-  bottom: 54px;
-  left: 46px;
-}
-
-.agent-card {
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   border: 2px solid var(--black);
   background: var(--white);
   padding: 12px 14px;
-  font-size: clamp(0.86rem, 1.15vw, 1.1rem);
+  font-size: clamp(0.86rem, 1.12vw, 1.08rem);
   font-weight: 1000;
   line-height: 1;
-  text-transform: uppercase;
-  box-shadow: 6px 6px 0 var(--blue);
 }
 
-.agent-card.code {
-  top: 48px;
-  left: 34%;
+.file-row span {
+  width: 25px;
+  height: 30px;
+  border: 2px solid var(--black);
+  background:
+    linear-gradient(135deg, transparent 0 52%, var(--black) 53% 58%, transparent 59%),
+    var(--white);
 }
 
-.agent-card.check {
-  top: 152px;
-  right: 9%;
+.file-row.active {
   background: var(--blue);
   color: var(--white);
+  box-shadow: 6px 6px 0 var(--black);
 }
 
-.agent-card.deploy {
-  bottom: 58px;
-  left: 30%;
-}
-
-.agent-cursor {
+.agent-pointer {
+  position: absolute;
+  right: 46px;
+  bottom: 78px;
+  z-index: 2;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   color: var(--blue);
-  font-size: clamp(0.86rem, 1.05vw, 1rem);
+  font-size: clamp(1rem, 1.35vw, 1.28rem);
   font-weight: 1000;
   line-height: 1;
   text-transform: uppercase;
 }
 
-.agent-cursor span {
+.agent-pointer span {
   width: 0;
   height: 0;
-  border-top: 22px solid var(--black);
-  border-right: 13px solid transparent;
-  filter: drop-shadow(4px 4px 0 var(--blue));
-}
-
-.cursor-one {
-  top: 102px;
-  left: 52%;
-}
-
-.cursor-two {
-  top: 226px;
-  left: 40%;
-}
-
-.cursor-three {
-  top: 196px;
-  right: 8%;
+  border-top: 34px solid var(--black);
+  border-right: 20px solid transparent;
+  filter: drop-shadow(5px 5px 0 var(--blue));
 }
 
 .taskbar {
@@ -1151,77 +1165,64 @@ h3 {
     inset: 10px;
   }
 
-  .desktop-icon {
-    width: 54px;
-    gap: 4px;
-    font-size: 0.48rem;
+  .folder-window {
+    inset: 18px 16px 36px;
+    box-shadow: 6px 6px 0 var(--blue);
   }
 
-  .desktop-icon span {
-    width: 30px;
-    height: 26px;
-  }
-
-  .desktop-icon.site {
-    top: 25px;
-    left: 20px;
-  }
-
-  .desktop-icon.bot {
-    top: 88px;
-    left: 22px;
-  }
-
-  .desktop-icon.files {
-    bottom: 30px;
-    left: 22px;
-  }
-
-  .agent-card {
+  .folder-title {
+    gap: 7px;
     padding: 8px 9px;
+    font-size: 0.64rem;
+  }
+
+  .folder-title span,
+  .folder-item span {
+    width: 24px;
+    height: 17px;
+  }
+
+  .folder-body {
+    grid-template-columns: 94px minmax(0, 1fr);
+  }
+
+  .folder-sidebar {
+    gap: 9px;
+    padding: 12px 8px;
+  }
+
+  .folder-item {
+    gap: 6px;
+    font-size: 0.54rem;
+  }
+
+  .file-list {
+    gap: 9px;
+    padding: 14px 10px;
+  }
+
+  .file-row {
+    gap: 7px;
+    padding: 8px;
     font-size: 0.58rem;
-    box-shadow: 4px 4px 0 var(--blue);
   }
 
-  .agent-card.code {
-    top: 32px;
-    left: 32%;
+  .file-row span {
+    width: 18px;
+    height: 22px;
   }
 
-  .agent-card.check {
-    top: 104px;
-    right: 7%;
+  .agent-pointer {
+    right: 24px;
+    bottom: 62px;
+    gap: 6px;
+    font-size: 0.66rem;
   }
 
-  .agent-card.deploy {
-    bottom: 38px;
-    left: 30%;
-  }
-
-  .agent-cursor {
-    gap: 5px;
-    font-size: 0.5rem;
-  }
-
-  .agent-cursor span {
-    border-top-width: 16px;
-    border-right-width: 9px;
+  .agent-pointer span {
+    border-top-width: 22px;
+    border-right-width: 13px;
     filter: drop-shadow(3px 3px 0 var(--blue));
-  }
-
-  .cursor-one {
-    top: 70px;
-    left: 52%;
-  }
-
-  .cursor-two {
-    top: 150px;
-    left: 37%;
-  }
-
-  .cursor-three {
-    top: 136px;
-    right: 6%;
   }
 
   .taskbar {
