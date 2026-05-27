@@ -1114,15 +1114,13 @@ h3 {
 
   .meme {
     display: block;
-    justify-self: center;
-    width: min(100%, 260px);
-    max-height: 190px;
+    width: 100%;
     box-shadow: 6px 6px 0 var(--blue);
   }
 
   .meme img {
-    max-height: 190px;
-    object-fit: contain;
+    width: 100%;
+    height: auto;
     background: var(--white);
   }
 
