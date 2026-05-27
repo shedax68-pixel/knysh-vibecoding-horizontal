@@ -283,14 +283,37 @@
       <div class="deck-progress-fill"></div>
     </div>
 
+    <div class="deck-nav" aria-label="Навигация по слайдам">
+      <button class="deck-nav-button" type="button" data-direction="-1" aria-label="Предыдущий слайд">
+        &lt;
+      </button>
+      <button class="deck-nav-button" type="button" data-direction="1" aria-label="Следующий слайд">
+        &gt;
+      </button>
+    </div>
+
     <script>
       const deck = document.querySelector("#deck");
       const progress = document.querySelector(".deck-progress-fill");
+      const navButtons = document.querySelectorAll(".deck-nav-button");
+
+      function getCurrentPanelIndex() {
+        return Math.round(deck.scrollLeft / deck.clientWidth);
+      }
 
       function updateDeckProgress() {
         const maxScroll = deck.scrollWidth - deck.clientWidth;
         const progressValue = maxScroll > 0 ? deck.scrollLeft / maxScroll : 0;
         progress.style.transform = `scaleX(${progressValue})`;
+
+        const currentIndex = getCurrentPanelIndex();
+        const lastIndex = Math.round(maxScroll / deck.clientWidth);
+        navButtons.forEach((button) => {
+          const direction = Number(button.dataset.direction);
+          button.disabled =
+            (direction < 0 && currentIndex <= 0) ||
+            (direction > 0 && currentIndex >= lastIndex);
+        });
       }
 
       deck.addEventListener("scroll", updateDeckProgress, { passive: true });
@@ -329,6 +352,17 @@
         }
       });
 
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const direction = Number(button.dataset.direction);
+          deck.scrollTo({
+            left: (getCurrentPanelIndex() + direction) * deck.clientWidth,
+            behavior: "smooth",
+          });
+        });
+      });
+
+      window.addEventListener("resize", updateDeckProgress);
       updateDeckProgress();
     </script>
   </body>
