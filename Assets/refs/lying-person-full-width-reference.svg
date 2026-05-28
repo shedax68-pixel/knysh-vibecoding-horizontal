@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">Reference: full-width relaxed stickman pose</title>
+  <desc id="desc">A minimal black-line person lying horizontally across the slide, leaving space for text on the left and a laptop near the knees on the right.</desc>
+  <rect width="1440" height="900" fill="#f5f5f0"/>
+  <g fill="none" stroke="#d8d8cf" stroke-width="2">
+    <path d="M-160 800 800 -160"/>
+    <path d="M-80 860 860 -80"/>
+    <path d="M0 920 920 0"/>
+    <path d="M80 980 980 80"/>
+    <path d="M160 1040 1040 160"/>
+    <path d="M240 1100 1100 240"/>
+    <path d="M320 1160 1160 320"/>
+    <path d="M400 1220 1220 400"/>
+    <path d="M480 1280 1280 480"/>
+    <path d="M560 1340 1340 560"/>
+    <path d="M640 1400 1400 640"/>
+  </g>
+  <rect x="72" y="132" width="520" height="270" fill="#fff" stroke="#129df3" stroke-width="4" stroke-dasharray="14 12"/>
+  <text x="96" y="178" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#129df3">safe area: заголовок и подзаголовок</text>
+  <g fill="none" stroke="#050505" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="1010" cy="242" r="82"/>
+    <path d="M930 278 C820 332 726 402 628 494"/>
+    <path d="M626 496 C770 536 934 542 1112 498"/>
+    <path d="M820 420 C686 438 582 482 500 558"/>
+    <path d="M818 425 C934 400 1040 402 1148 442"/>
+    <path d="M1080 500 C1162 548 1240 598 1326 670"/>
+    <path d="M1116 494 C1210 502 1290 526 1364 568"/>
+    <path d="M620 494 C528 510 452 554 390 626"/>
+  </g>
+  <g fill="none" stroke="#050505" stroke-width="10" stroke-linecap="round">
+    <path d="M950 238 H990"/>
+    <path d="M1028 238 H1068"/>
+    <path d="M986 318 H1054"/>
+  </g>
+  <g>
+    <rect x="1054" y="466" width="250" height="156" fill="#fff" stroke="#050505" stroke-width="8"/>
+    <rect x="1068" y="484" width="222" height="102" fill="#d9f1ff" stroke="#050505" stroke-width="5"/>
+    <rect x="1042" y="622" width="278" height="24" fill="#050505"/>
+    <text x="1094" y="546" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#050505">ноут с папкой</text>
+  </g>
+  <text x="82" y="800" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#050505">Суть: человек лежит через весь слайд и отдыхает, ноут/инфографика справа.</text>
+</svg>

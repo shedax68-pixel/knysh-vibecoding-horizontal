@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hero slide new visual options</title>
+    <script>
+      if (new URLSearchParams(window.location.search).get("export") === "2") {
+        document.documentElement.classList.add("export-option-2");
+      }
+    </script>
+    <style>
+      :root {
+        --black: #050505;
+        --paper: #f6f5ef;
+        --white: #ffffff;
+        --blue: #129df3;
+        --sky: #dff3ff;
+        --yellow: #ffe86b;
+        --green: #d9ff5f;
+        --line: #d2d2c9;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--black);
+        font-family: Helvetica, Arial, sans-serif;
+      }
+
+      .slide {
+        position: relative;
+        width: 1440px;
+        height: 900px;
+        overflow: hidden;
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.93), rgba(255, 255, 255, 0.66)),
+          repeating-linear-gradient(135deg, var(--line) 0 2px, transparent 2px 32px),
+          var(--paper);
+      }
+
+      .slide + .slide {
+        border-top: 4px solid var(--black);
+      }
+
+      .export-option-2 #option-1 {
+        display: none;
+      }
+
+      .export-option-2 #option-2 {
+        border-top: 0;
+      }
+
+      .copy {
+        position: absolute;
+        z-index: 20;
+        left: 72px;
+        top: 112px;
+        width: 690px;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        margin: 0 0 32px;
+        border: 3px solid var(--black);
+        background: var(--sky);
+        padding: 9px 14px;
+        font-family: "Arial Black", Impact, Helvetica, Arial, sans-serif;
+        font-size: 17px;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0 0 30px;
+        font-family: "Arial Black", Impact, Helvetica, Arial, sans-serif;
+        font-size: 82px;
+        font-weight: 900;
+        line-height: 0.98;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 span {
+        display: block;
+      }
+
+      .lead {
+        width: 680px;
+        margin: 0;
+        font-size: 27px;
+        line-height: 1.28;
+      }
+
+      .xp-window {
+        position: absolute;
+        border: 4px solid var(--black);
+        background: var(--white);
+        box-shadow: 16px 16px 0 var(--blue);
+      }
+
+      .xp-bar {
+        display: flex;
+        align-items: center;
+        min-height: 48px;
+        border-bottom: 4px solid var(--black);
+        background: var(--blue);
+        color: var(--white);
+        padding: 8px 12px;
+        font-family: "Arial Black", Impact, Helvetica, Arial, sans-serif;
+        font-size: 19px;
+        text-transform: uppercase;
+      }
+
+      .xp-bar span {
+        margin-right: auto;
+      }
+
+      .xp-bar i {
+        width: 18px;
+        height: 18px;
+        margin-left: 7px;
+        border: 3px solid var(--black);
+        background: var(--white);
+      }
+
+      .xp-body {
+        position: relative;
+        height: 538px;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.84)),
+          repeating-linear-gradient(135deg, var(--line) 0 1px, transparent 1px 18px),
+          var(--paper);
+      }
+
+      .folder {
+        position: absolute;
+        left: 78px;
+        top: 150px;
+        width: 430px;
+        height: 230px;
+        display: grid;
+        place-items: center;
+        border: 5px solid var(--black);
+        background: var(--yellow);
+        box-shadow: 12px 12px 0 var(--black);
+        font-family: "Arial Black", Impact, Helvetica, Arial, sans-serif;
+        font-size: 42px;
+        line-height: 0.95;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .folder::before {
+        content: "";
+        position: absolute;
+        top: -48px;
+        left: -5px;
+        width: 170px;
+        height: 48px;
+        border: 5px solid var(--black);
+        border-bottom: 0;
+        background: var(--yellow);
+      }
+
+      .motion-loop {
+        position: absolute;
+        inset: 62px 48px 78px 36px;
+        border: 6px dashed var(--blue);
+        border-left-color: transparent;
+        border-radius: 52% 38% 48% 40%;
+        opacity: 0.95;
+      }
+
+      .motion-loop.small {
+        inset: 122px 148px 128px 120px;
+        border-width: 4px;
+        transform: rotate(-9deg);
+        opacity: 0.72;
+      }
+
+      .speed {
+        position: absolute;
+        height: 6px;
+        background: var(--blue);
+        transform: rotate(-13deg);
+      }
+
+      .speed.s1 {
+        left: 402px;
+        top: 126px;
+        width: 128px;
+      }
+
+      .speed.s2 {
+        left: 342px;
+        top: 416px;
+        width: 176px;
+      }
+
+      .speed.s3 {
+        left: 92px;
+        top: 116px;
+        width: 112px;
+      }
+
+      .agent {
+        position: absolute;
+        z-index: 8;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Arial Black", Impact, Helvetica, Arial, sans-serif;
+        font-size: 18px;
+        line-height: 1;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .agent::before {
+        content: "";
+        width: 0;
+        height: 0;
+        border-top: 36px solid var(--black);
+        border-right: 22px solid transparent;
+        filter: drop-shadow(6px 6px 0 var(--blue));
+      }
+
+      .agent::after {
+        content: "";
+        position: absolute;
+        left: -28px;
+        top: 10px;
+        width: 38px;
+        height: 5px;
+        background: var(--blue);
+        opacity: 0.85;
+      }
+
+      .agent .tag {
+        border: 3px solid var(--black);
+        background: var(--white);
+        padding: 8px 10px;
+        box-shadow: 5px 5px 0 var(--black);
+      }
+
+      .agent.a1 {
+        left: 110px;
+        top: 104px;
+        transform: rotate(-9deg);
+      }
+
+      .agent.a2 {
+        right: 112px;
+        top: 158px;
+        transform: rotate(13deg);
+      }
+
+      .agent.a3 {
+        left: 338px;
+        bottom: 96px;
+        transform: rotate(-18deg);
+      }
+
+      .agent.a4 {
+        right: 70px;
+        bottom: 176px;
+        transform: rotate(6deg);
+      }
+
+      .agent.a5 {
+        left: 202px;
+        top: 310px;
+        transform: rotate(17deg);
+      }
+
+      .agent.ghost {
+        opacity: 0.22;
+      }
+
+      .agent.ghost .tag {
+        display: none;
+      }
+
+      .mini-folder {
+        position: absolute;
+        right: 46px;
+        bottom: 50px;
+        width: 122px;
+        height: 74px;
+        border: 4px solid var(--black);
+        background: var(--white);
+        opacity: 0.82;
+      }
+
+      .mini-folder::before {
+        content: "";
+        position: absolute;
+        left: -4px;
+        top: -22px;
+        width: 52px;
+        height: 22px;
+        border: 4px solid var(--black);
+        border-bottom: 0;
+        background: var(--white);
+      }
+
+      .done {
+        position: absolute;
+        left: 60px;
+        bottom: 40px;
+        border: 4px solid var(--black);
+        background: var(--green);
+        padding: 13px 18px;
+        box-shadow: 8px 8px 0 var(--black);
+        font-family: "Arial Black", Impact, Helvetica, Arial, sans-serif;
+        font-size: 24px;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .option-1 .xp-window {
+        right: 56px;
+        top: 152px;
+        width: 592px;
+      }
+
+      .option-1 .copy {
+        width: 660px;
+      }
+
+      .person-lines {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        pointer-events: none;
+      }
+
+      .person-lines svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      .person-lines .bodyline {
+        fill: none;
+        stroke: var(--black);
+        stroke-width: 17;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .person-lines .thin {
+        fill: none;
+        stroke: var(--black);
+        stroke-width: 7;
+        stroke-linecap: round;
+      }
+
+      .person-lines .blue-shadow {
+        fill: none;
+        stroke: var(--blue);
+        stroke-width: 13;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        opacity: 0.95;
+      }
+
+      .laptop {
+        position: absolute;
+        z-index: 10;
+        right: 94px;
+        top: 408px;
+        width: 500px;
+        transform: rotate(-2deg);
+      }
+
+      .laptop .xp-window {
+        position: relative;
+        width: 100%;
+        box-shadow: 12px 12px 0 var(--blue);
+      }
+
+      .laptop .xp-bar {
+        min-height: 40px;
+        font-size: 16px;
+        padding: 7px 10px;
+      }
+
+      .laptop .xp-bar i {
+        width: 15px;
+        height: 15px;
+        border-width: 2px;
+      }
+
+      .laptop .xp-body {
+        height: 300px;
+      }
+
+      .laptop .folder {
+        left: 36px;
+        top: 106px;
+        width: 260px;
+        height: 128px;
+        border-width: 4px;
+        box-shadow: 8px 8px 0 var(--black);
+        font-size: 26px;
+      }
+
+      .laptop .folder::before {
+        top: -30px;
+        left: -4px;
+        width: 100px;
+        height: 30px;
+        border-width: 4px;
+      }
+
+      .laptop .motion-loop {
+        inset: 36px 26px 44px 22px;
+        border-width: 4px;
+      }
+
+      .laptop .motion-loop.small {
+        inset: 76px 90px 76px 76px;
+        border-width: 3px;
+      }
+
+      .laptop .agent {
+        font-size: 12px;
+        gap: 6px;
+      }
+
+      .laptop .agent::before {
+        border-top-width: 24px;
+        border-right-width: 14px;
+        filter: drop-shadow(4px 4px 0 var(--blue));
+      }
+
+      .laptop .agent::after {
+        width: 24px;
+        height: 4px;
+      }
+
+      .laptop .agent .tag {
+        border-width: 2px;
+        padding: 6px 7px;
+        box-shadow: 3px 3px 0 var(--black);
+      }
+
+      .laptop .a1 {
+        left: 64px;
+        top: 58px;
+      }
+
+      .laptop .a2 {
+        right: 42px;
+        top: 88px;
+      }
+
+      .laptop .a3 {
+        left: 244px;
+        bottom: 42px;
+      }
+
+      .laptop .a4 {
+        right: 28px;
+        bottom: 96px;
+      }
+
+      .laptop .done {
+        left: 36px;
+        bottom: 24px;
+        border-width: 3px;
+        padding: 9px 12px;
+        box-shadow: 5px 5px 0 var(--black);
+        font-size: 16px;
+      }
+
+      .laptop-base {
+        width: 540px;
+        height: 30px;
+        margin: -2px 0 0 -20px;
+        background: var(--black);
+      }
+
+      .option-2 .copy {
+        top: 96px;
+        width: 620px;
+      }
+
+      .option-2 h1 {
+        font-size: 78px;
+      }
+
+      .option-2 .lead {
+        width: 620px;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="slide option-1" id="option-1">
+      <div class="copy">
+        <p class="eyebrow">Практический интенсив</p>
+        <h1>
+          <span>Начните</span>
+          <span>вайбкодить</span>
+          <span>за неделю</span>
+        </h1>
+        <p class="lead">
+          5 вечерних занятий для тех, кто хочет создавать сайты, ботов и простые
+          инструменты с помощью вайбкодинга, но никак не может начать.
+        </p>
+      </div>
+
+      <div class="xp-window">
+        <div class="xp-bar"><span>Рабочий стол проекта</span><i></i><i></i><i></i></div>
+        <div class="xp-body">
+          <div class="motion-loop"></div>
+          <div class="motion-loop small"></div>
+          <div class="speed s1"></div>
+          <div class="speed s2"></div>
+          <div class="speed s3"></div>
+          <div class="folder">Папка<br />проекта</div>
+          <div class="agent a1"><span class="tag">агент 1</span></div>
+          <div class="agent a2"><span class="tag">агент 2</span></div>
+          <div class="agent a3"><span class="tag">агент 334</span></div>
+          <div class="agent a4"><span class="tag">агент 17</span></div>
+          <div class="agent a5"><span class="tag">агент 91</span></div>
+          <div class="agent ghost" style="left: 426px; top: 318px"></div>
+          <div class="agent ghost" style="left: 128px; top: 408px; transform: rotate(24deg)"></div>
+          <div class="mini-folder"></div>
+          <div class="done">результат готов</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide option-2" id="option-2">
+      <div class="copy">
+        <p class="eyebrow">Практический интенсив</p>
+        <h1>
+          <span>Начните</span>
+          <span>вайбкодить</span>
+          <span>за неделю</span>
+        </h1>
+        <p class="lead">
+          5 вечерних занятий для тех, кто хочет создавать сайты, ботов и простые
+          инструменты с помощью вайбкодинга, но никак не может начать.
+        </p>
+      </div>
+
+      <div class="person-lines" aria-hidden="true">
+        <svg viewBox="0 0 1440 900">
+          <path class="blue-shadow" d="M716 560 C830 488 940 432 1058 438 C1178 444 1274 500 1364 586" />
+          <path class="bodyline" d="M422 720 C508 642 604 594 716 560" />
+          <path class="bodyline" d="M716 560 C832 494 940 438 1058 444 C1178 450 1274 502 1364 586" />
+          <path class="bodyline" d="M716 560 C604 596 516 654 474 744" />
+          <path class="bodyline" d="M716 560 C604 562 506 596 376 640" />
+          <path class="bodyline" d="M1030 442 C1118 390 1206 376 1308 408" />
+          <path class="bodyline" d="M1070 438 C1162 456 1248 496 1332 558" />
+          <circle cx="1000" cy="250" r="92" fill="#fff" stroke="#050505" stroke-width="15" />
+          <path d="M920 250 C938 188 986 160 1060 172 C1114 181 1148 210 1164 250" fill="#050505" />
+          <path d="M928 264 H982 M1020 264 H1076" class="thin" stroke-width="20" />
+          <path d="M962 336 H1040" class="thin" />
+        </svg>
+      </div>
+
+      <div class="laptop">
+        <div class="xp-window">
+          <div class="xp-bar"><span>На ноуте</span><i></i><i></i><i></i></div>
+          <div class="xp-body">
+            <div class="motion-loop"></div>
+            <div class="motion-loop small"></div>
+            <div class="folder">Папка<br />проекта</div>
+            <div class="agent a1"><span class="tag">агент 1</span></div>
+            <div class="agent a2"><span class="tag">агент 2</span></div>
+            <div class="agent a3"><span class="tag">агент 334</span></div>
+            <div class="agent a4"><span class="tag">агент 17</span></div>
+            <div class="done">готово</div>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+    </section>
+  </body>
+</html>

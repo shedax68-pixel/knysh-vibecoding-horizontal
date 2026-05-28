@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Reference: simple black-line stickman style</title>
+  <desc id="desc">A minimal stickman drawn with thick black lines, matching the meme-like line art style requested for the hero character.</desc>
+  <rect width="512" height="512" fill="#f5f5f0"/>
+  <g fill="none" stroke="#050505" stroke-width="22" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="256" cy="90" r="52"/>
+    <path d="M256 150 V318"/>
+    <path d="M256 178 L160 178 L116 286"/>
+    <path d="M256 178 L352 178 L396 286"/>
+    <path d="M256 318 L198 462"/>
+    <path d="M256 318 L314 462"/>
+  </g>
+  <text x="48" y="498" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#050505">стиль: простая черная линия, мемный stickman</text>
+</svg>

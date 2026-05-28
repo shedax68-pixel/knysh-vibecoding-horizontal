@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hero vibe options</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --black: #050505;
+        --paper: #f5f5f0;
+        --white: #ffffff;
+        --blue: #129df3;
+        --sky: #d9f1ff;
+        --green: #d6ff6b;
+        --yellow: #ffe86b;
+        --line: #d8d8cf;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--black);
+        font-family: Helvetica, Arial, sans-serif;
+      }
+
+      .prototype {
+        min-height: 100vh;
+        display: grid;
+        align-items: center;
+        border-bottom: 3px solid var(--black);
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.62)),
+          repeating-linear-gradient(135deg, #111 0 2px, transparent 2px 32px),
+          var(--paper);
+        overflow: hidden;
+      }
+
+      .prototype-inner {
+        width: min(1480px, calc(100% - 48px));
+        min-height: 760px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(0, 0.94fr) minmax(520px, 0.86fr);
+        gap: clamp(42px, 6vw, 86px);
+        align-items: center;
+      }
+
+      .copy {
+        position: relative;
+        z-index: 5;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        margin: 0 0 24px;
+        border: 2px solid var(--black);
+        background: var(--sky);
+        padding: 8px 12px;
+        font-family: Montserrat, Helvetica, Arial, sans-serif;
+        font-size: clamp(0.78rem, 1vw, 1rem);
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0 0 26px;
+        font-family: Montserrat, Helvetica, Arial, sans-serif;
+        font-size: clamp(3.8rem, 6vw, 6.4rem);
+        font-weight: 900;
+        line-height: 1.02;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1 span {
+        display: block;
+        white-space: nowrap;
+      }
+
+      .lead {
+        max-width: 740px;
+        margin: 0;
+        font-size: clamp(1.2rem, 1.7vw, 1.75rem);
+        line-height: 1.26;
+      }
+
+      .visual {
+        position: relative;
+        z-index: 2;
+      }
+
+      .xp {
+        position: relative;
+        border: 3px solid var(--black);
+        background: var(--white);
+        box-shadow: 14px 14px 0 var(--blue);
+      }
+
+      .xp-bar {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 46px;
+        border-bottom: 3px solid var(--black);
+        background: var(--blue);
+        color: var(--white);
+        padding: 9px 12px;
+        font-family: Montserrat, Helvetica, Arial, sans-serif;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .xp-bar span {
+        margin-right: auto;
+      }
+
+      .xp-bar i {
+        width: 17px;
+        height: 17px;
+        border: 2px solid var(--black);
+        background: var(--white);
+      }
+
+      .xp-body {
+        position: relative;
+        min-height: 470px;
+        padding: 38px;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82)),
+          repeating-linear-gradient(135deg, #111 0 1px, transparent 1px 18px),
+          var(--paper);
+      }
+
+      .request {
+        width: fit-content;
+        max-width: 260px;
+        border: 3px solid var(--black);
+        background: var(--white);
+        padding: 13px 15px;
+        font-family: Montserrat, Helvetica, Arial, sans-serif;
+        font-weight: 900;
+        line-height: 1.08;
+        text-transform: uppercase;
+        box-shadow: 7px 7px 0 var(--black);
+      }
+
+      .root-folder {
+        position: absolute;
+        top: 136px;
+        left: 64px;
+        width: 300px;
+        min-height: 146px;
+        display: grid;
+        place-items: center;
+        border: 4px solid var(--black);
+        background: var(--yellow);
+        font-family: Montserrat, Helvetica, Arial, sans-serif;
+        font-size: 1.55rem;
+        font-weight: 900;
+        line-height: 1.05;
+        text-align: center;
+        text-transform: uppercase;
+        box-shadow: 9px 9px 0 var(--black);
+      }
+
+      .root-folder::before {
+        content: "";
+        position: absolute;
+        top: -30px;
+        left: -4px;
+        width: 42%;
+        height: 30px;
+        border: 4px solid var(--black);
+        border-bottom: 0;
+        background: var(--yellow);
+      }
+
+      .route {
+        position: absolute;
+        top: 210px;
+        left: 328px;
+        width: 210px;
+        height: 168px;
+        border-top: 7px solid var(--blue);
+        border-right: 7px solid var(--blue);
+        border-bottom: 7px solid var(--blue);
+        border-radius: 0 54px 54px 0;
+      }
+
+      .route::before,
+      .route::after {
+        content: "";
+        position: absolute;
+        right: -12px;
+        width: 18px;
+        height: 18px;
+        border: solid var(--blue);
+        border-width: 0 7px 7px 0;
+      }
+
+      .route::before {
+        top: -13px;
+        transform: rotate(-45deg);
+      }
+
+      .route::after {
+        bottom: -13px;
+        transform: rotate(45deg);
+      }
+
+      .agent {
+        position: absolute;
+        z-index: 4;
+        top: 194px;
+        left: 388px;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        border: 3px solid var(--black);
+        background: var(--white);
+        padding: 10px 12px;
+        font-family: Montserrat, Helvetica, Arial, sans-serif;
+        font-weight: 900;
+        text-transform: uppercase;
+        box-shadow: 6px 6px 0 var(--blue);
+      }
+
+      .agent::before {
+        content: "";
+        width: 0;
+        height: 0;
+        border-top: 24px solid var(--black);
+        border-right: 15px solid transparent;
+      }
+
+      .small-folder {
+        position: absolute;
+        right: 34px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 168px;
+        border: 3px solid var(--black);
+        background: var(--white);
+        padding: 14px;
+        font-family: Montserrat, Helvetica, Arial, sans-serif;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .small-folder::before {
+        content: "";
+        width: 34px;
+        height: 24px;
+        border: 3px solid var(--black);
+        background:
+          linear-gradient(var(--white) 0 34%, var(--sky) 34%),
+          var(--sky);
+      }
+
+      .small-folder.design {
+        top: 124px;
+      }
+
+      .small-folder.code {
+        top: 232px;
+        right: 84px;
+        background: var(--blue);
+        color: var(--white);
+      }
+
+      .small-folder.content {
+        bottom: 92px;
+      }
+
+      .done {
+        position: absolute;
+        left: 64px;
+        bottom: 54px;
+        border: 4px solid var(--black);
+        background: var(--green);
+        padding: 16px 18px;
+        font-family: Montserrat, Helvetica, Arial, sans-serif;
+        font-size: 1.45rem;
+        font-weight: 900;
+        line-height: 1;
+        text-transform: uppercase;
+        box-shadow: 8px 8px 0 var(--black);
+      }
+
+      .caption {
+        border-top: 3px solid var(--black);
+        background: var(--white);
+        padding: 17px 20px;
+        font-family: Montserrat, Helvetica, Arial, sans-serif;
+        font-size: 1.05rem;
+        font-weight: 900;
+        line-height: 1.15;
+        text-transform: uppercase;
+      }
+
+      .person-prototype {
+        position: relative;
+      }
+
+      .person-art {
+        position: absolute;
+        inset: -90px -50px -40px -220px;
+        pointer-events: none;
+      }
+
+      .head {
+        position: absolute;
+        top: 18px;
+        right: 42px;
+        width: 360px;
+        aspect-ratio: 1;
+        border: 4px solid var(--black);
+        border-radius: 50%;
+        background: var(--white);
+        box-shadow: 16px 16px 0 var(--blue);
+      }
+
+      .hair {
+        position: absolute;
+        inset: 8% 9% 55%;
+        border: 4px solid var(--black);
+        border-bottom: 0;
+        border-radius: 999px 999px 0 0;
+        background: var(--black);
+      }
+
+      .glasses {
+        position: absolute;
+        top: 39%;
+        left: 16%;
+        right: 16%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12%;
+      }
+
+      .glasses span {
+        height: 70px;
+        border: 4px solid var(--black);
+        background: var(--black);
+      }
+
+      .mouth {
+        position: absolute;
+        right: 35%;
+        bottom: 22%;
+        width: 30%;
+        border-top: 4px solid var(--black);
+      }
+
+      .torso {
+        position: absolute;
+        right: 40px;
+        bottom: 0;
+        width: 560px;
+        height: 330px;
+        border: 4px solid var(--black);
+        border-radius: 48% 42% 0 0;
+        background: var(--black);
+      }
+
+      .leg {
+        position: absolute;
+        right: -80px;
+        bottom: 42px;
+        width: 430px;
+        height: 116px;
+        border: 4px solid var(--black);
+        background: var(--white);
+        transform: skewX(-14deg);
+      }
+
+      .person-prototype .xp {
+        width: min(100%, 520px);
+        margin: 220px 0 0 auto;
+        transform: rotate(-1deg);
+      }
+
+      .person-prototype .xp-body {
+        min-height: 305px;
+        padding: 22px;
+      }
+
+      .person-prototype .request {
+        font-size: 0.78rem;
+        max-width: 190px;
+        padding: 9px 11px;
+      }
+
+      .person-prototype .root-folder {
+        top: 102px;
+        left: 30px;
+        width: 205px;
+        min-height: 104px;
+        font-size: 1.05rem;
+      }
+
+      .person-prototype .route {
+        top: 154px;
+        left: 210px;
+        width: 158px;
+        height: 100px;
+        border-width: 5px;
+      }
+
+      .person-prototype .agent {
+        top: 141px;
+        left: 252px;
+        padding: 8px 9px;
+        font-size: 0.72rem;
+        box-shadow: 4px 4px 0 var(--blue);
+      }
+
+      .person-prototype .small-folder {
+        right: 20px;
+        min-width: 122px;
+        gap: 7px;
+        padding: 9px;
+        font-size: 0.72rem;
+      }
+
+      .person-prototype .small-folder::before {
+        width: 25px;
+        height: 18px;
+      }
+
+      .person-prototype .small-folder.design {
+        top: 70px;
+      }
+
+      .person-prototype .small-folder.code {
+        top: 144px;
+        right: 56px;
+      }
+
+      .person-prototype .small-folder.content {
+        bottom: 50px;
+      }
+
+      .person-prototype .done {
+        left: 30px;
+        bottom: 28px;
+        padding: 11px 13px;
+        font-size: 1rem;
+      }
+
+      .person-prototype .caption {
+        padding: 12px 14px;
+        font-size: 0.82rem;
+      }
+
+      @media (max-width: 760px) {
+        .prototype-inner {
+          width: calc(100% - 28px);
+          min-height: auto;
+          grid-template-columns: 1fr;
+          gap: 22px;
+          padding: 26px 0 70px;
+        }
+
+        h1 {
+          font-size: clamp(2.1rem, 12vw, 3rem);
+        }
+
+        h1 span {
+          white-space: normal;
+        }
+
+        .lead {
+          font-size: 1rem;
+        }
+
+        .xp-body {
+          min-height: 330px;
+          padding: 20px;
+        }
+
+        .root-folder {
+          top: 114px;
+          left: 26px;
+          width: 190px;
+          min-height: 100px;
+          font-size: 1rem;
+        }
+
+        .route {
+          top: 164px;
+          left: 176px;
+          width: 130px;
+          height: 106px;
+        }
+
+        .agent {
+          top: 151px;
+          left: 196px;
+          font-size: 0.66rem;
+        }
+
+        .small-folder {
+          right: 18px;
+          min-width: 112px;
+          font-size: 0.66rem;
+        }
+
+        .small-folder.design {
+          top: 82px;
+        }
+
+        .small-folder.code {
+          top: 162px;
+          right: 36px;
+        }
+
+        .small-folder.content {
+          bottom: 58px;
+        }
+
+        .done {
+          left: 26px;
+          bottom: 32px;
+          font-size: 1rem;
+        }
+
+        .person-art {
+          inset: 180px -40px -40px 0;
+          opacity: 0.18;
+        }
+
+        .head {
+          width: 260px;
+          right: -20px;
+        }
+
+        .torso,
+        .leg {
+          display: none;
+        }
+
+        .person-prototype .xp {
+          margin-top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="prototype" id="option-1">
+      <div class="prototype-inner">
+        <div class="copy">
+          <p class="eyebrow">Практический интенсив</p>
+          <h1>
+            <span>Начните</span>
+            <span>вайбкодить</span>
+            <span>за неделю</span>
+          </h1>
+          <p class="lead">
+            5 вечерних занятий для тех, кто хочет создавать сайты, ботов и простые
+            инструменты с помощью вайбкодинга, но никак не может начать.
+          </p>
+        </div>
+
+        <div class="visual">
+          <div class="xp">
+            <div class="xp-bar"><span>Рабочий стол проекта</span><i></i><i></i><i></i></div>
+            <div class="xp-body">
+              <div class="request">Сделай лендинг</div>
+              <div class="root-folder">Папка проекта</div>
+              <div class="route"></div>
+              <div class="agent">AI-агент</div>
+              <div class="small-folder design">дизайн</div>
+              <div class="small-folder code">код</div>
+              <div class="small-folder content">контент</div>
+              <div class="done">готово</div>
+            </div>
+            <div class="caption">Вы ставите задачу. Агент сам ходит по папкам и правит файлы.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="prototype person-prototype" id="option-2">
+      <div class="prototype-inner">
+        <div class="copy">
+          <p class="eyebrow">Практический интенсив</p>
+          <h1>
+            <span>Начните</span>
+            <span>вайбкодить</span>
+            <span>за неделю</span>
+          </h1>
+          <p class="lead">
+            5 вечерних занятий для тех, кто хочет создавать сайты, ботов и простые
+            инструменты с помощью вайбкодинга, но никак не может начать.
+          </p>
+        </div>
+
+        <div class="visual">
+          <div class="person-art" aria-hidden="true">
+            <div class="head">
+              <div class="hair"></div>
+              <div class="glasses"><span></span><span></span></div>
+              <div class="mouth"></div>
+            </div>
+            <div class="torso"></div>
+            <div class="leg"></div>
+          </div>
+
+          <div class="xp">
+            <div class="xp-bar"><span>На ноуте</span><i></i><i></i><i></i></div>
+            <div class="xp-body">
+              <div class="request">Сделай лендинг</div>
+              <div class="root-folder">Папка проекта</div>
+              <div class="route"></div>
+              <div class="agent">AI-агент</div>
+              <div class="small-folder design">дизайн</div>
+              <div class="small-folder code">код</div>
+              <div class="small-folder content">контент</div>
+              <div class="done">готово</div>
+            </div>
+            <div class="caption">Человек ждет результат. Агент сам работает внутри проекта.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
