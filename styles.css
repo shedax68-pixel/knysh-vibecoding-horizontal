@@ -174,9 +174,12 @@ h3,
 .lesson-date,
 .summary-strip,
 .logo-wall span,
+.logo-wall-title,
 .price-label,
+.price-old,
 .price-number,
-.price-caption {
+.price-caption,
+.program-note {
   font-family:
     "Montserrat",
     Helvetica,
@@ -203,6 +206,47 @@ h1 span {
   max-width: 920px;
   font-size: clamp(1.35rem, 2.5vw, 2.4rem);
   font-weight: 500;
+}
+
+.difficulty {
+  width: fit-content;
+  display: grid;
+  grid-template-columns: auto auto repeat(3, 18px);
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  border: 2px solid var(--black);
+  background: var(--white);
+  padding: 8px 10px;
+  font-family:
+    "Montserrat",
+    Helvetica,
+    Arial,
+    sans-serif;
+  font-size: clamp(0.82rem, 1.08vw, 1rem);
+  font-weight: 1000;
+  line-height: 1;
+  text-transform: uppercase;
+  box-shadow: 6px 6px 0 var(--blue);
+}
+
+.difficulty span {
+  color: var(--muted);
+}
+
+.difficulty strong {
+  color: var(--blue);
+}
+
+.difficulty i {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--black);
+  background: var(--white);
+}
+
+.difficulty i.is-active {
+  background: var(--green);
 }
 
 .trend-tags {
@@ -1159,7 +1203,7 @@ h3 {
 .program .lesson {
   grid-template-columns: 128px minmax(0, 1fr);
   column-gap: 24px;
-  padding: 11px 0 11px 28px;
+  padding: 9px 0 9px 28px;
 }
 
 .program .lesson::before {
@@ -1179,7 +1223,7 @@ h3 {
 
 .program .lesson p:not(.lesson-date) {
   margin-bottom: 0;
-  font-size: clamp(0.98rem, 1.26vw, 1.18rem);
+  font-size: clamp(0.9rem, 1.08vw, 1.06rem);
   line-height: 1.2;
 }
 
@@ -1188,9 +1232,24 @@ h3 {
 }
 
 .program .summary-strip {
-  margin-top: 16px;
-  padding: 18px 24px;
-  font-size: clamp(1.05rem, 1.55vw, 1.42rem);
+  margin-top: 14px;
+  padding: 15px 22px;
+  font-size: clamp(0.98rem, 1.32vw, 1.22rem);
+}
+
+.program-note {
+  margin: 18px 0 0;
+  border-left: 8px solid var(--blue);
+  padding-left: 14px;
+  color: var(--muted);
+  font-size: clamp(0.9rem, 1.1vw, 1.02rem);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.program .program-note {
+  font-size: clamp(0.78rem, 0.92vw, 0.9rem);
+  white-space: nowrap;
 }
 
 .homework {
@@ -1239,6 +1298,7 @@ h3 {
 
 .speaker-card > div {
   max-width: 840px;
+  min-width: 0;
 }
 
 .speaker-avatar {
@@ -1256,16 +1316,22 @@ h3 {
 }
 
 .speaker-role {
-  max-width: 760px;
+  max-width: 720px;
   margin-bottom: 8px;
   color: var(--muted);
-  font-size: clamp(0.78rem, 0.8vw, 0.86rem);
+  font-size: clamp(0.58rem, 0.6vw, 0.68rem);
   font-weight: 500;
+  line-height: 1.02;
+}
+
+.speaker-card .speaker-role {
+  font-size: clamp(0.98rem, 1.08vw, 1.16rem);
   line-height: 1.08;
 }
 
 .speaker-role span {
   display: block;
+  white-space: nowrap;
 }
 
 .speaker-link {
@@ -1294,17 +1360,30 @@ h3 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-self: start;
   gap: 10px;
-  grid-auto-rows: minmax(48px, auto);
+  grid-auto-rows: minmax(38px, auto);
+}
+
+.logo-wall-title {
+  grid-column: 1 / -1;
+  margin: 0 0 2px;
+  border: 2px solid var(--black);
+  background: var(--blue);
+  color: var(--white);
+  padding: 7px 10px;
+  font-size: clamp(0.86rem, 1.08vw, 1rem);
+  font-weight: 1000;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .logo-wall span {
   display: flex;
   align-items: center;
-  min-height: 48px;
+  min-height: 38px;
   border: 2px solid var(--black);
   background: var(--paper);
-  padding: 10px 14px;
-  font-size: clamp(1.05rem, 1.55vw, 1.55rem);
+  padding: 7px 11px;
+  font-size: clamp(0.86rem, 1.18vw, 1.2rem);
   font-weight: 1000;
   line-height: 1.04;
   letter-spacing: 0;
@@ -1332,77 +1411,164 @@ h3 {
 
 .price-panel {
   display: grid;
-  grid-template-columns: minmax(280px, 0.86fr) minmax(0, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
   border: 2px solid var(--black);
   background: var(--white);
 }
 
-.price-main {
+.price .section-body {
+  max-width: 1220px;
+}
+
+.price-column {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 360px;
-  padding: clamp(24px, 4vw, 46px);
-  background: var(--black);
-  color: var(--white);
+  min-height: 270px;
+  padding: clamp(24px, 3vw, 38px);
 }
 
-.price-main .price-label {
-  margin-bottom: 18px;
-  color: var(--sky);
-  font-size: clamp(1rem, 1.45vw, 1.35rem);
+.price-person {
+  background: var(--black);
+  border-right: 2px solid var(--black);
+  color: var(--white);
+  align-items: flex-start;
+}
+
+.price-group {
+  border-right: 2px solid var(--black);
+}
+
+.price-total {
+  background: var(--sky);
+}
+
+.price-label {
+  margin-bottom: 22px;
+  color: var(--muted);
+  font-size: clamp(0.68rem, 0.82vw, 0.78rem);
   font-weight: 1000;
+  line-height: 1.08;
   text-transform: uppercase;
 }
 
-.price-main .price-number {
-  margin-bottom: 8px;
+.price-panel .price-label {
+  font-size: clamp(0.68rem, 0.82vw, 0.78rem);
+}
+
+.price-person .price-label {
+  color: var(--sky);
+}
+
+.price-old {
+  width: fit-content;
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: clamp(2rem, 2.8vw, 3.1rem);
+  font-weight: 1000;
+  line-height: 1;
+  text-decoration: line-through;
+  text-decoration-thickness: 5px;
+  text-decoration-color: var(--blue);
+}
+
+.price-panel .price-old {
+  font-size: clamp(2rem, 2.8vw, 3.1rem);
+}
+
+.price-number {
+  margin-bottom: 16px;
   max-width: 100%;
-  font-size: clamp(3.2rem, 4.8vw, 5.4rem);
+  font-size: clamp(4rem, 5.5vw, 6.4rem);
   font-weight: 1000;
   line-height: 1;
   white-space: nowrap;
   overflow-wrap: normal;
 }
 
-.price-main .price-caption {
-  margin: 0 0 8px;
-  font-size: clamp(1.18rem, 2vw, 1.85rem);
-  font-weight: 1000;
+.price-panel .price-number {
+  font-size: clamp(3.6rem, 5vw, 5.7rem);
 }
 
-.price-main .price-subcaption {
+.price-total .price-number {
+  font-size: clamp(3.2rem, 4.2vw, 4.6rem);
+}
+
+.price-person .price-number {
+  color: var(--white);
+}
+
+.price-caption {
+  margin: 0 0 8px;
+  font-size: clamp(1.1rem, 1.28vw, 1.22rem);
+  font-weight: 1000;
+  line-height: 1.08;
+  white-space: nowrap;
+}
+
+.price-subcaption {
   width: auto;
   margin: 0;
-  color: var(--sky);
-  font-size: clamp(0.95rem, 1.2vw, 1.18rem);
+  color: var(--muted);
+  font-size: clamp(0.74rem, 0.92vw, 0.88rem);
   font-weight: 850;
-  line-height: 1.2;
+  line-height: 1.25;
   text-transform: none;
 }
 
+.price-panel .price-subcaption {
+  font-size: clamp(0.74rem, 0.92vw, 0.88rem);
+}
+
+.price-person .price-subcaption {
+  color: var(--sky);
+}
+
 .price-details {
+  grid-column: 1 / -1;
   display: grid;
-  align-content: center;
+  grid-template-columns: 0.42fr 1.18fr 0.9fr 1.1fr;
+  align-items: center;
   gap: 22px;
-  padding: clamp(24px, 4vw, 46px);
+  min-height: auto;
+  border-top: 2px solid var(--black);
+  padding-block: clamp(20px, 2.4vw, 30px);
 }
 
 .price-details p {
   margin: 0;
-  max-width: 720px;
-  font-size: clamp(1.18rem, 1.9vw, 1.7rem);
+  max-width: 100%;
+  font-size: clamp(1rem, 1.28vw, 1.2rem);
   font-weight: 400;
-  line-height: 1.35;
+  line-height: 1.32;
+}
+
+.price-panel .price-details p {
+  font-size: clamp(0.86rem, 1vw, 0.96rem);
+}
+
+.price-details .price-label {
+  margin: 0;
+}
+
+.price-contact {
+  white-space: nowrap;
+}
+
+.price-details a {
+  color: var(--blue);
+  font-weight: 900;
 }
 
 .price-details .price-footnote {
-  max-width: 760px;
-  border-top: 2px solid var(--black);
-  padding-top: 18px;
+  max-width: 100%;
+  border-top: 0;
+  border-left: 2px solid var(--black);
+  padding: 0 0 0 18px;
   color: var(--muted);
-  font-size: clamp(0.9rem, 1.08vw, 1.08rem);
+  font-size: clamp(0.74rem, 0.86vw, 0.84rem);
   line-height: 1.25;
 }
 
@@ -1471,6 +1637,26 @@ h3 {
     grid-auto-rows: auto;
   }
 
+  .price-person,
+  .price-group,
+  .price-total {
+    border-right: 0;
+    border-bottom: 2px solid var(--black);
+  }
+
+  .price-details {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 10px;
+    border-top: 0;
+    padding-block: 16px;
+  }
+
+  .price-contact {
+    white-space: normal;
+  }
+
   .lesson {
     grid-template-columns: 1fr;
     padding-left: 28px;
@@ -1483,8 +1669,8 @@ h3 {
 }
 
 @media (max-width: 1180px) {
-  .price-main .price-number {
-    font-size: clamp(3rem, 4.7vw, 5.2rem);
+  .price-number {
+    font-size: clamp(2.7rem, 4.3vw, 4.5rem);
   }
 }
 
@@ -1569,6 +1755,21 @@ h3 {
   .trend-tags {
     margin-top: 8px;
     gap: 6px;
+  }
+
+  .difficulty {
+    grid-template-columns: auto auto repeat(3, 12px);
+    gap: 5px;
+    margin-top: 10px;
+    padding: 6px 7px;
+    font-size: 0.58rem;
+    box-shadow: 4px 4px 0 var(--blue);
+  }
+
+  .difficulty i {
+    width: 12px;
+    height: 12px;
+    border-width: 2px;
   }
 
   .trend-tags span {
@@ -2029,16 +2230,24 @@ h3 {
     line-height: 1.2;
   }
 
-  .program .homework {
-    margin-top: 4px;
-  }
-
   .program .summary-strip {
     margin-top: 10px;
     padding: 12px 14px;
     font-size: 0.9rem;
     line-height: 1.18;
     box-shadow: 6px 6px 0 var(--black);
+  }
+
+  .program-note {
+    margin-top: 12px;
+    border-left-width: 6px;
+    padding-left: 10px;
+    line-height: 1.2;
+  }
+
+  .program .program-note {
+    font-size: 0.74rem;
+    white-space: normal;
   }
 
   .speaker-card {
@@ -2059,8 +2268,16 @@ h3 {
 
   .speaker-role {
     margin-bottom: 4px;
-    font-size: 0.76rem;
     line-height: 1.18;
+  }
+
+  .speaker-card .speaker-role {
+    font-size: 0.66rem;
+    line-height: 1.18;
+  }
+
+  .speaker-role span {
+    white-space: normal;
   }
 
   .speaker-link {
@@ -2072,6 +2289,10 @@ h3 {
     padding: 10px;
   }
 
+  .speaker-main {
+    display: block;
+  }
+
   .speaker-text p {
     margin-bottom: 6px;
     font-size: 0.82rem;
@@ -2079,7 +2300,23 @@ h3 {
   }
 
   .logo-wall {
-    display: none;
+    display: grid;
+    grid-column: 1;
+    grid-row: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .logo-wall-title {
+    padding: 6px 8px;
+    font-size: 0.66rem;
+  }
+
+  .logo-wall span {
+    min-height: 30px;
+    padding: 5px 7px;
+    font-size: 0.68rem;
   }
 
   .speaker-quote {
@@ -2093,32 +2330,63 @@ h3 {
     gap: 0;
   }
 
-  .price-main {
+  .price-column {
     min-height: auto;
     padding: 16px;
   }
 
-  .price-main .price-label {
+  .price-group,
+  .price-total {
+    border-right: 0;
+    border-bottom: 2px solid var(--black);
+  }
+
+  .price-label {
     margin-bottom: 8px;
+  }
+
+  .price-panel .price-label {
     font-size: 0.78rem;
   }
 
-  .price-main .price-number {
-    font-size: clamp(2rem, 11vw, 2.7rem);
+  .price-old {
+    text-decoration-thickness: 3px;
   }
 
-  .price-main .price-caption {
+  .price-panel .price-old {
+    font-size: 1.6rem;
+  }
+
+  .price-number {
+    margin-bottom: 10px;
+  }
+
+  .price-panel .price-number {
+    font-size: clamp(2.7rem, 14vw, 3.8rem);
+  }
+
+  .price-total .price-number {
+    font-size: clamp(2.4rem, 12vw, 3.2rem);
+  }
+
+  .price-caption {
     font-size: 1rem;
   }
 
-  .price-main .price-subcaption,
+  .price-subcaption,
   .price-details p {
-    font-size: 0.86rem;
     line-height: 1.24;
   }
 
+  .price-panel .price-subcaption,
+  .price-panel .price-details p {
+    font-size: 0.86rem;
+  }
+
   .price-details .price-footnote {
-    padding-top: 10px;
+    border-left: 0;
+    border-top: 2px solid var(--black);
+    padding: 10px 0 0;
     font-size: 0.72rem;
     line-height: 1.18;
   }

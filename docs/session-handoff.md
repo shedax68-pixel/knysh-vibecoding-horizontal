@@ -32,9 +32,9 @@ https://shedax68-pixel.github.io/knysh-vibecoding-horizontal/?v=df2a250
 ## Useful local files
 
 - `docs/hero-slide-visual-brief.md` - original visual brief for the first slide.
-- `prototypes/hero-slide-new-options.html` - two hero prototype directions.
-- `prototype-hero-agents-folder.png` - selected direction for the production hero.
-- `prototype-hero-lying-stickman.png` - rejected/alternate lying-stickman direction.
+- `docs/archive/prototypes/html/hero-slide-new-options.html` - two hero prototype directions.
+- `docs/archive/prototypes/images/prototype-hero-agents-folder.png` - selected direction for the production hero.
+- `docs/archive/prototypes/images/prototype-hero-lying-stickman.png` - rejected/alternate lying-stickman direction.
 
 ## Notes for next session
 

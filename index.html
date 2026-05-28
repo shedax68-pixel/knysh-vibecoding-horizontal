@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260527-3" />
+    <link rel="stylesheet" href="./styles.css?v=20260528-2" />
   </head>
   <body>
     <div class="horizontal-deck" id="deck">
@@ -31,6 +31,13 @@
             5 вечерних занятий для тех, кто хочет создавать сайты, ботов и простые
             инструменты с помощью вайбкодинга, но никак не может начать.
           </p>
+          <div class="difficulty" aria-label="Сложность: легкая, 1 из 3">
+            <span>Сложность</span>
+            <strong>легкая</strong>
+            <i class="is-active"></i>
+            <i></i>
+            <i></i>
+          </div>
         </div>
 
         <div class="hero-visual hero-agents" aria-label="AI-агенты сами работают внутри папки проекта">
@@ -52,7 +59,6 @@
 
               <div class="vibe-agent a1"><span>дизайн агент</span></div>
               <div class="vibe-agent a2"><span>финанс. агент</span></div>
-              <div class="vibe-agent a3"><span>менеджер агент</span></div>
               <div class="vibe-agent a4"><span>юрист агент</span></div>
               <div class="vibe-agent a5"><span>креатор агент</span></div>
               <div class="vibe-agent a6"><span>программист агент</span></div>
@@ -159,15 +165,15 @@
       <section class="section program" aria-labelledby="program">
         <div class="section-label">04</div>
         <div class="section-body">
-          <h2 id="program">5 вебинаров и 4 домашки</h2>
+          <h2 id="program">5 вебинаров</h2>
 
           <article class="lesson">
             <p class="lesson-date">Урок 1 <span>18:00-19:00</span></p>
             <h3>Вводное занятие</h3>
             <p>
-              Ставим Codex или Claude Code, разбираемся в интерфейсе и делаем первую задачу.
+              Ставим Visual Studio Code и Codex или Claude Code, разбираемся в интерфейсе
+              и делаем первую задачу.
             </p>
-            <p class="homework">Домашка: установить и настроить AI-агента.</p>
           </article>
 
           <article class="lesson">
@@ -181,9 +187,10 @@
 
           <article class="lesson">
             <p class="lesson-date">Урок 3 <span>18:00-19:00</span></p>
-            <h3>Сайт-визитка и деплой</h3>
+            <h3>Собственный лендинг</h3>
             <p>
-              Делаем одностраничный сайт, вносим изменения через агента и публикуем его.
+              Делаем одностраничный сайт, вносим изменения через агента, публикуем его
+              и разбираем, когда нужна аренда VPS-сервера.
             </p>
           </article>
           <article class="lesson">
@@ -206,6 +213,10 @@
           <div class="summary-strip">
             Итого: настроите AI-агента, сделаете 3 проекта и поймете, как продолжать дальше.
           </div>
+          <p class="program-note">
+            После каждого урока будет простая домашка на 10–30 минут — она легко
+            впишется даже в самую жаркую рабочую неделю.
+          </p>
         </div>
       </section>
 
@@ -238,7 +249,8 @@
                 <p>
                   9+ лет в маркетинге и агентском бизнесе: запускал продукты,
                   внедрял AI в рабочие процессы и работал с Lexus, Volkswagen,
-                  Skoda, МТС, Сбером, ВТБ, Yappy и другими брендами.
+                  Skoda, Яндексом, Huawei, Honor, S7, МТС, Сбером, ВТБ, Yappy
+                  и другими брендами.
                 </p>
                 <p>
                   Сейчас использует вайбкодинг, чтобы быстро собирать MVP,
@@ -248,10 +260,15 @@
             </div>
 
             <div class="logo-wall" aria-label="Опыт работы с брендами">
+              <p class="logo-wall-title">Опыт спикера</p>
               <span>LEXUS</span>
               <span>VOLKSWAGEN</span>
               <span>SKODA</span>
               <span>СБЕР</span>
+              <span>ЯНДЕКС</span>
+              <span>HUAWEI</span>
+              <span>HONOR</span>
+              <span>S7</span>
               <span>МТС</span>
               <span>БИЛАЙН</span>
               <span>ВТБ</span>
@@ -273,24 +290,38 @@
         <div class="section-body">
           <h2 id="price">Условия</h2>
           <div class="price-panel">
-            <div class="price-main">
-              <p class="price-label">Пилотный поток</p>
-              <p class="price-number">50 000 ₽</p>
-              <p class="price-caption">за группу из 10 человек</p>
-              <p class="price-subcaption">(5 000 ₽ за человека)</p>
+            <div class="price-column price-person">
+              <p class="price-label">Цена за 1 человека</p>
+              <p class="price-old">10 000 ₽</p>
+              <p class="price-number">5 000 ₽</p>
+              <p class="price-subcaption">пилотная цена со скидкой</p>
             </div>
-            <div class="price-details">
-              <p>
+            <div class="price-column price-group">
+              <p class="price-label">Участников</p>
+              <p class="price-number">10</p>
+              <p class="price-caption">человек в группе</p>
+              <p class="price-subcaption">
+                Рекомендованный размер группы — от 5 до 15 человек.
+              </p>
+            </div>
+            <div class="price-column price-total">
+              <p class="price-label">Итого за группу</p>
+              <p class="price-number">50 000 ₽</p>
+              <p class="price-subcaption">10 участников × 5 000 ₽</p>
+            </div>
+            <div class="price-column price-details">
+              <p class="price-label">Что входит</p>
+              <p class="price-included">
                 В стоимость входят: 5 вечерних занятий, Telegram-чат, записи,
                 саммари, ссылки, домашки и финальный Q&amp;A.
               </p>
-              <p>
-                Формат камерный: до 10 человек, чтобы каждый успел собрать первые
-                проекты руками.
+              <p class="price-contact">
+                Записаться и задать вопросы можно в Telegram:
+                <a href="https://t.me/kknysh" target="_blank" rel="noreferrer">@kknysh</a>.
               </p>
               <p class="price-footnote">
-                Не входят в стоимость: подписки на ИИ-сервисы, аренда сервера
-                и возможные прочие расходы.
+                Не входят: подписки на ИИ-сервисы, аренда VPS-сервера и возможные
+                прочие расходы.
               </p>
             </div>
           </div>
