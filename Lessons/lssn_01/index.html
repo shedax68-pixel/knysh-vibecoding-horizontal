@@ -1,0 +1,2321 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>Урок 1 - старт вайбкодинга и базовый сетап</title>
+    <meta
+      name="description"
+      content="Summary первого урока интенсива Александра Кныша: что такое вайбкодинг, какие инструменты нужны, как настроить VS Code и запустить первую задачу."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #129df3;
+        --primary-hover: #0d8ddd;
+        --primary-soft: rgba(18, 157, 243, 0.11);
+        --secondary: #d6ff6b;
+        --secondary-soft: rgba(214, 255, 107, 0.18);
+        --accent: #050505;
+        --accent-soft: rgba(5, 5, 5, 0.06);
+        --yellow: #ffe86b;
+        --yellow-soft: rgba(255, 232, 107, 0.18);
+        --dark: #050505;
+        --text: #191919;
+        --text-soft: #5f5f5a;
+        --text-muted: #96968d;
+        --bg: #ffffff;
+        --surface: #fbfbf8;
+        --surface-2: #f5f5f0;
+        --border: rgba(5, 5, 5, 0.12);
+        --border-hard: rgba(5, 5, 5, 0.2);
+        --shadow-10: rgba(5, 5, 5, 0.08);
+        --shadow-20: rgba(5, 5, 5, 0.14);
+        --radius: 24px;
+        --radius-pill: 999px;
+        --content-wide: 1180px;
+        --content: 1040px;
+        --font: Helvetica, "Helvetica Neue", Arial, sans-serif;
+        --font-head: "Montserrat", Helvetica, Arial, sans-serif;
+        --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 78% 8%, rgba(214, 255, 107, 0.18), transparent 32rem),
+          radial-gradient(circle at 8% 30%, rgba(18, 157, 243, 0.09), transparent 32rem),
+          var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 300;
+        width: 100%;
+        height: 4px;
+        background: var(--surface-2);
+      }
+
+      .progress-fill {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+      }
+
+      .lesson-topbar {
+        position: sticky;
+        top: 10px;
+        z-index: 220;
+        padding: 16px clamp(18px, 5vw, 96px) 0;
+      }
+
+      .lesson-nav-shell {
+        width: min(1660px, 100%);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 14px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.34);
+        border-radius: 28px;
+        background: linear-gradient(135deg, var(--primary) 0%, #0871b5 58%, var(--dark) 115%);
+        color: #fff;
+        box-shadow: 0 18px 42px rgba(18, 157, 243, 0.18);
+        backdrop-filter: blur(16px);
+      }
+
+      .lesson-brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        min-width: 0;
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .lesson-brand-mark {
+        width: 58px;
+        height: 58px;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.16);
+        font-family: var(--font-head);
+        font-size: 1rem;
+        font-weight: 900;
+      }
+
+      .lesson-brand-title,
+      .lesson-brand-sub,
+      .lesson-nav-link,
+      .hero-badge,
+      .hero-lead-label,
+      .resource-eyebrow,
+      .resource-title,
+      .section-title,
+      .link-title,
+      .bundle-eyebrow,
+      .bundle-title,
+      .overview-card,
+      .overview-panel h3,
+      .part-divider span,
+      .topic-title,
+      .topic-time,
+      .quotes-button,
+      .homework-card h3,
+      .footer {
+        font-family: var(--font-head);
+      }
+
+      .lesson-brand-title {
+        display: block;
+        font-size: 1.18rem;
+        font-weight: 900;
+        line-height: 1.1;
+      }
+
+      .lesson-brand-sub {
+        display: block;
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 0.92rem;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+
+      .lesson-nav-list {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .lesson-nav-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .lesson-nav-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 112px;
+        min-height: 48px;
+        flex: 0 0 auto;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: var(--radius-pill);
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 0.96rem;
+        font-weight: 800;
+        line-height: 1;
+        text-decoration: none;
+        transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      }
+
+      .lesson-nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+      }
+
+      .lesson-nav-link.active {
+        background: #fff;
+        color: var(--primary);
+        box-shadow: 0 12px 28px rgba(5, 5, 5, 0.16);
+      }
+
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        padding: 26px 24px 0;
+        overflow: hidden;
+        text-align: center;
+        background:
+          radial-gradient(circle at 50% 22%, rgba(214, 255, 107, 0.18), transparent 23rem),
+          linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(18, 157, 243, 0.05) 100%);
+      }
+
+      .hero::before,
+      .hero::after {
+        content: "";
+        position: absolute;
+        width: 560px;
+        height: 560px;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(4px);
+      }
+
+      .hero::before {
+        top: 70px;
+        right: -120px;
+        background: radial-gradient(circle, rgba(214, 255, 107, 0.22), transparent 70%);
+      }
+
+      .hero::after {
+        bottom: -220px;
+        left: -140px;
+        background: radial-gradient(circle, rgba(18, 157, 243, 0.12), transparent 70%);
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        width: min(var(--content-wide), 100%);
+        margin: 0 auto;
+        padding-top: 96px;
+      }
+
+      .hero-icon {
+        width: 102px;
+        height: 102px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 28px;
+        border-radius: 26px;
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+        font-family: var(--font-head);
+        font-size: 2.32rem;
+        font-weight: 900;
+        letter-spacing: 0;
+        box-shadow: 0 24px 62px rgba(18, 157, 243, 0.22);
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        margin-bottom: 26px;
+        border-radius: var(--radius-pill);
+        background: var(--primary-soft);
+        color: var(--primary);
+        padding: 11px 30px;
+        font-size: 0.92rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      .hero h1 {
+        max-width: 1260px;
+        margin: 0 auto 18px;
+        color: var(--text);
+        font-family: var(--font-head);
+        font-size: clamp(2.7rem, 4.35vw, 4.85rem);
+        font-weight: 900;
+        line-height: 1.1;
+        letter-spacing: 0;
+      }
+
+      .accent {
+        color: var(--primary);
+      }
+
+      .accent-warm {
+        color: var(--primary);
+      }
+
+      .hero-subtitle {
+        max-width: 680px;
+        margin: 0 auto 28px;
+        color: var(--text-soft);
+        font-size: clamp(1.05rem, 1.35vw, 1.42rem);
+        line-height: 1.45;
+      }
+
+      .hero-lead {
+        width: fit-content;
+        min-width: 260px;
+        min-height: 58px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        margin: 0 auto 30px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        background: rgba(255, 255, 255, 0.86);
+        padding: 13px 30px;
+        box-shadow: 0 12px 36px var(--shadow-10);
+        text-decoration: none;
+      }
+
+      .hero-lead-label {
+        color: var(--text-muted);
+        font-size: 1rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hero-lead-name {
+        color: var(--primary);
+        font-family: var(--font-head);
+        font-size: 1.08rem;
+        font-weight: 900;
+      }
+
+      .hero-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        text-align: left;
+      }
+
+      .resource-card {
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 28px;
+        box-shadow: 0 18px 48px var(--shadow-10);
+      }
+
+      .resource-head {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .icon-tile {
+        width: 62px;
+        height: 62px;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        border-radius: 18px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 1.7rem;
+      }
+
+      .resource-eyebrow {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--accent);
+        font-size: 0.76rem;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .resource-title {
+        margin: 0;
+        color: var(--text);
+        font-size: clamp(1.12rem, 1.42vw, 1.42rem);
+        font-weight: 900;
+        line-height: 1.18;
+      }
+
+      .resource-card p {
+        margin-bottom: 26px;
+        color: var(--text-soft);
+        font-size: clamp(1rem, 1.16vw, 1.18rem);
+        line-height: 1.5;
+      }
+
+      .resource-link,
+      .bundle-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        min-height: 52px;
+        margin-top: auto;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+        padding: 15px 24px;
+        font-family: var(--font-head);
+        font-size: 0.98rem;
+        font-weight: 900;
+        line-height: 1;
+        text-decoration: none;
+        box-shadow: 0 14px 34px rgba(18, 157, 243, 0.2);
+      }
+
+      .scroll-hint {
+        margin: 28px 0 0;
+        color: var(--text-muted);
+        font-size: 1rem;
+      }
+
+      .section {
+        padding: clamp(74px, 8vw, 116px) 24px;
+      }
+
+      .section-title {
+        margin: 0 auto clamp(38px, 5vw, 64px);
+        color: var(--text);
+        font-size: clamp(2.1rem, 3.45vw, 3.5rem);
+        font-weight: 900;
+        line-height: 1.12;
+        text-align: center;
+      }
+
+      .section-title .accent,
+      .section-title .accent-warm {
+        font-weight: 900;
+      }
+
+      .video-stage {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        border-radius: 28px;
+        background: var(--surface-2);
+        padding: 22px;
+        box-shadow: 0 32px 82px var(--shadow-10);
+      }
+
+      .video-frame {
+        overflow: hidden;
+        border: 4px solid #fff;
+        border-radius: 18px;
+        background: #1c1c2a;
+      }
+
+      .video-frame video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #1c1c2a;
+      }
+
+      .video-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px 6px 2px;
+      }
+
+      .video-switcher {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .video-switcher button,
+      .video-tool {
+        min-height: 54px;
+        border: 0;
+        border-radius: 16px;
+        background: #e9ecf6;
+        color: #506090;
+        padding: 12px 18px;
+        font-family: var(--font-head);
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .video-switcher button.active {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .links-grid {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .link-card {
+        min-height: 220px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: #fff;
+        padding: 28px;
+        box-shadow: 0 12px 34px var(--shadow-10);
+        text-decoration: none;
+      }
+
+      .link-head {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 22px;
+      }
+
+      .link-title {
+        color: var(--text);
+        font-size: 1.42rem;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .link-card p {
+        margin-bottom: 22px;
+        color: var(--text-soft);
+        font-size: 1.2rem;
+        line-height: 1.5;
+      }
+
+      .link-host {
+        margin-top: auto;
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        letter-spacing: 0.02em;
+      }
+
+      .bundle-card {
+        width: min(var(--content), 100%);
+        margin: 34px auto 0;
+        border: 1px solid rgba(18, 157, 243, 0.28);
+        border-left: 7px solid var(--primary);
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at 85% 25%, rgba(214, 255, 107, 0.18), transparent 26rem),
+          rgba(18, 157, 243, 0.05);
+        padding: 34px 42px;
+        box-shadow: 0 20px 60px var(--shadow-10);
+      }
+
+      .bundle-top {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        margin-bottom: 20px;
+      }
+
+      .bundle-eyebrow {
+        display: inline-flex;
+        margin-bottom: 8px;
+        border-radius: var(--radius-pill);
+        background: var(--accent-soft);
+        color: var(--primary);
+        padding: 8px 18px;
+        font-size: 0.9rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .bundle-title {
+        margin: 0;
+        color: var(--text);
+        font-size: 1.55rem;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .bundle-card p {
+        color: var(--text-soft);
+        font-size: 1.18rem;
+      }
+
+      .bundle-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 26px;
+      }
+
+      .bundle-action {
+        justify-content: space-between;
+        min-height: 78px;
+        background: #fff;
+        color: var(--text);
+        border: 1px solid rgba(18, 157, 243, 0.24);
+        box-shadow: none;
+      }
+
+      .bundle-action .icon-tile {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        font-size: 1.4rem;
+      }
+
+      .bundle-action small {
+        display: block;
+        margin-top: 5px;
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-weight: 500;
+      }
+
+      .overview-layout {
+        width: min(var(--content-wide), 100%);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+        gap: 22px;
+        align-items: start;
+      }
+
+      .overview-grid {
+        position: sticky;
+        top: 136px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .overview-card {
+        min-height: 78px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fff;
+        color: var(--text);
+        padding: 20px 24px;
+        text-align: left;
+        box-shadow: 0 12px 30px var(--shadow-10);
+        cursor: pointer;
+      }
+
+      .overview-card strong {
+        display: block;
+        font-size: 1.25rem;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .overview-card span {
+        display: none;
+        margin-top: 10px;
+        color: var(--text-muted);
+        font-family: var(--font);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.35;
+      }
+
+      .overview-card.active {
+        min-height: 190px;
+        border-color: var(--primary);
+        box-shadow: 0 18px 48px rgba(18, 157, 243, 0.16);
+      }
+
+      .overview-card.active span {
+        display: block;
+      }
+
+      .overview-panel {
+        display: none;
+        min-height: 480px;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: #fff;
+        padding: clamp(34px, 4vw, 54px);
+        box-shadow: 0 24px 62px var(--shadow-10);
+      }
+
+      .overview-panel.active {
+        display: block;
+      }
+
+      .overview-panel h3 {
+        margin-bottom: 24px;
+        color: var(--primary);
+        font-size: clamp(1.7rem, 2.5vw, 2.55rem);
+        font-weight: 900;
+        line-height: 1.25;
+      }
+
+      .overview-panel p,
+      .overview-panel li {
+        color: var(--text-soft);
+        font-size: 1.22rem;
+      }
+
+      .overview-panel ul {
+        margin: 22px 0;
+        padding-left: 1.2em;
+      }
+
+      .overview-quote {
+        margin-top: 28px;
+        border-left: 5px solid var(--primary);
+        border-radius: 0 20px 20px 0;
+        background: var(--primary-soft);
+        color: var(--text-soft);
+        padding: 24px 28px;
+        font-size: 1.15rem;
+        font-style: italic;
+      }
+
+      .part-divider {
+        width: min(1020px, calc(100% - 48px));
+        margin: 0 auto 86px;
+        display: flex;
+        align-items: center;
+        gap: 0;
+      }
+
+      .part-divider::before,
+      .part-divider::after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: var(--border-hard);
+      }
+
+      .part-divider span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 60px;
+        border: 1px solid var(--border-hard);
+        border-radius: var(--radius-pill);
+        background: #fff;
+        color: var(--accent);
+        padding: 16px 38px;
+        font-size: 1.02rem;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .timeline {
+        width: min(var(--content), 100%);
+        margin: 0 auto clamp(82px, 8vw, 130px);
+        display: grid;
+        gap: 22px;
+      }
+
+      .topic {
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 8px 24px var(--shadow-10);
+        overflow: hidden;
+      }
+
+      .topic-header {
+        display: grid;
+        grid-template-columns: 110px minmax(0, 1fr) 22px 52px;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: 26px 32px;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .topic-time {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border-radius: var(--radius-pill);
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 1rem;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+      }
+
+      .topic-title {
+        display: block;
+        color: var(--text);
+        font-size: 1.35rem;
+        font-weight: 900;
+        line-height: 1.25;
+      }
+
+      .topic-preview {
+        display: block;
+        color: var(--text-muted);
+        font-size: 1.06rem;
+        line-height: 1.35;
+      }
+
+      .topic-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--primary);
+      }
+
+      .topic-toggle {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--surface-2);
+        color: var(--text-muted);
+        font-size: 1rem;
+      }
+
+      .topic-body {
+        display: none;
+        padding: 0 32px 32px 162px;
+      }
+
+      .topic.open .topic-body {
+        display: block;
+      }
+
+      .topic-content {
+        color: var(--text-soft);
+        font-size: 1.12rem;
+      }
+
+      .topic-content ul {
+        padding-left: 1.2em;
+      }
+
+      .topic-quote {
+        margin: 24px 0;
+        border-left: 5px solid var(--primary);
+        border-radius: 0 18px 18px 0;
+        background: var(--primary-soft);
+        padding: 20px 24px;
+        color: var(--text-soft);
+        font-size: 1.08rem;
+        font-style: italic;
+      }
+
+      .quotes-button {
+        min-height: 52px;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+        padding: 14px 22px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .homework-grid {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(0, 0.62fr) minmax(320px, 0.38fr);
+        gap: 18px;
+      }
+
+      .homework-card {
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: #fff;
+        padding: 34px;
+        box-shadow: 0 22px 60px var(--shadow-10);
+      }
+
+      .homework-card h3 {
+        margin-bottom: 22px;
+        color: var(--text);
+        font-size: 1.55rem;
+        font-weight: 900;
+      }
+
+      .homework-card label {
+        display: grid;
+        grid-template-columns: 22px minmax(0, 1fr);
+        gap: 12px;
+        margin-bottom: 14px;
+        color: var(--text-soft);
+        font-size: 1.08rem;
+      }
+
+      .homework-card input {
+        width: 18px;
+        height: 18px;
+        margin-top: 4px;
+        accent-color: var(--primary);
+      }
+
+      .homework-card.next {
+        background:
+          radial-gradient(circle at 80% 0%, rgba(214, 255, 107, 0.24), transparent 18rem),
+          var(--primary-soft);
+      }
+
+      .quiz-section {
+        background:
+          radial-gradient(circle at 12% 12%, rgba(18, 157, 243, 0.08), transparent 26rem),
+          linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(18, 157, 243, 0.04));
+      }
+
+      .quiz-shell {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.94);
+        padding: clamp(24px, 3vw, 34px);
+        box-shadow: 0 18px 52px var(--shadow-10);
+      }
+
+      .quiz-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+
+      .quiz-kicker,
+      .quiz-score,
+      .quiz-question-count,
+      .quiz-nav button {
+        font-family: var(--font-head);
+      }
+
+      .quiz-kicker {
+        display: inline-flex;
+        margin-bottom: 8px;
+        color: var(--primary);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .quiz-top p {
+        max-width: 620px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1.04rem;
+        line-height: 1.45;
+      }
+
+      .quiz-score {
+        flex: 0 0 auto;
+        border-radius: var(--radius-pill);
+        background: var(--primary-soft);
+        color: var(--primary);
+        padding: 10px 16px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .quiz-progress {
+        height: 8px;
+        overflow: hidden;
+        border-radius: var(--radius-pill);
+        background: var(--surface-2);
+        margin-bottom: 28px;
+      }
+
+      .quiz-progress span {
+        display: block;
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--primary), var(--dark));
+        transition: width 0.24s ease;
+      }
+
+      .quiz-card {
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: var(--surface);
+        padding: clamp(22px, 3vw, 30px);
+      }
+
+      .quiz-question-count {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .quiz-question {
+        margin: 0 0 22px;
+        color: var(--text);
+        font-family: var(--font-head);
+        font-size: clamp(1.35rem, 2.1vw, 2rem);
+        font-weight: 900;
+        line-height: 1.18;
+      }
+
+      .quiz-options {
+        display: grid;
+        gap: 10px;
+      }
+
+      .quiz-option {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #fff;
+        color: var(--text);
+        padding: 16px 18px;
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      }
+
+      .quiz-option:hover {
+        border-color: rgba(18, 157, 243, 0.36);
+        transform: translateY(-1px);
+      }
+
+      .quiz-option.is-correct {
+        border-color: rgba(20, 160, 92, 0.48);
+        background: rgba(20, 160, 92, 0.1);
+      }
+
+      .quiz-option.is-wrong {
+        border-color: rgba(220, 50, 50, 0.38);
+        background: rgba(220, 50, 50, 0.08);
+      }
+
+      .quiz-explain {
+        display: block;
+        margin-top: 8px;
+        color: var(--text-soft);
+        font-size: 0.96rem;
+        line-height: 1.4;
+      }
+
+      .quiz-nav {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .quiz-nav button {
+        min-height: 48px;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: var(--accent-soft);
+        color: var(--text);
+        padding: 13px 20px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .quiz-nav button:last-child {
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+      }
+
+      .quiz-nav button:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+      }
+
+      .modal-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 400;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(5, 5, 5, 0.58);
+        padding: 24px;
+      }
+
+      .modal-layer.active {
+        display: flex;
+      }
+
+      .modal {
+        width: min(780px, 100%);
+        max-height: 86vh;
+        overflow: auto;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow: 0 30px 80px rgba(5, 5, 5, 0.26);
+      }
+
+      .modal-head {
+        position: sticky;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+        padding: 22px 26px;
+      }
+
+      .modal-head h3 {
+        margin: 0;
+        font-family: var(--font-head);
+        font-size: 1.4rem;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+
+      .modal-close {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        cursor: pointer;
+        font-family: var(--font-head);
+        font-weight: 900;
+      }
+
+      .modal-body {
+        padding: 28px;
+      }
+
+      .quote-item,
+      .thesis-item {
+        display: grid;
+        grid-template-columns: 88px minmax(0, 1fr);
+        gap: 14px;
+        margin-bottom: 14px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--surface);
+        padding: 16px;
+      }
+
+      .quote-item time,
+      .thesis-item span:first-child {
+        color: var(--accent);
+        font-family: var(--font-head);
+        font-weight: 900;
+      }
+
+      .thesis-item {
+        grid-template-columns: 34px minmax(0, 1fr);
+        background: var(--primary-soft);
+      }
+
+      .footer {
+        padding: 44px 24px 54px;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      @media (max-width: 980px) {
+        .lesson-nav-shell,
+        .overview-layout,
+        .homework-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .lesson-nav-shell {
+          flex-direction: column;
+          align-items: flex-start;
+          border-radius: 28px;
+        }
+
+        .lesson-nav-list {
+          width: 100%;
+          justify-content: flex-start;
+        }
+
+        .hero {
+          padding-top: 70px;
+        }
+
+        .hero-actions,
+        .links-grid,
+        .bundle-actions {
+          grid-template-columns: 1fr;
+        }
+
+        .overview-grid {
+          position: static;
+        }
+
+        .topic-header {
+          grid-template-columns: 94px minmax(0, 1fr) 18px 44px;
+          padding: 22px;
+        }
+
+        .topic-body {
+          padding: 0 22px 26px;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .lesson-topbar {
+          top: 8px;
+          padding: 10px 10px 0;
+        }
+
+        .lesson-nav-shell {
+          width: min(100%, calc(100vw - 20px));
+          max-width: calc(100vw - 20px);
+          gap: 14px;
+          padding: 14px;
+          border-radius: 22px;
+          overflow: hidden;
+        }
+
+        .lesson-brand,
+        .lesson-nav-list {
+          min-width: 0;
+          max-width: 100%;
+        }
+
+        .lesson-brand-mark {
+          width: 46px;
+          height: 46px;
+          border-radius: 16px;
+          font-size: 0.86rem;
+        }
+
+        .lesson-brand-title {
+          font-size: 1rem;
+        }
+
+        .lesson-brand-sub {
+          display: none;
+        }
+
+        .lesson-nav-list {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+          overflow: visible;
+        }
+
+        .lesson-nav-link {
+          min-width: 0;
+          width: 100%;
+          min-height: 38px;
+          padding: 10px 12px;
+          font-size: 0.78rem;
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 48px 14px 0;
+          overflow: hidden;
+        }
+
+        .hero-inner {
+          width: 100%;
+          max-width: 100%;
+          padding-top: 48px;
+        }
+
+        .hero-icon {
+          width: 92px;
+          height: 92px;
+          margin-bottom: 30px;
+          border-radius: 24px;
+          font-size: 2.7rem;
+        }
+
+        .hero-badge {
+          max-width: 100%;
+          min-height: 42px;
+          margin-bottom: 24px;
+          padding: 12px 20px;
+          font-size: 0.72rem;
+          line-height: 1.25;
+          text-align: center;
+        }
+
+        .hero h1 {
+          max-width: 100%;
+          margin-bottom: 18px;
+          font-size: clamp(1.82rem, 8vw, 2.45rem);
+          line-height: 1.1;
+          overflow-wrap: anywhere;
+        }
+
+        .hero-subtitle {
+          margin-bottom: 26px;
+          font-size: 1.04rem;
+          overflow-wrap: break-word;
+        }
+
+        .hero-lead {
+          min-width: 0;
+          width: 100%;
+          min-height: 58px;
+          gap: 14px;
+          padding: 14px 18px;
+        }
+
+        .hero-actions {
+          gap: 18px;
+        }
+
+        .resource-card {
+          min-height: auto;
+          padding: 24px;
+        }
+
+        .resource-head {
+          align-items: flex-start;
+          gap: 14px;
+        }
+
+        .resource-title {
+          overflow-wrap: anywhere;
+        }
+
+        .resource-card p {
+          font-size: 1.04rem;
+        }
+
+        .section {
+          padding: 72px 14px;
+        }
+
+        .section-title {
+          margin-bottom: 36px;
+          font-size: 2.25rem;
+        }
+
+        .video-stage,
+        .bundle-card,
+        .link-card,
+        .overview-panel,
+        .homework-card {
+          border-radius: 20px;
+        }
+
+        .video-toolbar {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .link-card,
+        .bundle-card,
+        .overview-panel,
+        .homework-card {
+          padding: 24px;
+        }
+
+        .part-divider {
+          width: calc(100% - 28px);
+          margin-bottom: 44px;
+        }
+
+        .part-divider span {
+          min-height: 48px;
+          padding: 12px 18px;
+          font-size: 0.76rem;
+        }
+
+        .topic-header {
+          grid-template-columns: 82px minmax(0, 1fr) 12px 38px;
+          gap: 12px;
+          padding: 18px;
+        }
+
+        .topic-time {
+          min-height: 36px;
+          font-size: 0.82rem;
+        }
+
+        .topic-title {
+          font-size: 1.04rem;
+        }
+
+        .topic-preview {
+          font-size: 0.9rem;
+        }
+
+        .topic-toggle {
+          width: 36px;
+          height: 36px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+    <div class="lesson-topbar">
+      <div class="lesson-nav-shell">
+        <a class="lesson-brand" href="#hero" aria-label="К началу страницы">
+          <span class="lesson-brand-mark">АК</span>
+          <span>
+            <span class="lesson-brand-title">Материалы интенсива</span>
+            <span class="lesson-brand-sub">Навигация по урокам и созвонам</span>
+          </span>
+        </a>
+        <nav class="lesson-nav-list" aria-label="Навигация по материалам">
+          <a class="lesson-nav-link active" href="#hero">Урок 1</a>
+          <a class="lesson-nav-link" href="../index.html#lesson-2">Урок 2</a>
+          <a class="lesson-nav-link" href="../index.html#lesson-3">Урок 3</a>
+          <a class="lesson-nav-link" href="../index.html#lesson-4">Урок 4</a>
+          <a class="lesson-nav-link" href="../index.html#lesson-5">Урок 5</a>
+        </nav>
+      </div>
+    </div>
+
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero-inner">
+          <div class="hero-icon">AI</div>
+          <div class="hero-badge">Образовательный интенсив • ~72 мин</div>
+          <h1>Старт вайбкодинга:<br />инструменты <span class="accent">и первый сетап</span></h1>
+          <p class="hero-subtitle">
+            Что такое вайбкодинг, чем агент отличается от чата, зачем нужна папка проекта,
+            как поставить VS Code, Codex или Claude Code и сделать первую игру в браузере.
+          </p>
+          <a class="hero-lead" href="https://t.me/kknysh" target="_blank" rel="noreferrer">
+            <span class="hero-lead-label">Ведущий</span>
+            <span class="hero-lead-name">Александр</span>
+          </a>
+
+          <div class="hero-actions">
+            <article class="resource-card">
+              <div class="resource-head">
+                <div class="icon-tile">📝</div>
+                <div>
+                  <span class="resource-eyebrow">Материалы урока</span>
+                  <h2 class="resource-title">Скачать транскрипт первого занятия</h2>
+                </div>
+              </div>
+              <p>
+                Полная текстовая расшифровка вводного созвона в Markdown-файле -
+                для изучения и поиска по теме.
+              </p>
+              <a class="resource-link" href="./transcript.md" download>Скачать транскрипт <span>→</span></a>
+            </article>
+
+            <article class="resource-card">
+              <div class="resource-head">
+                <div class="icon-tile">🎯</div>
+                <div>
+                  <span class="resource-eyebrow">Закрепление</span>
+                  <h2 class="resource-title">Квиз: 10 вопросов по уроку</h2>
+                </div>
+              </div>
+              <p>
+                Проверь себя по основным мыслям занятия. Каждый вариант ответа
+                раскрывает объяснение, правильный подсвечивается зеленым.
+              </p>
+              <a class="resource-link" href="#quiz">Пройти квиз <span>→</span></a>
+            </article>
+          </div>
+
+          <div class="scroll-hint">▼ листай вниз</div>
+        </div>
+      </section>
+
+      <section class="section" id="recordings">
+        <h2 class="section-title">Запись <span class="accent">встречи</span></h2>
+        <div class="video-stage">
+          <div class="video-frame">
+            <video id="lessonVideo" src="./recording-part-1.webm" controls preload="metadata"></video>
+          </div>
+          <div class="video-toolbar">
+            <div class="video-switcher" aria-label="Переключение частей записи">
+              <button class="active" type="button" data-video="./recording-part-1.webm">Часть 1 / 00:00-44:48</button>
+              <button type="button" data-video="./recording-part-2.webm">Часть 2 / 44:48-1:11:39</button>
+            </div>
+            <a class="video-tool" href="./transcript.md" download>Транскрипт</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="links">
+        <h2 class="section-title">Ключевые <span class="accent">ссылки</span></h2>
+        <div class="links-grid" id="linksGrid"></div>
+        <div class="bundle-card">
+          <div class="bundle-top">
+            <div class="icon-tile">📁</div>
+            <div>
+              <span class="bundle-eyebrow">Материалы</span>
+              <h3 class="bundle-title">Полный текст и чистый источник для пайплайна</h3>
+            </div>
+          </div>
+          <p>
+            Транскрипция сделана локально по двум webm-записям. Summary выше уже
+            отредактирован, а исходный текст можно использовать для поиска и повторной обработки.
+          </p>
+          <div class="bundle-actions">
+            <a class="bundle-action" href="./transcript.md" download>
+              <span class="icon-tile">📝</span>
+              <span>transcript.md<small>Markdown</small></span>
+              <span>→</span>
+            </a>
+            <a class="bundle-action" href="./transcription-clean.txt" download>
+              <span class="icon-tile">📄</span>
+              <span>transcription-clean.txt<small>TXT</small></span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section quiz-section" id="quiz">
+        <h2 class="section-title">Квиз <span class="accent">по уроку</span></h2>
+        <div class="quiz-shell" id="quizShell" aria-live="polite"></div>
+      </section>
+
+      <section class="section" id="overview">
+        <h2 class="section-title">Ключевые <span class="accent">темы</span></h2>
+        <div class="overview-layout">
+          <div class="overview-grid" id="overviewGrid" role="tablist" aria-label="Ключевые темы"></div>
+          <div id="overviewPanels"></div>
+        </div>
+      </section>
+
+      <section class="section" id="timeline">
+        <div id="timelineHost"></div>
+      </section>
+
+      <section class="section" id="homework">
+        <h2 class="section-title">Домашнее задание: <span class="accent">минимум до урока 2</span></h2>
+        <div class="homework-grid">
+          <div class="homework-card">
+            <h3>Что сделать после урока</h3>
+            <label><input type="checkbox" /> Установить Visual Studio Code.</label>
+            <label><input type="checkbox" /> Поставить расширение Codex или Claude Code.</label>
+            <label><input type="checkbox" /> Включить стабильный системный VPN.</label>
+            <label><input type="checkbox" /> Создать корневую папку <code>DEV</code> и отдельную папку проекта.</label>
+            <label><input type="checkbox" /> Попросить агента сделать простую игру в браузере.</label>
+            <label><input type="checkbox" /> Поставить Handy или другой голосовой ввод, если хочется ускориться.</label>
+            <label><input type="checkbox" /> Сделать скрин проблемы и отправить вопрос, если что-то не получилось.</label>
+          </div>
+          <div class="homework-card next">
+            <h3>Дальше</h3>
+            <p>
+              На уроке 2 этот же подход переносится в Chrome-расширение:
+              несколько файлов, поведение страницы, установка в браузер и первые
+              правки через агента.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <a href="#hero">Наверх</a>
+    </footer>
+
+    <div id="modalHost"></div>
+
+    <script>
+      const DATA = {
+        links: [
+          {
+            icon: "🖥",
+            title: "Visual Studio Code",
+            href: "https://code.visualstudio.com/",
+            desc: "Среда разработки: открыть папку проекта и дать агенту место для работы.",
+          },
+          {
+            icon: "🤖",
+            title: "ChatGPT / Codex",
+            href: "https://chatgpt.com/codex",
+            desc: "Агент OpenAI для работы с файлами, командами и проектом.",
+          },
+          {
+            icon: "🧠",
+            title: "Claude",
+            href: "https://claude.ai/",
+            desc: "Альтернатива от Anthropic; Claude Code доступен на платной подписке.",
+          },
+          {
+            icon: "🎤",
+            title: "Handy",
+            href: "https://handy.computer/",
+            desc: "Голосовой ввод: быстрее объяснять задачу агенту обычной речью.",
+          },
+        ],
+        overview: [
+          {
+            icon: "🎯",
+            title: "Зачем урок",
+            preview: "Снять стартовый барьер и собрать рабочую среду.",
+            subtitle: "Урок не про сложную разработку, а про первый управляемый результат.",
+            content: [
+              "В начале урока участники получают карту всей недели: вводный сетап, расширение для браузера, сайт, Telegram-бот и финальный Q&A.",
+              "Главная цель первого занятия - не выучить синтаксис, а поставить инструменты, понять зачем они нужны и сделать первую небольшую задачу.",
+              "Формат живой: теория быстро переходит в практику, а вопросы можно задавать прямо во время демонстрации.",
+            ],
+            list: [
+              "Сегодня: софт, папка проекта, первый запуск агента.",
+              "Завтра: Chrome-расширение и несколько файлов.",
+              "Финальная точка недели: понимание, куда применять вайбкодинг дальше.",
+            ],
+            quote: "Как только мы поставили софт, мы стартовый барьер собственный сняли.",
+          },
+          {
+            icon: "🗂",
+            title: "Что такое вайбкодинг",
+            preview: "Не ответ в чате, а агент, который работает с папкой.",
+            subtitle: "Ключевой сдвиг: результат должен появляться не в переписке, а в вашем проекте.",
+            content: [
+              "Обычный ChatGPT дает текст, совет или файл, который дальше нужно руками куда-то перенести. Вайбкодинг начинается там, где агент сам работает с материалами в папке.",
+              "Пример из урока: можно положить в папку бриф, материалы бренда и попросить агента заполнить документ. Тот же принцип переносится на сайт, бота, базу знаний или игру.",
+              "Вайбкодинг полезен для MVP, прототипов, внутренних инструментов и быстрых рабочих правок. Это не отмена сильных разработчиков, а способ быстрее доходить до первой версии.",
+            ],
+            list: [
+              "Чат отвечает, агент делает.",
+              "Папка проекта становится рабочим контекстом.",
+              "Лучшее применение - быстрые прототипы и рабочие инструменты.",
+            ],
+            quote: "Смысл в том, чтобы он эти записи сразу куда-то вносил.",
+          },
+          {
+            icon: "🛠",
+            title: "Рабочий набор",
+            preview: "VS Code, Codex или Claude Code, VPN, голос и скриншоты.",
+            subtitle: "Минимальный стек нужен, чтобы агент получил руки и контекст.",
+            content: [
+              "Основа - Visual Studio Code: среда, где открыта папка проекта. Сам по себе VS Code еще не AI-инструмент, поэтому сверху ставится расширение Codex или Claude Code.",
+              "VPN лучше держать системным и стабильным: без него часть сервисов будет отваливаться. На уроке обсуждались платные варианты, но важнее сам принцип - доступ должен работать постоянно.",
+              "Голосовой ввод и скриншоты - ускорители. Голосом проще объяснять задачу, скрином проще показать агенту, что именно не так в интерфейсе.",
+            ],
+            list: [
+              "VS Code - рабочее окно проекта.",
+              "Codex / Claude Code - агент внутри этой среды.",
+              "Handy и Monosnap - быстрый ввод и обратная связь.",
+            ],
+            quote: "Слева папка, посередине пространство, справа агент - так проще считывается.",
+          },
+          {
+            icon: "AI",
+            title: "Первая практика",
+            preview: "Создать папку, запустить агента, попросить игру.",
+            subtitle: "Первый промпт не должен быть идеальным: он должен быть честным.",
+            content: [
+              "В практической части создается корневая папка вроде DEV и отдельная папка под учебный проект. Важно сразу привыкать к структуре: каждый проект живет отдельно.",
+              "После установки расширения агент запускается внутри VS Code и получает задачу: сделать простую игру в браузере. В уроке в качестве примера звучит змейка или пятнашки.",
+              "Нормально прямо написать агенту, что вы делаете это впервые, вам непонятно и вы хотите готовый первый вариант без лишних вопросов. Потом результат открывается и дорабатывается через скриншоты и короткие правки.",
+            ],
+            list: [
+              "Папка DEV - дом для учебных и рабочих проектов.",
+              "Один проект - одна отдельная папка.",
+              "Первый результат важнее красивого промпта.",
+            ],
+            quote: "Я первый раз пробую вайбкодить, у меня страх, но хочу сделать игру в браузере.",
+          },
+        ],
+        quiz: [
+          {
+            question: "В чем главный сдвиг вайбкодинга по сравнению с обычным чатом?",
+            options: [
+              { text: "Агент работает с файлами проекта, а не только отвечает текстом", correct: true, explain: "Да: ключевой объект - папка проекта, где агент может создавать и править файлы." },
+              { text: "Нужно писать код только на Python", correct: false, explain: "Нет. В первом уроке фокус не на языке, а на рабочем процессе с агентом." },
+              { text: "Все задачи обязательно делаются через браузерный ChatGPT", correct: false, explain: "Наоборот, урок показывает переход от чата к агенту в среде разработки." },
+              { text: "Главное - знать все AI-новости", correct: false, explain: "База важнее гонки новостей: проект, контекст, запрос и проверка." },
+            ],
+          },
+          {
+            question: "Зачем на старте нужен Visual Studio Code?",
+            options: [
+              { text: "Чтобы открыть папку проекта и дать агенту рабочее пространство", correct: true, explain: "Именно так: VS Code становится окном, где видны файлы, структура и агент." },
+              { text: "Чтобы заменить VPN", correct: false, explain: "VPN решает доступ к сервисам, а VS Code - работу с проектом." },
+              { text: "Чтобы автоматически оплатить подписку", correct: false, explain: "Подписки и логин подключаются отдельно." },
+              { text: "Чтобы не создавать папки вручную", correct: false, explain: "Папку все равно нужно создать или открыть, это часть базового навыка." },
+            ],
+          },
+          {
+            question: "Какой минимальный набор для первого запуска обсуждался на уроке?",
+            options: [
+              { text: "VS Code, агент Codex или Claude Code, VPN и папка проекта", correct: true, explain: "Это рабочий минимум: среда, агент, стабильный доступ и место для проекта." },
+              { text: "Только Telegram и браузер", correct: false, explain: "Этого недостаточно для практики с файлами проекта." },
+              { text: "Photoshop, Figma и Notion", correct: false, explain: "Эти инструменты не были базовым стеком первого урока." },
+              { text: "GitHub, сервер и домен", correct: false, explain: "Это полезно позже, но не является стартовым минимумом урока 1." },
+            ],
+          },
+          {
+            question: "Почему рекомендуется создать корневую папку вроде DEV?",
+            options: [
+              { text: "Чтобы учебные и рабочие проекты жили отдельно и не смешивались", correct: true, explain: "Да: один проект - одна папка, тогда агенту проще понимать контекст." },
+              { text: "Чтобы агент получил доступ ко всему компьютеру", correct: false, explain: "Смысл обратный: открыть конкретную папку, а не всю жизнь на компьютере." },
+              { text: "Чтобы ускорить интернет", correct: false, explain: "Скорость доступа зависит не от названия папки." },
+              { text: "Чтобы не пользоваться VS Code", correct: false, explain: "Папка открывается именно в VS Code или похожей среде." },
+            ],
+          },
+          {
+            question: "Что важно в первом промпте к агенту?",
+            options: [
+              { text: "Писать живым языком и честно объяснить, что нужен первый рабочий вариант", correct: true, explain: "Да: первый результат важнее идеальной формулировки." },
+              { text: "Использовать только английский и технические термины", correct: false, explain: "На уроке нормализуется обычная речь и честное описание ситуации." },
+              { text: "Сразу требовать большой продакшн-проект", correct: false, explain: "Первый запуск должен быть маленьким и видимым." },
+              { text: "Запретить агенту задавать любые уточнения навсегда", correct: false, explain: "Можно попросить не тормозить старт, но уточнения полезны в сложных задачах." },
+            ],
+          },
+          {
+            question: "Какой пример первой практики звучал на уроке?",
+            options: [
+              { text: "Сделать простую игру в браузере", correct: true, explain: "Да: например, змейку или пятнашки, чтобы увидеть реальный результат." },
+              { text: "Написать банковскую систему", correct: false, explain: "Это слишком большой и рискованный стартовый пример." },
+              { text: "Собрать нейросеть с нуля", correct: false, explain: "Урок не про обучение моделей, а про работу с агентом." },
+              { text: "Сразу запустить Telegram-бота на сервере", correct: false, explain: "Боты идут дальше по интенсиву, не как первая практика урока 1." },
+            ],
+          },
+          {
+            question: "Что делает скриншот полезным в работе с агентом?",
+            options: [
+              { text: "Он быстро показывает, что именно не так в интерфейсе", correct: true, explain: "Да: скрин сокращает длинные объяснения и ускоряет итерации." },
+              { text: "Он заменяет папку проекта", correct: false, explain: "Скрин дает обратную связь, но проект все равно живет в файлах." },
+              { text: "Он автоматически чинит ошибку", correct: false, explain: "Скрин только помогает агенту понять проблему." },
+              { text: "Он нужен только для красивых презентаций", correct: false, explain: "В уроке скриншот - практический инструмент правок." },
+            ],
+          },
+          {
+            question: "Зачем упоминался голосовой ввод?",
+            options: [
+              { text: "Чтобы быстрее формулировать длинные задачи обычной речью", correct: true, explain: "Да: голос снижает трение, когда задачу проще проговорить." },
+              { text: "Чтобы агент писал код без контекста", correct: false, explain: "Контекст все равно нужен: папка, файлы, скрины, цель." },
+              { text: "Чтобы не проверять результат", correct: false, explain: "Проверка результата остается обязательной частью процесса." },
+              { text: "Чтобы заменить расширение Codex или Claude Code", correct: false, explain: "Голосовой ввод только помогает общению, но не является агентом." },
+            ],
+          },
+          {
+            question: "Какой вывод про Codex и Claude Code был важен для старта?",
+            options: [
+              { text: "Для обучения достаточно одного рабочего агента", correct: true, explain: "Да: не нужно застревать в выборе идеального инструмента." },
+              { text: "Нужно обязательно купить обе подписки", correct: false, explain: "Урок говорит о выборе рабочего доступа, а не о покупке всего сразу." },
+              { text: "Они нужны только профессиональным разработчикам", correct: false, explain: "Интенсив как раз снимает стартовый барьер для новичков." },
+              { text: "Они не работают с файлами", correct: false, explain: "Их смысл в этом контексте как раз в работе с файлами проекта." },
+            ],
+          },
+          {
+            question: "Почему системный VPN лучше держать стабильным?",
+            options: [
+              { text: "Чтобы сервисы агента и подписки не отваливались во время работы", correct: true, explain: "Да: стабильный доступ экономит время и нервы на практике." },
+              { text: "Чтобы VS Code открывался быстрее", correct: false, explain: "VS Code открывается локально, VPN нужен для доступа к внешним сервисам." },
+              { text: "Чтобы не создавать аккаунты", correct: false, explain: "Аккаунты и логин все равно нужны." },
+              { text: "Чтобы автоматически скачать транскрипт", correct: false, explain: "Транскрипт лежит локально на странице материалов." },
+            ],
+          },
+        ],
+        parts: [
+          { name: "Часть 1 - ориентация и смысл", topicIds: [1, 2, 3] },
+          { name: "Часть 2 - инструменты и среда", topicIds: [4, 5, 6] },
+          { name: "Часть 3 - первая задача", topicIds: [7, 8] },
+        ],
+        topics: [
+          {
+            id: 1,
+            timeStart: "00:00",
+            title: "Где мы в интенсиве",
+            preview: "Вводный урок, дальше расширение, сайт, Telegram-бот и финальный Q&A.",
+            color: "var(--accent)",
+            paragraphs: [
+              "Урок начинается с общей карты недели. Первый вечер нужен для вводного сетапа: понять, какие инструменты нужны для вайбкодинга, поставить их и снять страх перед первым запуском.",
+              "Дальше маршрут становится практическим: браузерное расширение, сайт, Telegram-бот и финальная встреча с вопросами, обратной связью и обсуждением применений.",
+              "Формат специально открытый: можно перебивать, задавать вопросы и сразу повторять действия на своем компьютере.",
+            ],
+            list: [
+              "Урок 1: софт, папка проекта, первая задача.",
+              "Урок 2: Chrome-расширение.",
+              "Урок 3: сайт.",
+              "Урок 4: Telegram-бот.",
+              "Урок 5: Q&A и дальнейшие применения.",
+            ],
+            inlineQuote: "Каждый урок мы будем начинать с того, где мы сейчас находимся.",
+            quotes: [
+              { time: "01:04", text: "Сейчас мы с вами находимся на вводном занятии." },
+              { time: "01:17", text: "Второй урок - расширение для браузера, на третьем сделаем сайт, на четвертом запилим Telegram-бот." },
+              { time: "02:04", text: "Поставили себе этот софт - сняли стартовый барьер." },
+            ],
+            theses: [
+              "Первый урок - не про сложность, а про вход в рабочий режим.",
+              "Вся неделя собирается вокруг трех понятных артефактов: расширение, сайт, бот.",
+              "Вопросы участников встроены в формат, а не мешают ему.",
+            ],
+          },
+          {
+            id: 2,
+            timeStart: "03:13",
+            title: "Вайбкодинг как следующий уровень чата",
+            preview: "Нейронка не просто отвечает, а меняет материалы и файлы в проекте.",
+            color: "var(--primary)",
+            paragraphs: [
+              "Вайбкодинг объясняется через привычный опыт общения с ChatGPT: раньше ответ оставался в чате, и человек сам переносил его в документ, сайт или задачу.",
+              "Новая логика - дать агенту папку на компьютере. В эту папку можно положить бриф, материалы бренда, файлы сайта или будущей игры, а затем попросить агента работать с ними напрямую.",
+              "Так меняется роль пользователя: нужно не писать код руками, а ставить задачу, давать контекст, смотреть результат и направлять следующие итерации.",
+            ],
+            list: [
+              "Обычный чат: совет, текст, картинка, дальше все руками.",
+              "Вайбкодинг: агент вносит изменения туда, где лежит проект.",
+              "Контекст живет в файлах и папках, а не только в истории чата.",
+            ],
+            inlineQuote: "Суть вайбкодинга в том, что это папка, к которой ты даешь доступ искусственному интеллекту.",
+            quotes: [
+              { time: "04:19", text: "Вайбкодинг - это next-level использования ChatGPT." },
+              { time: "04:48", text: "Смысл в том, чтобы он эти записи сразу куда-то вносил." },
+              { time: "05:45", text: "Закидываю пустой бриф и все материалы, описываю промпт - он сам начинает работать с папкой." },
+            ],
+            theses: [
+              "Главный объект работы - папка проекта.",
+              "Агентность появляется там, где модель получает доступ к файлам.",
+              "Вайбкодинг полезен не только для кода, но и для документов, брифов и баз знаний.",
+            ],
+          },
+          {
+            id: 3,
+            timeStart: "07:33",
+            title: "Codex, Claude Code и подписки",
+            preview: "Два главных лагеря, варианты оплаты и почему база важнее новостной гонки.",
+            color: "var(--yellow)",
+            paragraphs: [
+              "Для старта выделяются два главных семейства: OpenAI с ChatGPT/Codex и Anthropic с Claude/Claude Code. Остальные инструменты существуют, но на первом уроке важно не распыляться.",
+              "Обсуждаются платные подписки, сторонние аккаунты и лимиты. Практический вывод простой: для обучения нужен хотя бы один рабочий доступ к Codex или Claude Code, а не идеальная подписочная стратегия.",
+              "Отдельная мысль урока: не обязательно читать все AI-новости. Если понятна база - папка, агент, контекст, проверка - новые инструменты перестают выглядеть как лавина.",
+            ],
+            list: [
+              "ChatGPT Plus дает доступ к Codex.",
+              "Claude Code работает через платный Claude.",
+              "Codex доступнее, Claude часто сильнее в тексте и дизайне.",
+              "Лимиты зависят от подписки и интенсивности работы.",
+            ],
+            inlineQuote: "Проще всего научиться базе и перестать чувствовать страх, что ты что-то упускаешь.",
+            quotes: [
+              { time: "07:45", text: "У ChatGPT это называется Codex, у Claude это называется Claude Code." },
+              { time: "08:52", text: "Проще всего сейчас научиться базе." },
+              { time: "14:31", text: "Сейчас в мире котируется Claude, но Codex доступнее." },
+            ],
+            theses: [
+              "Для первого результата достаточно одного рабочего агента.",
+              "Подписки и лимиты важны, но не должны блокировать старт.",
+              "База переносится между инструментами, даже если рынок меняется.",
+            ],
+          },
+          {
+            id: 4,
+            timeStart: "15:44",
+            title: "Что можно сделать",
+            preview: "Расширения, сайты, боты, базы знаний, игры и быстрые MVP.",
+            color: "var(--secondary)",
+            paragraphs: [
+              "На уроке разбираются основные типы проектов: Chrome-расширения, лендинги, Telegram-боты, парсеры, базы знаний и маленькие игры. Это не список ограничений, а стартовая карта.",
+              "Пример для второго урока - расширение, которое убирает вертикальные ролики на YouTube. Смысл не в полезности именно этой функции, а в нейронной связи: можно быстро собрать штуку под конкретную боль.",
+              "Есть важная трезвость: вайбкодинг не заменяет сильную инженерную экспертизу в больших корпоративных системах. Зато отлично подходит для MVP, прототипов и внутренних рабочих инструментов.",
+            ],
+            list: [
+              "Chrome-расширение - поменять поведение сайта под себя.",
+              "Сайт - лендинг, портфолио, CV или посадочная страница.",
+              "Бот - мониторинг, парсер, ферма каналов, рабочий помощник.",
+              "База знаний - собрать разбросанные идеи и материалы.",
+            ],
+            inlineQuote: "Смысл просто в том, чтобы попробовать и развить нейронную связь: делать можно что угодно.",
+            quotes: [
+              { time: "16:08", text: "Завтра мы будем создавать Chrome-расширение, которое сможет отключить вертикальные видео на YouTube." },
+              { time: "18:28", text: "Можно создавать базы знаний вместо бесконечной презентации на тысячу слайдов." },
+              { time: "20:20", text: "Вайбкодинг - способ в основном создавать MVP." },
+            ],
+            theses: [
+              "Первый курс показывает несколько типов проектов, а не один узкий инструмент.",
+              "MVP и бытовые рабочие задачи - естественная зона силы вайбкодинга.",
+              "Для масштабирования к сложному продукту все равно может понадобиться разработчик.",
+            ],
+          },
+          {
+            id: 5,
+            timeStart: "23:27",
+            title: "VPN и Visual Studio Code",
+            preview: "Стабильный доступ плюс среда, где агент видит папку проекта.",
+            color: "var(--primary)",
+            paragraphs: [
+              "Перед установкой рабочего стека проговаривается VPN: для курса и дальнейшей работы доступ к сервисам должен быть стабильным. Обсуждаются платные варианты и идея системного VPN, а не только браузерного обхода.",
+              "Главный софт урока - Visual Studio Code. Он нужен не потому, что участники становятся разработчиками, а потому что это понятная рамка: слева папки, внутри файлы, сверху команда, рядом расширения.",
+              "Отличие от браузерного чата: в VS Code вы открываете конкретную папку. Агент работает не абстрактно, а в выбранном месте на компьютере.",
+            ],
+            list: [
+              "VPN включен заранее и работает на уровне системы.",
+              "VS Code скачивается с официального сайта.",
+              "Открыть папку - ключевой жест первого урока.",
+              "Доступ к папке не равен доступу ко всей жизни на компьютере.",
+            ],
+            inlineQuote: "Ты уже работаешь над конкретной папкой, которую дал ему в доступ.",
+            quotes: [
+              { time: "24:01", text: "VPN должен быть включен почти всегда." },
+              { time: "27:03", text: "Самая основа вайбкодинга - софт называется Visual Studio Code." },
+              { time: "29:35", text: "Вы уже работаете над конкретной папкой, которую дали ему в доступ." },
+            ],
+            theses: [
+              "VS Code нужен как рабочий стол проекта.",
+              "Стабильный VPN экономит время и нервы.",
+              "Без открытой папки агент остается обычным чатом в другой оболочке.",
+            ],
+          },
+          {
+            id: 6,
+            timeStart: "31:11",
+            title: "Расширение агента и папка DEV",
+            preview: "Codex или Claude Code ставятся как расширение, проекты хранятся отдельно.",
+            color: "var(--accent)",
+            paragraphs: [
+              "После установки VS Code участники ставят расширение Codex или Claude Code. Это и есть слой, который превращает среду разработки в место работы с AI-агентом.",
+              "Для удобства можно поставить Russian Language Pack, но это не обязательное условие. Важнее залогиниться в выбранный агент и понять, как его вызвать.",
+              "Отдельно разбирается организация проектов: создать корневую папку, например DEV, а внутри нее отдельные папки для каждой задачи. Так проекты не смешиваются и к ним проще возвращаться.",
+            ],
+            list: [
+              "Extensions -> Codex или Claude Code.",
+              "Для Codex: команда New Codex Agent.",
+              "DEV - корневая папка под учебные и рабочие проекты.",
+              "Один проект - одна папка, которую открываем в VS Code.",
+            ],
+            inlineQuote: "У нас есть папка, а есть расширение, которое мы только что скачали.",
+            quotes: [
+              { time: "31:17", text: "Чтобы дать доступ GPT Codex или Claude Code, нужно накатить расширение." },
+              { time: "35:00", text: "Russian Language Pack - и VS Code русифицированный." },
+              { time: "36:24", text: "Рекомендую создать корневую папку. Я ее у себя назвал DEV." },
+            ],
+            theses: [
+              "Расширение подключает агента к среде разработки.",
+              "Структура папок сразу снижает будущий хаос.",
+              "Проект начинается с пустой папки, а не с идеи в голове.",
+            ],
+          },
+          {
+            id: 7,
+            timeStart: "43:37",
+            title: "Голос, скриншоты, Git",
+            preview: "Ускорители общения с агентом и инструменты контроля.",
+            color: "var(--secondary)",
+            paragraphs: [
+              "Голосовой ввод нужен не для красоты, а чтобы быстрее объяснять задачу обычной речью. Это особенно полезно, когда задача длинная или не хочется печатать формулировку.",
+              "Скриншоты нужны для обратной связи. Вместо длинного описания того, где именно что не нравится, можно выделить кусок интерфейса и сказать агенту, что поправить.",
+              "Git и GitHub упоминаются как следующий слой. На первом уроке их не нужно ставить руками: в дальнейшем агент сам приведет к установке и поможет фиксировать состояние проекта.",
+            ],
+            list: [
+              "Handy - быстрый голосовой ввод.",
+              "Monosnap или аналог - быстрые скриншоты.",
+              "Git - будущая страховка проекта.",
+              "Агент будет ошибаться, и это нормальная часть процесса.",
+            ],
+            inlineQuote: "Лучше потратить 5 секунд на скрин, чем записывать голосовуху на 5 минут.",
+            quotes: [
+              { time: "44:09", text: "Нужно приложение, которое позволит создавать быстрые скрины, чтобы объяснять нейронке, что она сделала не так." },
+              { time: "45:28", text: "AI-кодер будет ошибаться и иногда присылать не то, что хотелось." },
+              { time: "46:44", text: "Git будет ставиться автоматически, агент это сделает за нас." },
+            ],
+            theses: [
+              "Голос и скриншоты сокращают цикл правок.",
+              "Ошибки агента не повод останавливаться, а материал для следующей итерации.",
+              "Git появляется как страховка, когда проекты становятся серьезнее.",
+            ],
+          },
+          {
+            id: 8,
+            timeStart: "50:24",
+            title: "Первый промпт и игра",
+            preview: "Честно сказать агенту, что это первый раз, и попросить готовый вариант.",
+            color: "var(--primary)",
+            paragraphs: [
+              "В финальной практике участники переходят к первому запросу. Пример формулировки: я впервые пробую вайбкодить, ничего не понимаю, хочу простую игру в браузере, не задавай лишних вопросов, сделай первый вариант.",
+              "Агент начинает создавать файлы, править CSS и комментировать действия. Это важный момент: участник видит не текстовый совет, а реальную работу внутри папки.",
+              "Также разбираются разрешения и уровень самостоятельности агента. На старте можно оставлять подтверждения включенными, чтобы сохранять чувство контроля. В больших задачах постоянные подтверждения начинают мешать.",
+            ],
+            list: [
+              "Промпт можно писать живым языком.",
+              "Не стыдно признаться, что это первый запуск.",
+              "Сначала получить рабочий вариант, потом улучшать.",
+              "Настройки reasoning влияют на скорость, качество и расход лимитов.",
+            ],
+            inlineQuote: "Первый результат важнее идеального промпта.",
+            quotes: [
+              { time: "50:54", text: "Можно попросить сделать игру пятнашки." },
+              { time: "51:06", text: "Я первый раз сейчас пробую вайбкодить, у меня страх, но хочу сделать игру." },
+              { time: "53:36", text: "Перед тем как внести изменение в файл, он спросит, не против ли вы." },
+              { time: "54:27", text: "Это влияет на качество ответов и на расход токенов." },
+            ],
+            theses: [
+              "Первый запуск должен быть маленьким и видимым.",
+              "Разрешения можно держать строгими, пока нет доверия к процессу.",
+              "После игры участник готов переходить к расширению для браузера.",
+            ],
+          },
+        ],
+      };
+
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[char]);
+      }
+
+      function renderLinks() {
+        const grid = document.querySelector("#linksGrid");
+        grid.innerHTML = DATA.links.map((link) => {
+          let host = link.href;
+          try {
+            host = new URL(link.href).host.replace(/^www\./, "");
+          } catch (error) {}
+
+          return `
+            <a class="link-card" href="${escapeHtml(link.href)}" target="_blank" rel="noreferrer">
+              <div class="link-head">
+                <span class="icon-tile">${escapeHtml(link.icon)}</span>
+                <span class="link-title">${escapeHtml(link.title)}</span>
+              </div>
+              <p>${escapeHtml(link.desc)}</p>
+              <span class="link-host">${escapeHtml(host)}</span>
+            </a>
+          `;
+        }).join("");
+      }
+
+      function renderOverview() {
+        const grid = document.querySelector("#overviewGrid");
+        const panels = document.querySelector("#overviewPanels");
+
+        DATA.overview.forEach((item, index) => {
+          const button = document.createElement("button");
+          button.className = `overview-card${index === 0 ? " active" : ""}`;
+          button.type = "button";
+          button.innerHTML = `
+            <strong>${escapeHtml(item.icon)} ${escapeHtml(item.title)}</strong>
+            <span>${escapeHtml(item.preview)}</span>
+          `;
+          button.addEventListener("click", () => switchOverview(index));
+          grid.appendChild(button);
+
+          const panel = document.createElement("article");
+          panel.className = `overview-panel${index === 0 ? " active" : ""}`;
+          panel.innerHTML = `
+            <h3>${escapeHtml(item.subtitle)}</h3>
+            ${item.content.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+            <ul>${item.list.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>
+            <div class="overview-quote">${escapeHtml(item.quote)}</div>
+          `;
+          panels.appendChild(panel);
+        });
+      }
+
+      function switchOverview(activeIndex) {
+        document.querySelectorAll(".overview-card").forEach((card, index) => {
+          card.classList.toggle("active", index === activeIndex);
+        });
+        document.querySelectorAll(".overview-panel").forEach((panel, index) => {
+          panel.classList.toggle("active", index === activeIndex);
+        });
+      }
+
+      const quizState = {
+        index: 0,
+        answers: [],
+      };
+
+      function renderQuiz() {
+        const host = document.querySelector("#quizShell");
+        if (!host || !DATA.quiz?.length) return;
+
+        const current = DATA.quiz[quizState.index];
+        const answered = quizState.answers[quizState.index];
+        const score = quizState.answers.filter((answer) => answer?.correct).length;
+        const progress = ((quizState.index + 1) / DATA.quiz.length) * 100;
+
+        host.innerHTML = `
+          <div class="quiz-top">
+            <div>
+              <span class="quiz-kicker">Закрепление</span>
+              <p>Один вопрос на экран. Можно открыть варианты и разобрать объяснения; счёт считает только первый клик по каждому вопросу.</p>
+            </div>
+            <div class="quiz-score">${score}/${DATA.quiz.length}</div>
+          </div>
+          <div class="quiz-progress" aria-hidden="true"><span style="width:${progress}%"></span></div>
+          <article class="quiz-card">
+            <span class="quiz-question-count">Вопрос ${quizState.index + 1} из ${DATA.quiz.length}</span>
+            <h3 class="quiz-question">${escapeHtml(current.question)}</h3>
+            <div class="quiz-options">
+              ${current.options.map((option, optionIndex) => {
+                const isSelected = answered?.optionIndex === optionIndex;
+                const showCorrect = answered && option.correct;
+                const showWrong = isSelected && !option.correct;
+                const className = ["quiz-option", showCorrect ? "is-correct" : "", showWrong ? "is-wrong" : ""].filter(Boolean).join(" ");
+                return `
+                  <button class="${className}" type="button" data-quiz-option="${optionIndex}">
+                    ${escapeHtml(option.text)}
+                    ${answered ? `<span class="quiz-explain">${escapeHtml(option.explain)}</span>` : ""}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+            <div class="quiz-nav">
+              <button type="button" data-quiz-prev ${quizState.index === 0 ? "disabled" : ""}>Назад</button>
+              <button type="button" data-quiz-next ${!answered ? "disabled" : ""}>${quizState.index === DATA.quiz.length - 1 ? "Завершить" : "Дальше"}</button>
+            </div>
+          </article>
+        `;
+
+        host.querySelectorAll("[data-quiz-option]").forEach((button) => {
+          button.addEventListener("click", () => {
+            if (!quizState.answers[quizState.index]) {
+              const optionIndex = Number(button.dataset.quizOption);
+              quizState.answers[quizState.index] = {
+                optionIndex,
+                correct: current.options[optionIndex].correct,
+              };
+            }
+            renderQuiz();
+          });
+        });
+
+        host.querySelector("[data-quiz-prev]")?.addEventListener("click", () => {
+          quizState.index = Math.max(0, quizState.index - 1);
+          renderQuiz();
+          scrollQuizIntoView();
+        });
+
+        host.querySelector("[data-quiz-next]")?.addEventListener("click", () => {
+          if (quizState.index < DATA.quiz.length - 1) {
+            quizState.index += 1;
+            renderQuiz();
+            scrollQuizIntoView();
+          }
+        });
+      }
+
+      function scrollQuizIntoView() {
+        document.querySelector("#quiz")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function renderTimeline() {
+        const host = document.querySelector("#timelineHost");
+        const topicMap = new Map(DATA.topics.map((topic) => [topic.id, topic]));
+        host.innerHTML = DATA.parts.map((part) => `
+          <div class="part-divider"><span>${escapeHtml(part.name)}</span></div>
+          <div class="timeline">
+            ${part.topicIds.map((id) => renderTopic(topicMap.get(id))).join("")}
+          </div>
+        `).join("");
+      }
+
+      function renderTopic(topic) {
+        if (!topic) return "";
+        return `
+          <article class="topic" id="topic-${topic.id}">
+            <button class="topic-header" type="button" aria-expanded="false">
+              <span class="topic-time">${escapeHtml(topic.timeStart)}</span>
+              <span>
+                <span class="topic-title">${escapeHtml(topic.title)}</span>
+                <span class="topic-preview">${escapeHtml(topic.preview)}</span>
+              </span>
+              <span class="topic-dot" style="background:${topic.color}"></span>
+              <span class="topic-toggle">▼</span>
+            </button>
+            <div class="topic-body">
+              <div class="topic-content">
+                ${topic.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+                <ul>${topic.list.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>
+                <div class="topic-quote">${escapeHtml(topic.inlineQuote)}</div>
+                <button class="quotes-button" type="button" data-modal="${topic.id}">Цитаты и тезисы</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      function bindTimeline() {
+        document.querySelectorAll(".topic-header").forEach((button) => {
+          button.addEventListener("click", () => {
+            const topic = button.closest(".topic");
+            const isOpen = topic.classList.toggle("open");
+            button.setAttribute("aria-expanded", String(isOpen));
+          });
+        });
+
+        document.querySelectorAll("[data-modal]").forEach((button) => {
+          button.addEventListener("click", () => openModal(Number(button.dataset.modal)));
+        });
+      }
+
+      function renderModals() {
+        const host = document.querySelector("#modalHost");
+        host.innerHTML = DATA.topics.map((topic) => `
+          <div class="modal-layer" id="modal-${topic.id}">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-${topic.id}">
+              <div class="modal-head">
+                <h3 id="modal-title-${topic.id}">${escapeHtml(topic.title)}</h3>
+                <button class="modal-close" type="button" aria-label="Закрыть">×</button>
+              </div>
+              <div class="modal-body">
+                ${topic.quotes.map((quote) => `
+                  <div class="quote-item">
+                    <time>${escapeHtml(quote.time)}</time>
+                    <span>${escapeHtml(quote.text)}</span>
+                  </div>
+                `).join("")}
+                ${topic.theses.map((thesis, index) => `
+                  <div class="thesis-item">
+                    <span>${index + 1}</span>
+                    <span>${escapeHtml(thesis)}</span>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+        `).join("");
+
+        document.querySelectorAll(".modal-layer").forEach((layer) => {
+          layer.addEventListener("click", (event) => {
+            if (event.target === layer) closeModals();
+          });
+        });
+        document.querySelectorAll(".modal-close").forEach((button) => {
+          button.addEventListener("click", closeModals);
+        });
+      }
+
+      function openModal(id) {
+        document.querySelector(`#modal-${id}`).classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModals() {
+        document.querySelectorAll(".modal-layer.active").forEach((layer) => layer.classList.remove("active"));
+        document.body.style.overflow = "";
+      }
+
+      function bindVideoSwitcher() {
+        const video = document.querySelector("#lessonVideo");
+        document.querySelectorAll("[data-video]").forEach((button) => {
+          button.addEventListener("click", () => {
+            document.querySelectorAll("[data-video]").forEach((item) => item.classList.remove("active"));
+            button.classList.add("active");
+            video.src = button.dataset.video;
+            video.load();
+          });
+        });
+      }
+
+      function bindProgress() {
+        const fill = document.querySelector("#progressFill");
+        const update = () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          fill.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+        };
+        window.addEventListener("scroll", update, { passive: true });
+        update();
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeModals();
+      });
+
+      renderLinks();
+      renderQuiz();
+      renderOverview();
+      renderTimeline();
+      renderModals();
+      bindTimeline();
+      bindVideoSwitcher();
+      bindProgress();
+    </script>
+  </body>
+</html>
