@@ -211,6 +211,12 @@
         transform: translateY(-1px);
       }
 
+      .lesson-nav-link.disabled {
+        opacity: 0.55;
+        pointer-events: none;
+        cursor: default;
+      }
+
       .lesson-nav-link.active {
         background: #fff;
         color: var(--primary);
@@ -469,6 +475,7 @@
         font-weight: 900;
       }
 
+      .recording-card,
       .video-stage {
         width: min(var(--content), 100%);
         margin: 0 auto;
@@ -476,6 +483,25 @@
         background: var(--surface-2);
         padding: 22px;
         box-shadow: 0 32px 82px var(--shadow-10);
+      }
+
+      .recording-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        background:
+          radial-gradient(circle at 90% 0%, rgba(214, 255, 107, 0.2), transparent 18rem),
+          #fff;
+        padding: clamp(28px, 4vw, 44px);
+      }
+
+      .recording-card p {
+        max-width: 640px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1.18rem;
+        line-height: 1.5;
       }
 
       .video-frame {
@@ -1114,6 +1140,26 @@
         cursor: not-allowed;
       }
 
+      .quiz-result {
+        text-align: center;
+      }
+
+      .quiz-result h3 {
+        margin: 0 0 14px;
+        color: var(--text);
+        font-family: var(--font-head);
+        font-size: clamp(1.8rem, 3vw, 3rem);
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .quiz-result p {
+        max-width: 620px;
+        margin: 0 auto 24px;
+        color: var(--text-soft);
+        font-size: 1.12rem;
+      }
+
       .modal-layer {
         position: fixed;
         inset: 0;
@@ -1454,10 +1500,10 @@
         </a>
         <nav class="lesson-nav-list" aria-label="Навигация по материалам">
           <a class="lesson-nav-link active" href="#hero">Урок 1</a>
-          <a class="lesson-nav-link" href="../index.html#lesson-2">Урок 2</a>
-          <a class="lesson-nav-link" href="../index.html#lesson-3">Урок 3</a>
-          <a class="lesson-nav-link" href="../index.html#lesson-4">Урок 4</a>
-          <a class="lesson-nav-link" href="../index.html#lesson-5">Урок 5</a>
+          <span class="lesson-nav-link disabled" aria-disabled="true">Урок 2</span>
+          <span class="lesson-nav-link disabled" aria-disabled="true">Урок 3</span>
+          <span class="lesson-nav-link disabled" aria-disabled="true">Урок 4</span>
+          <span class="lesson-nav-link disabled" aria-disabled="true">Урок 5</span>
         </nav>
       </div>
     </div>
@@ -1515,17 +1561,14 @@
 
       <section class="section" id="recordings">
         <h2 class="section-title">Запись <span class="accent">встречи</span></h2>
-        <div class="video-stage">
-          <div class="video-frame">
-            <video id="lessonVideo" src="./recording-part-1.webm" controls preload="metadata"></video>
-          </div>
-          <div class="video-toolbar">
-            <div class="video-switcher" aria-label="Переключение частей записи">
-              <button class="active" type="button" data-video="./recording-part-1.webm">Часть 1 / 00:00-44:48</button>
-              <button type="button" data-video="./recording-part-2.webm">Часть 2 / 44:48-1:11:39</button>
-            </div>
-            <a class="video-tool" href="./transcript.md" download>Транскрипт</a>
-          </div>
+        <div class="recording-card">
+          <p>
+            Запись первого урока лежит на Яндекс Диске, потому что GitHub Pages
+            не подходит для тяжелых видеофайлов.
+          </p>
+          <a class="resource-link" href="https://disk.yandex.ru/d/a1HJ5Rf1KWuJwA" target="_blank" rel="noreferrer">
+            Смотреть запись <span>→</span>
+          </a>
         </div>
       </section>
 
@@ -1709,8 +1752,8 @@
           {
             question: "В чем главный сдвиг вайбкодинга по сравнению с обычным чатом?",
             options: [
-              { text: "Агент работает с файлами проекта, а не только отвечает текстом", correct: true, explain: "Да: ключевой объект - папка проекта, где агент может создавать и править файлы." },
               { text: "Нужно писать код только на Python", correct: false, explain: "Нет. В первом уроке фокус не на языке, а на рабочем процессе с агентом." },
+              { text: "Агент работает с файлами проекта, а не только отвечает текстом", correct: true, explain: "Да: ключевой объект - папка проекта, где агент может создавать и править файлы." },
               { text: "Все задачи обязательно делаются через браузерный ChatGPT", correct: false, explain: "Наоборот, урок показывает переход от чата к агенту в среде разработки." },
               { text: "Главное - знать все AI-новости", correct: false, explain: "База важнее гонки новостей: проект, контекст, запрос и проверка." },
             ],
@@ -1718,26 +1761,26 @@
           {
             question: "Зачем на старте нужен Visual Studio Code?",
             options: [
-              { text: "Чтобы открыть папку проекта и дать агенту рабочее пространство", correct: true, explain: "Именно так: VS Code становится окном, где видны файлы, структура и агент." },
               { text: "Чтобы заменить VPN", correct: false, explain: "VPN решает доступ к сервисам, а VS Code - работу с проектом." },
               { text: "Чтобы автоматически оплатить подписку", correct: false, explain: "Подписки и логин подключаются отдельно." },
+              { text: "Чтобы открыть папку проекта и дать агенту рабочее пространство", correct: true, explain: "Именно так: VS Code становится окном, где видны файлы, структура и агент." },
               { text: "Чтобы не создавать папки вручную", correct: false, explain: "Папку все равно нужно создать или открыть, это часть базового навыка." },
             ],
           },
           {
             question: "Какой минимальный набор для первого запуска обсуждался на уроке?",
             options: [
-              { text: "VS Code, агент Codex или Claude Code, VPN и папка проекта", correct: true, explain: "Это рабочий минимум: среда, агент, стабильный доступ и место для проекта." },
               { text: "Только Telegram и браузер", correct: false, explain: "Этого недостаточно для практики с файлами проекта." },
               { text: "Photoshop, Figma и Notion", correct: false, explain: "Эти инструменты не были базовым стеком первого урока." },
               { text: "GitHub, сервер и домен", correct: false, explain: "Это полезно позже, но не является стартовым минимумом урока 1." },
+              { text: "VS Code, агент Codex или Claude Code, VPN и папка проекта", correct: true, explain: "Это рабочий минимум: среда, агент, стабильный доступ и место для проекта." },
             ],
           },
           {
             question: "Почему рекомендуется создать корневую папку вроде DEV?",
             options: [
-              { text: "Чтобы учебные и рабочие проекты жили отдельно и не смешивались", correct: true, explain: "Да: один проект - одна папка, тогда агенту проще понимать контекст." },
               { text: "Чтобы агент получил доступ ко всему компьютеру", correct: false, explain: "Смысл обратный: открыть конкретную папку, а не всю жизнь на компьютере." },
+              { text: "Чтобы учебные и рабочие проекты жили отдельно и не смешивались", correct: true, explain: "Да: один проект - одна папка, тогда агенту проще понимать контекст." },
               { text: "Чтобы ускорить интернет", correct: false, explain: "Скорость доступа зависит не от названия папки." },
               { text: "Чтобы не пользоваться VS Code", correct: false, explain: "Папка открывается именно в VS Code или похожей среде." },
             ],
@@ -1745,17 +1788,17 @@
           {
             question: "Что важно в первом промпте к агенту?",
             options: [
-              { text: "Писать живым языком и честно объяснить, что нужен первый рабочий вариант", correct: true, explain: "Да: первый результат важнее идеальной формулировки." },
               { text: "Использовать только английский и технические термины", correct: false, explain: "На уроке нормализуется обычная речь и честное описание ситуации." },
               { text: "Сразу требовать большой продакшн-проект", correct: false, explain: "Первый запуск должен быть маленьким и видимым." },
+              { text: "Писать живым языком и честно объяснить, что нужен первый рабочий вариант", correct: true, explain: "Да: первый результат важнее идеальной формулировки." },
               { text: "Запретить агенту задавать любые уточнения навсегда", correct: false, explain: "Можно попросить не тормозить старт, но уточнения полезны в сложных задачах." },
             ],
           },
           {
             question: "Какой пример первой практики звучал на уроке?",
             options: [
-              { text: "Сделать простую игру в браузере", correct: true, explain: "Да: например, змейку или пятнашки, чтобы увидеть реальный результат." },
               { text: "Написать банковскую систему", correct: false, explain: "Это слишком большой и рискованный стартовый пример." },
+              { text: "Сделать простую игру в браузере", correct: true, explain: "Да: например, змейку или пятнашки, чтобы увидеть реальный результат." },
               { text: "Собрать нейросеть с нуля", correct: false, explain: "Урок не про обучение моделей, а про работу с агентом." },
               { text: "Сразу запустить Telegram-бота на сервере", correct: false, explain: "Боты идут дальше по интенсиву, не как первая практика урока 1." },
             ],
@@ -1763,17 +1806,17 @@
           {
             question: "Что делает скриншот полезным в работе с агентом?",
             options: [
-              { text: "Он быстро показывает, что именно не так в интерфейсе", correct: true, explain: "Да: скрин сокращает длинные объяснения и ускоряет итерации." },
               { text: "Он заменяет папку проекта", correct: false, explain: "Скрин дает обратную связь, но проект все равно живет в файлах." },
               { text: "Он автоматически чинит ошибку", correct: false, explain: "Скрин только помогает агенту понять проблему." },
               { text: "Он нужен только для красивых презентаций", correct: false, explain: "В уроке скриншот - практический инструмент правок." },
+              { text: "Он быстро показывает, что именно не так в интерфейсе", correct: true, explain: "Да: скрин сокращает длинные объяснения и ускоряет итерации." },
             ],
           },
           {
             question: "Зачем упоминался голосовой ввод?",
             options: [
-              { text: "Чтобы быстрее формулировать длинные задачи обычной речью", correct: true, explain: "Да: голос снижает трение, когда задачу проще проговорить." },
               { text: "Чтобы агент писал код без контекста", correct: false, explain: "Контекст все равно нужен: папка, файлы, скрины, цель." },
+              { text: "Чтобы быстрее формулировать длинные задачи обычной речью", correct: true, explain: "Да: голос снижает трение, когда задачу проще проговорить." },
               { text: "Чтобы не проверять результат", correct: false, explain: "Проверка результата остается обязательной частью процесса." },
               { text: "Чтобы заменить расширение Codex или Claude Code", correct: false, explain: "Голосовой ввод только помогает общению, но не является агентом." },
             ],
@@ -1781,18 +1824,18 @@
           {
             question: "Какой вывод про Codex и Claude Code был важен для старта?",
             options: [
-              { text: "Для обучения достаточно одного рабочего агента", correct: true, explain: "Да: не нужно застревать в выборе идеального инструмента." },
               { text: "Нужно обязательно купить обе подписки", correct: false, explain: "Урок говорит о выборе рабочего доступа, а не о покупке всего сразу." },
               { text: "Они нужны только профессиональным разработчикам", correct: false, explain: "Интенсив как раз снимает стартовый барьер для новичков." },
+              { text: "Для обучения достаточно одного рабочего агента", correct: true, explain: "Да: не нужно застревать в выборе идеального инструмента." },
               { text: "Они не работают с файлами", correct: false, explain: "Их смысл в этом контексте как раз в работе с файлами проекта." },
             ],
           },
           {
             question: "Почему системный VPN лучше держать стабильным?",
             options: [
-              { text: "Чтобы сервисы агента и подписки не отваливались во время работы", correct: true, explain: "Да: стабильный доступ экономит время и нервы на практике." },
               { text: "Чтобы VS Code открывался быстрее", correct: false, explain: "VS Code открывается локально, VPN нужен для доступа к внешним сервисам." },
               { text: "Чтобы не создавать аккаунты", correct: false, explain: "Аккаунты и логин все равно нужны." },
+              { text: "Чтобы сервисы агента и подписки не отваливались во время работы", correct: true, explain: "Да: стабильный доступ экономит время и нервы на практике." },
               { text: "Чтобы автоматически скачать транскрипт", correct: false, explain: "Транскрипт лежит локально на странице материалов." },
             ],
           },
@@ -2109,6 +2152,7 @@
       const quizState = {
         index: 0,
         answers: [],
+        completed: false,
       };
 
       function renderQuiz() {
@@ -2119,6 +2163,27 @@
         const answered = quizState.answers[quizState.index];
         const score = quizState.answers.filter((answer) => answer?.correct).length;
         const progress = ((quizState.index + 1) / DATA.quiz.length) * 100;
+
+        if (quizState.completed) {
+          host.innerHTML = `
+            <div class="quiz-card quiz-result">
+              <h3>Квиз завершён</h3>
+              <p>Твой результат: ${score} из ${DATA.quiz.length}. Можно пройти ещё раз или вернуться к материалам урока.</p>
+              <div class="quiz-nav">
+                <button type="button" data-quiz-reset>Пройти ещё раз</button>
+                <a class="resource-link" href="#homework">К домашке <span>→</span></a>
+              </div>
+            </div>
+          `;
+          host.querySelector("[data-quiz-reset]")?.addEventListener("click", () => {
+            quizState.index = 0;
+            quizState.answers = [];
+            quizState.completed = false;
+            renderQuiz();
+            scrollQuizIntoView();
+          });
+          return;
+        }
 
         host.innerHTML = `
           <div class="quiz-top">
@@ -2175,6 +2240,10 @@
         host.querySelector("[data-quiz-next]")?.addEventListener("click", () => {
           if (quizState.index < DATA.quiz.length - 1) {
             quizState.index += 1;
+            renderQuiz();
+            scrollQuizIntoView();
+          } else {
+            quizState.completed = true;
             renderQuiz();
             scrollQuizIntoView();
           }
@@ -2282,18 +2351,6 @@
         document.body.style.overflow = "";
       }
 
-      function bindVideoSwitcher() {
-        const video = document.querySelector("#lessonVideo");
-        document.querySelectorAll("[data-video]").forEach((button) => {
-          button.addEventListener("click", () => {
-            document.querySelectorAll("[data-video]").forEach((item) => item.classList.remove("active"));
-            button.classList.add("active");
-            video.src = button.dataset.video;
-            video.load();
-          });
-        });
-      }
-
       function bindProgress() {
         const fill = document.querySelector("#progressFill");
         const update = () => {
@@ -2314,7 +2371,6 @@
       renderTimeline();
       renderModals();
       bindTimeline();
-      bindVideoSwitcher();
       bindProgress();
     </script>
   </body>
