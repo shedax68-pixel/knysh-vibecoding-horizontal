@@ -262,48 +262,20 @@
         z-index: 1;
         width: min(var(--content-wide), 100%);
         margin: 0 auto;
-        padding-top: 96px;
-      }
-
-      .hero-icon {
-        width: 102px;
-        height: 102px;
-        display: grid;
-        place-items: center;
-        margin: 0 auto 28px;
-        border-radius: 26px;
-        background: linear-gradient(135deg, var(--primary), var(--dark));
-        color: #fff;
-        font-family: var(--font-head);
-        font-size: 3rem;
-        font-weight: 900;
-        letter-spacing: 0;
-        box-shadow: 0 24px 62px rgba(18, 157, 243, 0.22);
-        animation: rocketFloat 2.4s ease-in-out infinite;
-      }
-
-      @keyframes rocketFloat {
-        0%,
-        100% {
-          transform: translateY(0) rotate(-4deg);
-        }
-
-        50% {
-          transform: translateY(-10px) rotate(5deg);
-        }
+        padding-top: 62px;
       }
 
       .hero-badge {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 44px;
-        margin-bottom: 26px;
+        min-height: 40px;
+        margin-bottom: 22px;
         border-radius: var(--radius-pill);
         background: var(--primary-soft);
         color: var(--primary);
-        padding: 11px 30px;
-        font-size: 0.92rem;
+        padding: 10px 26px;
+        font-size: 0.86rem;
         font-weight: 900;
         letter-spacing: 0.08em;
         line-height: 1;
@@ -319,10 +291,10 @@
 
       .hero h1 {
         max-width: 1260px;
-        margin: 0 auto 18px;
+        margin: 0 auto 16px;
         color: var(--text);
         font-family: var(--font-head);
-        font-size: clamp(2.7rem, 4.35vw, 4.85rem);
+        font-size: clamp(2.55rem, 4.05vw, 4.55rem);
         font-weight: 900;
         line-height: 1.1;
         letter-spacing: 0;
@@ -338,7 +310,7 @@
 
       .hero-subtitle {
         max-width: 680px;
-        margin: 0 auto 28px;
+        margin: 0 auto 22px;
         color: var(--text-soft);
         font-size: clamp(1.05rem, 1.35vw, 1.42rem);
         line-height: 1.45;
@@ -347,16 +319,16 @@
       .hero-lead {
         width: fit-content;
         min-width: 260px;
-        min-height: 58px;
+        min-height: 52px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 24px;
-        margin: 0 auto 30px;
+        margin: 0 auto 24px;
         border: 1px solid var(--border);
         border-radius: var(--radius-pill);
         background: rgba(255, 255, 255, 0.86);
-        padding: 13px 30px;
+        padding: 11px 28px;
         box-shadow: 0 12px 36px var(--shadow-10);
         text-decoration: none;
       }
@@ -386,14 +358,14 @@
       }
 
       .resource-card {
-        min-height: 320px;
+        min-height: 280px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         border: 1px solid var(--border);
         border-radius: 24px;
         background: rgba(255, 255, 255, 0.9);
-        padding: 28px;
+        padding: 26px;
         box-shadow: 0 18px 48px var(--shadow-10);
       }
 
@@ -436,7 +408,7 @@
       }
 
       .resource-card p {
-        margin-bottom: 26px;
+        margin-bottom: 22px;
         color: var(--text-soft);
         font-size: clamp(1rem, 1.16vw, 1.18rem);
         line-height: 1.5;
@@ -448,13 +420,13 @@
         align-items: center;
         justify-content: center;
         gap: 14px;
-        min-height: 52px;
+        min-height: 50px;
         margin-top: auto;
         border: 0;
         border-radius: var(--radius-pill);
         background: linear-gradient(135deg, var(--primary), var(--dark));
         color: #fff;
-        padding: 15px 24px;
+        padding: 14px 22px;
         font-family: var(--font-head);
         font-size: 0.98rem;
         font-weight: 900;
@@ -484,13 +456,13 @@
       }
 
       .section {
-        padding: clamp(74px, 8vw, 116px) 24px;
+        padding: clamp(62px, 7vw, 96px) 24px;
       }
 
       .section-title {
-        margin: 0 auto clamp(38px, 5vw, 64px);
+        margin: 0 auto clamp(32px, 4vw, 52px);
         color: var(--text);
-        font-size: clamp(2.1rem, 3.45vw, 3.5rem);
+        font-size: clamp(2rem, 3.1vw, 3.25rem);
         font-weight: 900;
         line-height: 1.12;
         text-align: center;
@@ -585,13 +557,13 @@
       }
 
       .link-card {
-        min-height: 220px;
+        min-height: 200px;
         display: flex;
         flex-direction: column;
         border: 1px solid var(--border);
         border-radius: 24px;
         background: #fff;
-        padding: 28px;
+        padding: 26px;
         box-shadow: 0 12px 34px var(--shadow-10);
         text-decoration: none;
       }
@@ -634,7 +606,7 @@
         background:
           radial-gradient(circle at 85% 25%, rgba(214, 255, 107, 0.18), transparent 26rem),
           rgba(18, 157, 243, 0.05);
-        padding: 34px 42px;
+        padding: 30px 36px;
         box-shadow: 0 20px 60px var(--shadow-10);
       }
 
@@ -760,7 +732,7 @@
 
       .overview-panel {
         display: none;
-        min-height: 480px;
+        min-height: 430px;
         border: 1px solid var(--border);
         border-radius: 24px;
         background: #fff;
@@ -962,7 +934,7 @@
         border: 1px solid var(--border);
         border-radius: 24px;
         background: #fff;
-        padding: 34px;
+        padding: 30px;
         box-shadow: 0 22px 60px var(--shadow-10);
       }
 
@@ -1007,7 +979,7 @@
         border: 1px solid var(--border);
         border-radius: 24px;
         background: rgba(255, 255, 255, 0.94);
-        padding: clamp(24px, 3vw, 34px);
+        padding: clamp(22px, 2.6vw, 30px);
         box-shadow: 0 18px 52px var(--shadow-10);
       }
 
@@ -1076,7 +1048,7 @@
         border: 1px solid var(--border);
         border-radius: 22px;
         background: var(--surface);
-        padding: clamp(22px, 3vw, 30px);
+        padding: clamp(20px, 2.6vw, 28px);
       }
 
       .quiz-question-count {
@@ -1382,15 +1354,7 @@
         .hero-inner {
           width: 100%;
           max-width: 100%;
-          padding-top: 48px;
-        }
-
-        .hero-icon {
-          width: 92px;
-          height: 92px;
-          margin-bottom: 30px;
-          border-radius: 24px;
-          font-size: 2.7rem;
+          padding-top: 28px;
         }
 
         .hero-badge {
@@ -1448,7 +1412,7 @@
         }
 
         .section {
-          padding: 72px 14px;
+          padding: 58px 14px;
         }
 
         .section-title {
@@ -1538,7 +1502,6 @@
     <main>
       <section class="hero" id="hero">
         <div class="hero-inner">
-          <div class="hero-icon" aria-hidden="true">🚀</div>
           <div class="hero-badge">Образовательный интенсив • ~72 мин</div>
           <h1>Старт вайбкодинга:<br />инструменты <span class="accent">и первый сетап</span></h1>
           <p class="hero-subtitle">
