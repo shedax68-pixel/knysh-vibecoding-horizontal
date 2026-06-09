@@ -1,0 +1,2717 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>Урок 2 - Chrome-расширение, Git и память проекта</title>
+    <meta
+      name="description"
+      content="Summary второго урока интенсива Александра Кныша: Chrome-расширение для YouTube Shorts, лимиты моделей, установка в Chrome, Git-коммит и документация проекта."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #129df3;
+        --primary-hover: #0d8ddd;
+        --primary-soft: rgba(18, 157, 243, 0.11);
+        --secondary: #d6ff6b;
+        --secondary-soft: rgba(214, 255, 107, 0.18);
+        --accent: #050505;
+        --accent-soft: rgba(5, 5, 5, 0.06);
+        --yellow: #ffe86b;
+        --yellow-soft: rgba(255, 232, 107, 0.18);
+        --dark: #050505;
+        --text: #191919;
+        --text-soft: #5f5f5a;
+        --text-muted: #96968d;
+        --bg: #ffffff;
+        --surface: #fbfbf8;
+        --surface-2: #f5f5f0;
+        --border: rgba(5, 5, 5, 0.12);
+        --border-hard: rgba(5, 5, 5, 0.2);
+        --shadow-10: rgba(5, 5, 5, 0.08);
+        --shadow-20: rgba(5, 5, 5, 0.14);
+        --radius: 24px;
+        --radius-pill: 999px;
+        --content-wide: 1180px;
+        --content: 1040px;
+        --font: Helvetica, "Helvetica Neue", Arial, sans-serif;
+        --font-head: "Montserrat", Helvetica, Arial, sans-serif;
+        --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at 78% 8%, rgba(214, 255, 107, 0.18), transparent 32rem),
+          radial-gradient(circle at 8% 30%, rgba(18, 157, 243, 0.09), transparent 32rem),
+          var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 300;
+        width: 100%;
+        height: 4px;
+        background: var(--surface-2);
+      }
+
+      .progress-fill {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+      }
+
+      .lesson-topbar {
+        position: sticky;
+        top: 10px;
+        z-index: 220;
+        padding: 16px clamp(18px, 5vw, 96px) 0;
+      }
+
+      .lesson-nav-shell {
+        width: min(1660px, 100%);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 14px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.34);
+        border-radius: 28px;
+        background: linear-gradient(135deg, var(--primary) 0%, #0871b5 58%, var(--dark) 115%);
+        color: #fff;
+        box-shadow: 0 18px 42px rgba(18, 157, 243, 0.18);
+        backdrop-filter: blur(16px);
+      }
+
+      .lesson-brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        min-width: 0;
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .lesson-brand-mark {
+        width: 58px;
+        height: 58px;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.16);
+        font-family: var(--font-head);
+        font-size: 1rem;
+        font-weight: 900;
+      }
+
+      .lesson-brand-title,
+      .lesson-brand-sub,
+      .lesson-nav-link,
+      .hero-badge,
+      .hero-lead-label,
+      .resource-eyebrow,
+      .resource-title,
+      .section-title,
+      .link-title,
+      .bundle-eyebrow,
+      .bundle-title,
+      .overview-card,
+      .overview-panel h3,
+      .part-divider span,
+      .topic-title,
+      .topic-time,
+      .quotes-button,
+      .homework-card h3,
+      .footer {
+        font-family: var(--font-head);
+      }
+
+      .lesson-brand-title {
+        display: block;
+        font-size: 1.18rem;
+        font-weight: 900;
+        line-height: 1.1;
+      }
+
+      .lesson-brand-sub {
+        display: block;
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 0.92rem;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+
+      .lesson-nav-list {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .lesson-nav-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .lesson-nav-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 112px;
+        min-height: 48px;
+        flex: 0 0 auto;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: var(--radius-pill);
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 0.96rem;
+        font-weight: 800;
+        line-height: 1;
+        text-decoration: none;
+        transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      }
+
+      .lesson-nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+      }
+
+      .lesson-nav-link.disabled {
+        opacity: 0.55;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .lesson-nav-link.active {
+        background: #fff;
+        color: var(--primary);
+        box-shadow: 0 12px 28px rgba(5, 5, 5, 0.16);
+      }
+
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        padding: 26px 24px 0;
+        overflow: hidden;
+        text-align: center;
+        background:
+          radial-gradient(circle at 50% 22%, rgba(214, 255, 107, 0.18), transparent 23rem),
+          linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(18, 157, 243, 0.05) 100%);
+      }
+
+      .hero::before,
+      .hero::after {
+        content: "";
+        position: absolute;
+        width: 560px;
+        height: 560px;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(4px);
+      }
+
+      .hero::before {
+        top: 70px;
+        right: -120px;
+        background: radial-gradient(circle, rgba(214, 255, 107, 0.22), transparent 70%);
+      }
+
+      .hero::after {
+        bottom: -220px;
+        left: -140px;
+        background: radial-gradient(circle, rgba(18, 157, 243, 0.12), transparent 70%);
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        width: min(var(--content-wide), 100%);
+        margin: 0 auto;
+        padding-top: 62px;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        margin-bottom: 22px;
+        border-radius: var(--radius-pill);
+        background: var(--primary-soft);
+        color: var(--primary);
+        padding: 10px 26px;
+        font-size: 0.86rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      .hero h1 {
+        max-width: 1260px;
+        margin: 0 auto 16px;
+        color: var(--text);
+        font-family: var(--font-head);
+        font-size: clamp(2.55rem, 4.05vw, 4.55rem);
+        font-weight: 900;
+        line-height: 1.1;
+        letter-spacing: 0;
+      }
+
+      .accent {
+        color: var(--primary);
+      }
+
+      .accent-warm {
+        color: var(--primary);
+      }
+
+      .hero-subtitle {
+        max-width: 680px;
+        margin: 0 auto 22px;
+        color: var(--text-soft);
+        font-size: clamp(1.05rem, 1.35vw, 1.42rem);
+        line-height: 1.45;
+      }
+
+      .hero-lead {
+        width: fit-content;
+        min-width: 260px;
+        min-height: 52px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        margin: 0 auto 24px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        background: rgba(255, 255, 255, 0.86);
+        padding: 11px 28px;
+        box-shadow: 0 12px 36px var(--shadow-10);
+        text-decoration: none;
+      }
+
+      .hero-lead-label {
+        color: var(--text-muted);
+        font-size: 1rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hero-lead-name {
+        color: var(--primary);
+        font-family: var(--font-head);
+        font-size: 1.08rem;
+        font-weight: 900;
+      }
+
+      .hero-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        text-align: left;
+      }
+
+      .resource-card {
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 26px;
+        box-shadow: 0 18px 48px var(--shadow-10);
+      }
+
+      .resource-head {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .icon-tile {
+        width: 62px;
+        height: 62px;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        border-radius: 18px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 1.7rem;
+      }
+
+      .resource-eyebrow {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--accent);
+        font-size: 0.76rem;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .resource-title {
+        margin: 0;
+        color: var(--text);
+        font-size: clamp(1.12rem, 1.42vw, 1.42rem);
+        font-weight: 900;
+        line-height: 1.18;
+      }
+
+      .resource-card p {
+        margin-bottom: 22px;
+        color: var(--text-soft);
+        font-size: clamp(1rem, 1.16vw, 1.18rem);
+        line-height: 1.5;
+      }
+
+      .resource-link,
+      .bundle-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        min-height: 50px;
+        margin-top: auto;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+        padding: 14px 22px;
+        font-family: var(--font-head);
+        font-size: 0.98rem;
+        font-weight: 900;
+        line-height: 1;
+        text-decoration: none;
+        box-shadow: 0 14px 34px rgba(18, 157, 243, 0.2);
+      }
+
+      .scroll-hint {
+        margin: 24px 0 34px;
+        color: var(--text-muted);
+        font-size: 1rem;
+        animation: scrollHintFloat 1.8s ease-in-out infinite;
+      }
+
+      @keyframes scrollHintFloat {
+        0%,
+        100% {
+          opacity: 0.58;
+          transform: translateY(0);
+        }
+
+        50% {
+          opacity: 1;
+          transform: translateY(8px);
+        }
+      }
+
+      .section {
+        padding: clamp(62px, 7vw, 96px) 24px;
+      }
+
+      .section-title {
+        margin: 0 auto clamp(32px, 4vw, 52px);
+        color: var(--text);
+        font-size: clamp(2rem, 3.1vw, 3.25rem);
+        font-weight: 900;
+        line-height: 1.12;
+        text-align: center;
+      }
+
+      .section-title .accent,
+      .section-title .accent-warm {
+        font-weight: 900;
+      }
+
+      .recording-card,
+      .video-stage {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        border-radius: 28px;
+        background: var(--surface-2);
+        padding: 22px;
+        box-shadow: 0 32px 82px var(--shadow-10);
+      }
+
+      .recording-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        background:
+          radial-gradient(circle at 90% 0%, rgba(214, 255, 107, 0.2), transparent 18rem),
+          #fff;
+        padding: clamp(28px, 4vw, 44px);
+      }
+
+      .recording-card p {
+        max-width: 640px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1.18rem;
+        line-height: 1.5;
+      }
+
+      .video-frame {
+        overflow: hidden;
+        border: 4px solid #fff;
+        border-radius: 18px;
+        background: #1c1c2a;
+      }
+
+      .video-frame video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #1c1c2a;
+      }
+
+      .video-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px 6px 2px;
+      }
+
+      .video-switcher {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .video-switcher button,
+      .video-tool {
+        min-height: 54px;
+        border: 0;
+        border-radius: 16px;
+        background: #e9ecf6;
+        color: #506090;
+        padding: 12px 18px;
+        font-family: var(--font-head);
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .video-switcher button.active {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .links-grid {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .link-card {
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: #fff;
+        padding: 26px;
+        box-shadow: 0 12px 34px var(--shadow-10);
+        text-decoration: none;
+      }
+
+      .link-head {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 22px;
+      }
+
+      .link-title {
+        color: var(--text);
+        font-size: 1.42rem;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .link-card p {
+        margin-bottom: 22px;
+        color: var(--text-soft);
+        font-size: 1.2rem;
+        line-height: 1.5;
+      }
+
+      .link-host {
+        margin-top: auto;
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        letter-spacing: 0.02em;
+      }
+
+      .bundle-card {
+        width: min(var(--content), 100%);
+        margin: 34px auto 0;
+        border: 1px solid rgba(18, 157, 243, 0.28);
+        border-left: 7px solid var(--primary);
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at 85% 25%, rgba(214, 255, 107, 0.18), transparent 26rem),
+          rgba(18, 157, 243, 0.05);
+        padding: 30px 36px;
+        box-shadow: 0 20px 60px var(--shadow-10);
+      }
+
+      .bundle-top {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        margin-bottom: 20px;
+      }
+
+      .bundle-eyebrow {
+        display: inline-flex;
+        margin-bottom: 8px;
+        border-radius: var(--radius-pill);
+        background: var(--accent-soft);
+        color: var(--primary);
+        padding: 8px 18px;
+        font-size: 0.9rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .bundle-title {
+        margin: 0;
+        color: var(--text);
+        font-size: 1.55rem;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .bundle-card p {
+        color: var(--text-soft);
+        font-size: 1.18rem;
+      }
+
+      .bundle-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 26px;
+      }
+
+      .bundle-action {
+        justify-content: space-between;
+        min-height: 78px;
+        background: #fff;
+        color: var(--text);
+        border: 1px solid rgba(18, 157, 243, 0.24);
+        box-shadow: none;
+      }
+
+      .bundle-action .icon-tile {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        font-size: 1.4rem;
+      }
+
+      .bundle-action small {
+        display: block;
+        margin-top: 5px;
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-weight: 500;
+      }
+
+      .overview-layout {
+        width: min(var(--content-wide), 100%);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+        gap: 22px;
+        align-items: start;
+      }
+
+      .overview-grid {
+        position: sticky;
+        top: 136px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .overview-card {
+        min-height: 78px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fff;
+        color: var(--text);
+        padding: 20px 24px;
+        text-align: left;
+        box-shadow: 0 12px 30px var(--shadow-10);
+        cursor: pointer;
+      }
+
+      .overview-card strong {
+        display: block;
+        font-size: 1.25rem;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .overview-card span {
+        display: none;
+        margin-top: 10px;
+        color: var(--text-muted);
+        font-family: var(--font);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.35;
+      }
+
+      .overview-card.active {
+        min-height: 190px;
+        border-color: var(--primary);
+        box-shadow: 0 18px 48px rgba(18, 157, 243, 0.16);
+      }
+
+      .overview-card.active span {
+        display: block;
+      }
+
+      .overview-panel {
+        display: none;
+        min-height: 430px;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: #fff;
+        padding: clamp(34px, 4vw, 54px);
+        box-shadow: 0 24px 62px var(--shadow-10);
+      }
+
+      .overview-panel.active {
+        display: block;
+      }
+
+      .overview-panel h3 {
+        margin-bottom: 24px;
+        color: var(--primary);
+        font-size: clamp(1.7rem, 2.5vw, 2.55rem);
+        font-weight: 900;
+        line-height: 1.25;
+      }
+
+      .overview-panel p,
+      .overview-panel li {
+        color: var(--text-soft);
+        font-size: 1.22rem;
+      }
+
+      .overview-panel ul {
+        margin: 22px 0;
+        padding-left: 1.2em;
+      }
+
+      .overview-quote {
+        margin-top: 28px;
+        border-left: 5px solid var(--primary);
+        border-radius: 0 20px 20px 0;
+        background: var(--primary-soft);
+        color: var(--text-soft);
+        padding: 24px 28px;
+        font-size: 1.15rem;
+        font-style: italic;
+      }
+
+      .part-divider {
+        width: min(1020px, calc(100% - 48px));
+        margin: 0 auto 86px;
+        display: flex;
+        align-items: center;
+        gap: 0;
+      }
+
+      .part-divider::before,
+      .part-divider::after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: var(--border-hard);
+      }
+
+      .part-divider span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 60px;
+        border: 1px solid var(--border-hard);
+        border-radius: var(--radius-pill);
+        background: #fff;
+        color: var(--accent);
+        padding: 16px 38px;
+        font-size: 1.02rem;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .timeline {
+        width: min(var(--content), 100%);
+        margin: 0 auto clamp(82px, 8vw, 130px);
+        display: grid;
+        gap: 22px;
+      }
+
+      .topic {
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 8px 24px var(--shadow-10);
+        overflow: hidden;
+      }
+
+      .topic-header {
+        display: grid;
+        grid-template-columns: 110px minmax(0, 1fr) 22px 52px;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: 26px 32px;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .topic-time {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border-radius: var(--radius-pill);
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 1rem;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+      }
+
+      .topic-title {
+        display: block;
+        color: var(--text);
+        font-size: 1.35rem;
+        font-weight: 900;
+        line-height: 1.25;
+      }
+
+      .topic-preview {
+        display: block;
+        color: var(--text-muted);
+        font-size: 1.06rem;
+        line-height: 1.35;
+      }
+
+      .topic-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--primary);
+      }
+
+      .topic-toggle {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--surface-2);
+        color: var(--text-muted);
+        font-size: 1rem;
+      }
+
+      .topic-body {
+        display: none;
+        padding: 0 32px 32px 162px;
+      }
+
+      .topic.open .topic-body {
+        display: block;
+      }
+
+      .topic-content {
+        color: var(--text-soft);
+        font-size: 1.12rem;
+      }
+
+      .topic-content ul {
+        padding-left: 1.2em;
+      }
+
+      .topic-quote {
+        margin: 24px 0;
+        border-left: 5px solid var(--primary);
+        border-radius: 0 18px 18px 0;
+        background: var(--primary-soft);
+        padding: 20px 24px;
+        color: var(--text-soft);
+        font-size: 1.08rem;
+        font-style: italic;
+      }
+
+      .quotes-button {
+        min-height: 52px;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+        padding: 14px 22px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .homework-grid {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(0, 0.62fr) minmax(320px, 0.38fr);
+        gap: 18px;
+      }
+
+      .homework-card {
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: #fff;
+        padding: 30px;
+        box-shadow: 0 22px 60px var(--shadow-10);
+      }
+
+      .homework-card h3 {
+        margin-bottom: 22px;
+        color: var(--text);
+        font-size: 1.55rem;
+        font-weight: 900;
+      }
+
+      .homework-card label {
+        display: grid;
+        grid-template-columns: 22px minmax(0, 1fr);
+        gap: 12px;
+        margin-bottom: 14px;
+        color: var(--text-soft);
+        font-size: 1.08rem;
+      }
+
+      .homework-card input {
+        width: 18px;
+        height: 18px;
+        margin-top: 4px;
+        accent-color: var(--primary);
+      }
+
+      .homework-card.next {
+        background:
+          radial-gradient(circle at 80% 0%, rgba(214, 255, 107, 0.24), transparent 18rem),
+          var(--primary-soft);
+      }
+
+      .quiz-section {
+        background:
+          radial-gradient(circle at 12% 12%, rgba(18, 157, 243, 0.08), transparent 26rem),
+          linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(18, 157, 243, 0.04));
+      }
+
+      .quiz-shell {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.94);
+        padding: clamp(22px, 2.6vw, 30px);
+        box-shadow: 0 18px 52px var(--shadow-10);
+      }
+
+      .quiz-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+
+      .quiz-kicker,
+      .quiz-score,
+      .quiz-question-count,
+      .quiz-nav button {
+        font-family: var(--font-head);
+      }
+
+      .quiz-kicker {
+        display: inline-flex;
+        margin-bottom: 8px;
+        color: var(--primary);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .quiz-top p {
+        max-width: 620px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1.04rem;
+        line-height: 1.45;
+      }
+
+      .quiz-score {
+        flex: 0 0 auto;
+        border-radius: var(--radius-pill);
+        background: var(--primary-soft);
+        color: var(--primary);
+        padding: 10px 16px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .quiz-progress {
+        height: 8px;
+        overflow: hidden;
+        border-radius: var(--radius-pill);
+        background: var(--surface-2);
+        margin-bottom: 28px;
+      }
+
+      .quiz-progress span {
+        display: block;
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--primary), var(--dark));
+        transition: width 0.24s ease;
+      }
+
+      .quiz-card {
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: var(--surface);
+        padding: clamp(20px, 2.6vw, 28px);
+      }
+
+      .quiz-question-count {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .quiz-question {
+        margin: 0 0 22px;
+        color: var(--text);
+        font-family: var(--font-head);
+        font-size: clamp(1.35rem, 2.1vw, 2rem);
+        font-weight: 900;
+        line-height: 1.18;
+      }
+
+      .quiz-options {
+        display: grid;
+        gap: 10px;
+      }
+
+      .quiz-option {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #fff;
+        color: var(--text);
+        padding: 16px 18px;
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      }
+
+      .quiz-option:hover {
+        border-color: rgba(18, 157, 243, 0.36);
+        transform: translateY(-1px);
+      }
+
+      .quiz-option.is-correct {
+        border-color: rgba(20, 160, 92, 0.48);
+        background: rgba(20, 160, 92, 0.1);
+      }
+
+      .quiz-option.is-wrong {
+        border-color: rgba(220, 50, 50, 0.38);
+        background: rgba(220, 50, 50, 0.08);
+      }
+
+      .quiz-explain {
+        display: block;
+        margin-top: 8px;
+        color: var(--text-soft);
+        font-size: 0.96rem;
+        line-height: 1.4;
+      }
+
+      .quiz-nav {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .quiz-nav button {
+        min-height: 48px;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: var(--accent-soft);
+        color: var(--text);
+        padding: 13px 20px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .quiz-nav button:last-child {
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+      }
+
+      .quiz-nav button:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+      }
+
+      .quiz-result {
+        text-align: center;
+      }
+
+      .quiz-result h3 {
+        margin: 0 0 14px;
+        color: var(--text);
+        font-family: var(--font-head);
+        font-size: clamp(1.8rem, 3vw, 3rem);
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .quiz-result p {
+        max-width: 620px;
+        margin: 0 auto 24px;
+        color: var(--text-soft);
+        font-size: 1.12rem;
+      }
+
+      .modal-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 400;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(5, 5, 5, 0.58);
+        padding: 24px;
+      }
+
+      .modal-layer.active {
+        display: flex;
+      }
+
+      .modal {
+        width: min(780px, 100%);
+        max-height: 86vh;
+        overflow: auto;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow: 0 30px 80px rgba(5, 5, 5, 0.26);
+      }
+
+      .modal-head {
+        position: sticky;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+        padding: 22px 26px;
+      }
+
+      .modal-head h3 {
+        margin: 0;
+        font-family: var(--font-head);
+        font-size: 1.4rem;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+
+      .modal-close {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        cursor: pointer;
+        font-family: var(--font-head);
+        font-weight: 900;
+      }
+
+      .modal-body {
+        padding: 28px;
+      }
+
+      .quote-item,
+      .thesis-item {
+        display: grid;
+        grid-template-columns: 88px minmax(0, 1fr);
+        gap: 14px;
+        margin-bottom: 14px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--surface);
+        padding: 16px;
+      }
+
+      .quote-item time,
+      .thesis-item span:first-child {
+        color: var(--accent);
+        font-family: var(--font-head);
+        font-weight: 900;
+      }
+
+      .thesis-item {
+        grid-template-columns: 34px minmax(0, 1fr);
+        background: var(--primary-soft);
+      }
+
+      .footer {
+        padding: 44px 24px 54px;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      @media (max-width: 980px) {
+        .lesson-nav-shell,
+        .overview-layout,
+        .homework-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .lesson-nav-shell {
+          flex-direction: column;
+          align-items: flex-start;
+          border-radius: 28px;
+        }
+
+        .lesson-nav-list {
+          width: 100%;
+          justify-content: flex-start;
+        }
+
+        .hero {
+          padding-top: 70px;
+        }
+
+        .hero-actions,
+        .links-grid,
+        .bundle-actions {
+          grid-template-columns: 1fr;
+        }
+
+        .overview-grid {
+          position: static;
+        }
+
+        .topic-header {
+          grid-template-columns: 94px minmax(0, 1fr) 18px 44px;
+          padding: 22px;
+        }
+
+        .topic-body {
+          padding: 0 22px 26px;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .lesson-topbar {
+          position: static;
+          top: 8px;
+          padding: 10px 10px 0;
+        }
+
+        .lesson-nav-shell {
+          width: min(100%, calc(100vw - 20px));
+          max-width: calc(100vw - 20px);
+          flex-direction: column;
+          align-items: stretch;
+          gap: 14px;
+          padding: 14px;
+          border-radius: 22px;
+          overflow: hidden;
+        }
+
+        .lesson-brand,
+        .lesson-nav-list {
+          min-width: 0;
+          max-width: 100%;
+        }
+
+        .lesson-brand {
+          width: 100%;
+        }
+
+        .lesson-brand-mark {
+          width: 46px;
+          height: 46px;
+          border-radius: 16px;
+          font-size: 0.86rem;
+        }
+
+        .lesson-brand-title {
+          font-size: 1rem;
+        }
+
+        .lesson-brand-sub {
+          display: none;
+        }
+
+        .lesson-nav-list {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+          overflow: visible;
+        }
+
+        .lesson-nav-link {
+          min-width: 0;
+          width: 100%;
+          min-height: 38px;
+          padding: 10px 12px;
+          font-size: 0.78rem;
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 48px 14px 0;
+          overflow: hidden;
+        }
+
+        .hero-inner {
+          width: 100%;
+          max-width: 100%;
+          padding-top: 28px;
+        }
+
+        .hero-badge {
+          max-width: 100%;
+          min-height: 42px;
+          margin-bottom: 24px;
+          padding: 12px 20px;
+          font-size: 0.72rem;
+          line-height: 1.25;
+          text-align: center;
+        }
+
+        .hero h1 {
+          max-width: 100%;
+          margin-bottom: 18px;
+          font-size: clamp(1.58rem, 7.2vw, 2.18rem);
+          line-height: 1.1;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+
+        .hero h1 .accent {
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+
+        .hero-subtitle {
+          margin-bottom: 26px;
+          font-size: 1.04rem;
+          overflow-wrap: break-word;
+        }
+
+        .hero-lead {
+          min-width: 0;
+          width: 100%;
+          min-height: 58px;
+          gap: 14px;
+          padding: 14px 18px;
+        }
+
+        .hero-actions {
+          gap: 18px;
+        }
+
+        .resource-card {
+          min-height: auto;
+          padding: 24px;
+        }
+
+        .resource-head {
+          align-items: flex-start;
+          gap: 14px;
+        }
+
+        .resource-title {
+          overflow-wrap: anywhere;
+        }
+
+        .resource-card p {
+          font-size: 1.04rem;
+        }
+
+        .section {
+          padding: 58px 14px;
+        }
+
+        .section-title {
+          margin-bottom: 36px;
+          font-size: 2.25rem;
+        }
+
+        .video-stage,
+        .bundle-card,
+        .link-card,
+        .overview-panel,
+        .homework-card {
+          border-radius: 20px;
+        }
+
+        .video-toolbar {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .link-card,
+        .bundle-card,
+        .overview-panel,
+        .homework-card {
+          padding: 24px;
+        }
+
+        .part-divider {
+          width: calc(100% - 28px);
+          margin-bottom: 44px;
+        }
+
+        .part-divider span {
+          min-height: 48px;
+          padding: 12px 18px;
+          font-size: 0.76rem;
+        }
+
+        .topic-header {
+          grid-template-columns: 82px minmax(0, 1fr) 12px 38px;
+          gap: 12px;
+          padding: 18px;
+        }
+
+        .topic-time {
+          min-height: 36px;
+          font-size: 0.82rem;
+        }
+
+        .topic-title {
+          font-size: 1.04rem;
+        }
+
+        .topic-preview {
+          font-size: 0.9rem;
+        }
+
+        .topic-toggle {
+          width: 36px;
+          height: 36px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+    <div class="lesson-topbar">
+      <div class="lesson-nav-shell">
+        <a class="lesson-brand" href="#hero" aria-label="К началу страницы">
+          <span class="lesson-brand-mark">АК</span>
+          <span>
+            <span class="lesson-brand-title">Материалы интенсива</span>
+            <span class="lesson-brand-sub">Навигация по урокам и созвонам</span>
+          </span>
+        </a>
+        <nav class="lesson-nav-list" aria-label="Навигация по материалам">
+          <a class="lesson-nav-link" href="../lssn_01/">Урок 1</a>
+          <a class="lesson-nav-link active" href="#hero">Урок 2</a>
+          <span class="lesson-nav-link disabled" aria-disabled="true">Урок 3</span>
+          <span class="lesson-nav-link disabled" aria-disabled="true">Урок 4</span>
+          <span class="lesson-nav-link disabled" aria-disabled="true">Урок 5</span>
+        </nav>
+      </div>
+    </div>
+
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero-inner">
+          <div class="hero-badge">Образовательный интенсив • ~50 мин</div>
+          <h1>Расширение Chrome:<br />Git <span class="accent">и память проекта</span></h1>
+          <p class="hero-subtitle">
+            Как собрать расширение, которое убирает YouTube Shorts, загрузить его в Chrome,
+            не потеряться в лимитах моделей и зафиксировать рабочую версию через Git и docs.
+          </p>
+          <a class="hero-lead" href="https://t.me/kknysh" target="_blank" rel="noreferrer">
+            <span class="hero-lead-label">Ведущий</span>
+            <span class="hero-lead-name">Александр</span>
+          </a>
+
+          <div class="hero-actions">
+            <article class="resource-card">
+              <div class="resource-head">
+                <div class="icon-tile">▶</div>
+                <div>
+                  <span class="resource-eyebrow">Разбор записи</span>
+                  <h2 class="resource-title">Summary второго урока</h2>
+                </div>
+              </div>
+              <p>
+                Тяжелую запись не кладем в GitHub Pages. Здесь собран короткий
+                разбор занятия, а полный текст лежит в материалах ниже.
+              </p>
+              <a class="resource-link" href="#overview">К ключевым темам <span>→</span></a>
+            </article>
+
+            <article class="resource-card">
+              <div class="resource-head">
+                <div class="icon-tile">🎯</div>
+                <div>
+                  <span class="resource-eyebrow">Закрепление</span>
+                  <h2 class="resource-title">Квиз: 10 вопросов по уроку 2</h2>
+                </div>
+              </div>
+              <p>
+                Проверь себя по лимитам, установке расширения, коммитам и
+                документации проекта. Правильный ответ подсвечивается зеленым.
+              </p>
+              <a class="resource-link" href="#quiz">Пройти квиз <span>→</span></a>
+            </article>
+          </div>
+
+          <div class="scroll-hint">▼ листай вниз</div>
+        </div>
+      </section>
+
+      <section class="section" id="links">
+        <h2 class="section-title">Ключевые <span class="accent">ссылки</span></h2>
+        <div class="links-grid" id="linksGrid"></div>
+        <div class="bundle-card">
+          <div class="bundle-top">
+            <div class="icon-tile">📁</div>
+            <div>
+              <span class="bundle-eyebrow">Материалы</span>
+              <h3 class="bundle-title">Транскрипт второго урока и чистый источник</h3>
+            </div>
+          </div>
+          <p>
+            Транскрипция сделана локально по записи Телемоста. Summary выше уже
+            отредактирован, а исходный текст можно использовать для поиска и повторной обработки.
+          </p>
+          <div class="bundle-actions">
+            <a class="bundle-action" href="./transcript.md" download>
+              <span class="icon-tile">📝</span>
+              <span>transcript.md<small>Markdown</small></span>
+              <span>→</span>
+            </a>
+            <a class="bundle-action" href="./transcription-clean.txt" download>
+              <span class="icon-tile">📄</span>
+              <span>transcription-clean.txt<small>TXT</small></span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section quiz-section" id="quiz">
+        <h2 class="section-title">Квиз <span class="accent">по уроку</span></h2>
+        <div class="quiz-shell" id="quizShell" aria-live="polite"></div>
+      </section>
+
+      <section class="section" id="overview">
+        <h2 class="section-title">Ключевые <span class="accent">темы</span></h2>
+        <div class="overview-layout">
+          <div class="overview-grid" id="overviewGrid" role="tablist" aria-label="Ключевые темы"></div>
+          <div id="overviewPanels"></div>
+        </div>
+      </section>
+
+      <section class="section" id="timeline">
+        <div id="timelineHost"></div>
+      </section>
+
+      <section class="section" id="homework">
+        <h2 class="section-title">Домашнее задание: <span class="accent">расширение, коммит и docs</span></h2>
+        <div class="homework-grid">
+          <div class="homework-card">
+            <h3>Что сделать после урока</h3>
+            <label><input type="checkbox" /> Доделать расширение, которое скрывает YouTube Shorts.</label>
+            <label><input type="checkbox" /> Загрузить его в Chrome через режим разработчика.</label>
+            <label><input type="checkbox" /> Проверить результат на YouTube после обновления страницы.</label>
+            <label><input type="checkbox" /> Попросить агента сделать коммит рабочей версии.</label>
+            <label><input type="checkbox" /> Попросить сохранить ключевые решения в <code>docs/</code> или <code>README.md</code>.</label>
+            <label><input type="checkbox" /> Открыть новую сессию и проверить, что агент понимает проект по документации.</label>
+          </div>
+          <div class="homework-card next">
+            <h3>Дальше</h3>
+            <p>
+              На уроке 3 этот же подход переносится в сайт: соберем страницу,
+              добавим немного теории и задеплоим результат на сервер.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <a href="#hero">Наверх</a>
+    </footer>
+
+    <div id="modalHost"></div>
+
+    <script>
+      const DATA = {
+        "links": [
+                {
+                        "icon": "🧩",
+                        "title": "Chrome extensions",
+                        "href": "chrome://extensions/",
+                        "desc": "Страница, где включается режим разработчика и загружается распакованное расширение."
+                },
+                {
+                        "icon": "🤖",
+                        "title": "Лимиты Codex",
+                        "href": "https://chatgpt.com/codex/cloud/settings/analytics#usage",
+                        "desc": "Проверка расхода и остатка лимитов агента OpenAI."
+                },
+                {
+                        "icon": "🧠",
+                        "title": "Лимиты Claude",
+                        "href": "https://claude.ai/settings/usage",
+                        "desc": "Страница Anthropic, где можно посмотреть использование Claude."
+                },
+                {
+                        "icon": "⎇",
+                        "title": "Git",
+                        "href": "https://git-scm.com/",
+                        "desc": "Локальная система версий: коммиты, история изменений и точка возврата."
+                },
+                {
+                        "icon": "🛒",
+                        "title": "Chrome Web Store",
+                        "href": "https://chromewebstore.google.com/",
+                        "desc": "Магазин расширений Chrome; публикация требует отдельного аккаунта разработчика."
+                }
+        ],
+        "overview": [
+                {
+                        "icon": "🧭",
+                        "title": "Зачем урок",
+                        "preview": "Перейти от первой игры к проекту из нескольких файлов.",
+                        "subtitle": "Второй урок показывает, что агент может собирать не только игрушки, а маленькие инструменты для браузера.",
+                        "content": [
+                                "На старте участники уже поставили VS Code и попробовали первые задачи. Теперь фокус переносится на Chrome-расширение: проект, где есть папка, несколько файлов, установка и проверка в браузере.",
+                                "Параллельно разбирается теория, которая помогает не упереться в тупик: лимиты, режимы моделей, коммиты, документация и восстановление контекста, если агент завис."
+                        ],
+                        "list": [
+                                "Главный артефакт: расширение, скрывающее YouTube Shorts.",
+                                "Главный навык: давать агенту папку, проверять результат и фиксировать рабочую версию.",
+                                "Главная страховка: Git и docs вместо надежды на память чата."
+                        ],
+                        "quote": "Теория на этом уроке дает лайфхаки, которые помогают справиться с тупиком."
+                },
+                {
+                        "icon": "⏱",
+                        "title": "Лимиты",
+                        "preview": "Пятичасовой, недельный или месячный запас быстро становится реальностью.",
+                        "subtitle": "Лимиты - это не абстракция тарифа, а запас итераций, который можно сжечь в глубоком проекте.",
+                        "content": [
+                                "На уроке участники сверяют, сколько осталось у Codex и Claude, и обсуждают разницу между тарифами. Важная мысль: дешевые подписки работают, но при плотной практике лимитов может не хватать.",
+                                "Лимиты полезно смотреть заранее, а не в момент, когда агент уже остановился на середине задачи. При этом на старте обучения не стоит превращать работу в постоянную экономию токенов."
+                        ],
+                        "list": [
+                                "Сохраните страницы usage для своего агента.",
+                                "Дневной запас может обновляться каждые несколько часов.",
+                                "Недельный или месячный лимит зависит от сервиса и тарифа."
+                        ],
+                        "quote": "Важно оценивать, сколько тебе осталось, потому что у меня часто проекта на него не хватает."
+                },
+                {
+                        "icon": "AI",
+                        "title": "Модели",
+                        "preview": "Сильнее модель - дороже, но на старте проще не мельчить.",
+                        "subtitle": "Внутри агента можно выбирать уровень рассуждения: быстро, экономно или мощно.",
+                        "content": [
+                                "Codex и Claude позволяют работать с разными моделями или режимами. Высокий режим дольше думает и больше тратит лимит, низкий быстрее, но чаще ошибается.",
+                                "Для учебного старта выбран спокойный подход: не городить сложные правила переключения, а использовать нормальный дефолт или сильный режим там, где важен результат."
+                        ],
+                        "list": [
+                                "Низкий режим - быстрее и дешевле.",
+                                "Высокий режим - медленнее, но надежнее для сложных задач.",
+                                "Скиллы для авто-переключения можно тестировать позже."
+                        ],
+                        "quote": "Проще всего использовать дефолтный режим, и его более чем хватит на наши задачи."
+                },
+                {
+                        "icon": "🧱",
+                        "title": "Проектная память",
+                        "preview": "Коммит сохраняет файлы, docs сохраняют смысл.",
+                        "subtitle": "Когда проект растет, важны две разные страховки: версия файлов и текстовое объяснение решений.",
+                        "content": [
+                                "Git появляется как практичная точка возврата: расширение заработало, агент делает коммит, и можно продолжать без страха потерять рабочую версию.",
+                                "Документация нужна для другого: сохранить контекст, промпт, принятые решения, инструкции по запуску и то, что важно передать новой сессии агента."
+                        ],
+                        "list": [
+                                "Коммит - слепок состояния файлов.",
+                                "README или docs - память договоренностей.",
+                                "Новая сессия стартует быстрее, если ей есть что прочитать."
+                        ],
+                        "quote": "Коммит сохраняет файлы, а документация сохраняет смысл."
+                }
+        ],
+        "quiz": [
+                {
+                        "question": "Какой главный практический результат второго урока?",
+                        "options": [
+                                {
+                                        "text": "Собрать Chrome-расширение, которое скрывает YouTube Shorts",
+                                        "correct": true,
+                                        "explain": "Да. Это был центральный учебный проект урока."
+                                },
+                                {
+                                        "text": "Сразу задеплоить сайт на сервер",
+                                        "correct": false,
+                                        "explain": "Деплой сайта вынесен на третий урок."
+                                },
+                                {
+                                        "text": "Написать Telegram-бота",
+                                        "correct": false,
+                                        "explain": "Telegram-бот запланирован позже по интенсиву."
+                                },
+                                {
+                                        "text": "Выучить JavaScript руками",
+                                        "correct": false,
+                                        "explain": "Цель была в управлении агентом и проектом, а не в ручном изучении синтаксиса."
+                                }
+                        ]
+                },
+                {
+                        "question": "Почему важно смотреть лимиты агента?",
+                        "options": [
+                                {
+                                        "text": "Чтобы заранее понимать, хватит ли запаса на итерации проекта",
+                                        "correct": true,
+                                        "explain": "Да. Лимит может закончиться в середине работы."
+                                },
+                                {
+                                        "text": "Чтобы расширение быстрее загрузилось в Chrome",
+                                        "correct": false,
+                                        "explain": "Скорость загрузки расширения не зависит от лимитов модели."
+                                },
+                                {
+                                        "text": "Чтобы Git делал коммиты автоматически",
+                                        "correct": false,
+                                        "explain": "Git и лимиты агента - разные вещи."
+                                },
+                                {
+                                        "text": "Чтобы не создавать папку проекта",
+                                        "correct": false,
+                                        "explain": "Папка проекта все равно нужна для работы агента с файлами."
+                                }
+                        ]
+                },
+                {
+                        "question": "Какой подход к моделям выбран для старта обучения?",
+                        "options": [
+                                {
+                                        "text": "Не усложнять и брать нормальный дефолт или сильный режим для качества",
+                                        "correct": true,
+                                        "explain": "Да. На старте важнее надежный результат, чем мелочная экономия."
+                                },
+                                {
+                                        "text": "Всегда выбирать самый слабый режим",
+                                        "correct": false,
+                                        "explain": "Слабый режим быстрее, но может чаще ошибаться."
+                                },
+                                {
+                                        "text": "Запретить агенту думать дольше пары секунд",
+                                        "correct": false,
+                                        "explain": "Для сложных задач длинное рассуждение бывает полезно."
+                                },
+                                {
+                                        "text": "Каждый запрос вручную переписывать на английский",
+                                        "correct": false,
+                                        "explain": "Урок показывает, что живой русский промпт отлично подходит."
+                                }
+                        ]
+                },
+                {
+                        "question": "Что должно быть открыто перед задачей агенту?",
+                        "options": [
+                                {
+                                        "text": "Конкретная папка проекта в VS Code",
+                                        "correct": true,
+                                        "explain": "Да. Агент должен понимать, куда создавать файлы."
+                                },
+                                {
+                                        "text": "Любая вкладка браузера без проекта",
+                                        "correct": false,
+                                        "explain": "Браузер нужен для проверки, но файлы создаются в папке проекта."
+                                },
+                                {
+                                        "text": "Вся домашняя папка пользователя",
+                                        "correct": false,
+                                        "explain": "Лучше открывать только нужный проект, чтобы не мешать контексты."
+                                },
+                                {
+                                        "text": "Только Telegram-чат с промптом",
+                                        "correct": false,
+                                        "explain": "Промпт без рабочей папки не даст агенту места для файлов."
+                                }
+                        ]
+                },
+                {
+                        "question": "Какие файлы агент создал для расширения в демонстрации?",
+                        "options": [
+                                {
+                                        "text": "manifest.json, content.js и README",
+                                        "correct": true,
+                                        "explain": "Да. Этого хватило для простого расширения и инструкции."
+                                },
+                                {
+                                        "text": "index.php, server.py и database.sql",
+                                        "correct": false,
+                                        "explain": "Это не структура Chrome-расширения из урока."
+                                },
+                                {
+                                        "text": "Только один PDF-файл",
+                                        "correct": false,
+                                        "explain": "Расширение состоит из рабочих файлов проекта."
+                                },
+                                {
+                                        "text": "Только package.json",
+                                        "correct": false,
+                                        "explain": "В демонстрации были manifest, content script и README."
+                                }
+                        ]
+                },
+                {
+                        "question": "Как загрузить учебное расширение в Chrome?",
+                        "options": [
+                                {
+                                        "text": "Открыть страницу расширений, включить режим разработчика и загрузить распакованную папку",
+                                        "correct": true,
+                                        "explain": "Да. Это ключевой путь установки из урока."
+                                },
+                                {
+                                        "text": "Отправить код в Telegram и ждать установки",
+                                        "correct": false,
+                                        "explain": "Telegram тут не устанавливает расширение."
+                                },
+                                {
+                                        "text": "Переименовать папку в .app",
+                                        "correct": false,
+                                        "explain": "Для Chrome используется загрузка распакованного расширения."
+                                },
+                                {
+                                        "text": "Обязательно опубликовать его в магазине",
+                                        "correct": false,
+                                        "explain": "Для личной проверки публикация не нужна."
+                                }
+                        ]
+                },
+                {
+                        "question": "Какая типичная ошибка с VS Code всплыла на уроке?",
+                        "options": [
+                                {
+                                        "text": "Можно случайно писать в обычный чат VS Code, а не в Codex",
+                                        "correct": true,
+                                        "explain": "Да. Тогда агент проекта не получает задачу как надо."
+                                },
+                                {
+                                        "text": "Нельзя открывать папки в VS Code",
+                                        "correct": false,
+                                        "explain": "Наоборот, папка проекта - основа работы."
+                                },
+                                {
+                                        "text": "Chrome не поддерживает расширения",
+                                        "correct": false,
+                                        "explain": "Chrome поддерживает расширения, если включить нужный режим."
+                                },
+                                {
+                                        "text": "README ломает проект",
+                                        "correct": false,
+                                        "explain": "README помогает хранить инструкции и контекст."
+                                }
+                        ]
+                },
+                {
+                        "question": "Зачем просить агента сделать коммит?",
+                        "options": [
+                                {
+                                        "text": "Чтобы сохранить рабочую версию и иметь точку возврата",
+                                        "correct": true,
+                                        "explain": "Да. Коммит - слепок проекта."
+                                },
+                                {
+                                        "text": "Чтобы автоматически опубликовать расширение",
+                                        "correct": false,
+                                        "explain": "Коммит сам по себе ничего не публикует."
+                                },
+                                {
+                                        "text": "Чтобы удалить старые файлы",
+                                        "correct": false,
+                                        "explain": "Коммит фиксирует состояние, а не удаляет проект."
+                                },
+                                {
+                                        "text": "Чтобы заменить документацию",
+                                        "correct": false,
+                                        "explain": "Коммит хранит файлы, но не всегда хранит смысл договоренностей."
+                                }
+                        ]
+                },
+                {
+                        "question": "Что сохраняет документация проекта?",
+                        "options": [
+                                {
+                                        "text": "Контекст, решения, инструкции и договоренности для новой сессии",
+                                        "correct": true,
+                                        "explain": "Да. Docs помогают продолжить работу после закрытия чата."
+                                },
+                                {
+                                        "text": "Только процент оставшегося лимита",
+                                        "correct": false,
+                                        "explain": "Лимиты смотрятся в настройках сервиса, а не в docs проекта."
+                                },
+                                {
+                                        "text": "Секретные ключи прямо в публичном тексте",
+                                        "correct": false,
+                                        "explain": "Секреты нельзя хранить в публичной документации."
+                                },
+                                {
+                                        "text": "Историю браузера пользователя",
+                                        "correct": false,
+                                        "explain": "Речь о проектной памяти, а не об истории браузера."
+                                }
+                        ]
+                },
+                {
+                        "question": "Что делать, если агент завис и старая сессия умерла?",
+                        "options": [
+                                {
+                                        "text": "Открыть новую сессию и передать контекст через docs, голос или скриншоты",
+                                        "correct": true,
+                                        "explain": "Да. Это практичный способ продолжить без паники."
+                                },
+                                {
+                                        "text": "Удалить весь проект и начать с нуля",
+                                        "correct": false,
+                                        "explain": "Сначала стоит использовать коммиты, docs и контекст."
+                                },
+                                {
+                                        "text": "Больше никогда не пользоваться Git",
+                                        "correct": false,
+                                        "explain": "Как раз Git и docs снижают боль от таких сбоев."
+                                },
+                                {
+                                        "text": "Ждать неделю, пока лимит обновится",
+                                        "correct": false,
+                                        "explain": "Иногда проблема не в лимите, а в сессии, VPN или зависшем агенте."
+                                }
+                        ]
+                }
+        ],
+        "parts": [
+                {
+                        "name": "Часть 1 - запас, модели и старт проекта",
+                        "topicIds": [
+                                1,
+                                2,
+                                3,
+                                4
+                        ]
+                },
+                {
+                        "name": "Часть 2 - расширение в браузере",
+                        "topicIds": [
+                                5,
+                                6,
+                                7
+                        ]
+                },
+                {
+                        "name": "Часть 3 - страховка проекта и следующий шаг",
+                        "topicIds": [
+                                8,
+                                9,
+                                10
+                        ]
+                }
+        ],
+        "topics": [
+                {
+                        "id": 1,
+                        "timeStart": "00:00",
+                        "title": "Где мы во втором уроке",
+                        "preview": "После первого сетапа переходим к расширению и анти-тупикам.",
+                        "color": "var(--accent)",
+                        "paragraphs": [
+                                "Урок начинается с проверки: VS Code уже стоит, первая практика пройдена, а значит можно переходить к проекту, который состоит из нескольких файлов и реально меняет поведение сайта.",
+                                "Главная практическая цель - сделать расширение для Chrome, которое скрывает YouTube Shorts. Теоретическая цель - понять, как не застревать, когда модель повторяет ошибку, зависает или сжигает лимиты."
+                        ],
+                        "list": [
+                                "Расширение - следующий уровень после первой игры.",
+                                "Теория нужна как набор лайфхаков против тупиков.",
+                                "В конце у проекта должны быть рабочая версия, коммит и память."
+                        ],
+                        "inlineQuote": "Сегодня делаем расширение для браузера как один из примеров, что можно делать.",
+                        "quotes": [
+                                {
+                                        "time": "00:41",
+                                        "text": "Сейчас хотелось бы сделать с вами расширение для браузера."
+                                },
+                                {
+                                        "time": "01:04",
+                                        "text": "Эта теория будет давать лайфхаки, которые помогут справиться с тупиком."
+                                },
+                                {
+                                        "time": "01:48",
+                                        "text": "Сегодня еще раз коснемся темы лимитов."
+                                }
+                        ],
+                        "theses": [
+                                "Урок 2 уже про маленький настоящий инструмент.",
+                                "Участник учится не только просить результат, но и страховать процесс.",
+                                "Папка проекта остается главным рабочим контекстом."
+                        ]
+                },
+                {
+                        "id": 2,
+                        "timeStart": "01:48",
+                        "title": "Лимиты и тарифы",
+                        "preview": "Где смотреть остаток и почему запас быстро заканчивается.",
+                        "color": "var(--primary)",
+                        "paragraphs": [
+                                "Разбор начинается с реальных лимитов участников: у кого-то почти полный дневной запас, у кого-то уже просел недельный, у кого-то другой тип тарифа. Это важно увидеть руками, а не обсуждать абстрактно.",
+                                "Лимиты расходуются на итерации агента. Чем глубже проект и чем больше агент читает, пишет и проверяет, тем быстрее становится понятно, почему один тариф может оказаться тесным."
+                        ],
+                        "list": [
+                                "Codex и Claude имеют отдельные страницы usage.",
+                                "Запас может быть дневным, недельным или месячным.",
+                                "На старте важнее видеть лимит, чем постоянно экономить каждую итерацию."
+                        ],
+                        "inlineQuote": "Сохраняйте себе вкладки, чтобы видеть лимиты.",
+                        "quotes": [
+                                {
+                                        "time": "03:04",
+                                        "text": "Лимитов бывает два: одни дневные, другие недельные."
+                                },
+                                {
+                                        "time": "03:34",
+                                        "text": "Если ты за пять часов сжег все, он тебе скажет: отдыхай."
+                                },
+                                {
+                                        "time": "09:51",
+                                        "text": "Важно оценивать, сколько тебе осталось."
+                                }
+                        ],
+                        "theses": [
+                                "Лимит - это запас попыток и контекста.",
+                                "Разные тарифы ведут себя по-разному.",
+                                "Рабочая привычка - держать usage-страницу под рукой."
+                        ]
+                },
+                {
+                        "id": 3,
+                        "timeStart": "10:13",
+                        "title": "Модели и режимы рассуждения",
+                        "preview": "Высокий режим качественнее, низкий экономит, скиллы можно отложить.",
+                        "color": "var(--yellow)",
+                        "paragraphs": [
+                                "Внутри Codex можно выбирать уровень рассуждения. Высокий режим дольше думает и тратит больше лимита, зато лучше справляется со сложной задачей. Низкий режим быстрее, но может чаще ошибаться.",
+                                "Обсуждаются два лагеря: одни настраивают скиллы и правила переключения, другие предпочитают не усложнять. Для текущего интенсива выбран второй подход: не перегружать старт лишней оптимизацией."
+                        ],
+                        "list": [
+                                "Сложная задача - лучше сильная модель или высокий режим.",
+                                "Простая задача - можно экономить, но не в ущерб обучению.",
+                                "Скиллы полезны позже, когда уже понятен свой рабочий стиль."
+                        ],
+                        "inlineQuote": "Это все про вайбкодинг, зачем напрягаться.",
+                        "quotes": [
+                                {
+                                        "time": "10:24",
+                                        "text": "Можно выбирать варианты GPT: низкий, средний, высокий, очень высокий."
+                                },
+                                {
+                                        "time": "10:39",
+                                        "text": "На очень высоком рассуждении агент будет долго думать и жрать токены."
+                                },
+                                {
+                                        "time": "12:14",
+                                        "text": "Проще всего использовать дефолтный режим."
+                                }
+                        ],
+                        "theses": [
+                                "Мощность модели влияет на качество и расход.",
+                                "Учебный старт лучше держать простым.",
+                                "Экономия токенов не должна съесть внимание участника."
+                        ]
+                },
+                {
+                        "id": 4,
+                        "timeStart": "13:00",
+                        "title": "Промпт и папка проекта",
+                        "preview": "Сначала папка, потом честный длинный запрос агенту.",
+                        "color": "var(--secondary)",
+                        "paragraphs": [
+                                "Практика начинается с формулировки задачи обычным языком: сделать расширение для YouTube, убрать Shorts, не грузить деталями, самостоятельно принять решения и объяснить установку в Chrome.",
+                                "Когда отправить запрос не получается, причина оказывается простой: нет открытого проекта. Агенту нужна конкретная папка, куда он будет складывать файлы расширения."
+                        ],
+                        "list": [
+                                "Один проект - одна папка.",
+                                "Промпт может быть живым и длинным.",
+                                "Агенту можно прямо сказать: я новичок, не задавай десять уточнений."
+                        ],
+                        "inlineQuote": "Просто создай мне расширение и объясни, как поставить его в Google Chrome.",
+                        "quotes": [
+                                {
+                                        "time": "14:31",
+                                        "text": "Можно уточнить, что я новичок и не надо грузить меня деталями."
+                                },
+                                {
+                                        "time": "15:16",
+                                        "text": "Невозможно отправить сообщение - логично, у меня нет проекта."
+                                },
+                                {
+                                        "time": "16:45",
+                                        "text": "Он же не может работать без папки."
+                                }
+                        ],
+                        "theses": [
+                                "Без папки агенту некуда создавать результат.",
+                                "Хороший учебный промпт снимает лишние вопросы.",
+                                "VS Code связывает папку на компьютере и агента."
+                        ]
+                },
+                {
+                        "id": 5,
+                        "timeStart": "18:11",
+                        "title": "Установка расширения в Chrome",
+                        "preview": "Manifest, content.js, README и загрузка распакованной папки.",
+                        "color": "var(--primary)",
+                        "paragraphs": [
+                                "Агент создает базовые файлы расширения: manifest, content script и README. Дальше начинается проверка не в теории, а в Chrome: открыть страницу расширений, включить режим разработчика, загрузить распакованную папку.",
+                                "Отдельный лайфхак: если агент вывалил слишком много инструкции, попросить вести пошагово и спрашивать готовность после каждого шага. Так установка становится не стеной текста, а навигацией."
+                        ],
+                        "list": [
+                                "Открыть страницу расширений Chrome.",
+                                "Включить режим разработчика.",
+                                "Нажать “Загрузить распакованное расширение”.",
+                                "Выбрать папку проекта и проверить YouTube."
+                        ],
+                        "inlineQuote": "Не вываливай на меня все сразу, давай пошагово.",
+                        "quotes": [
+                                {
+                                        "time": "18:18",
+                                        "text": "Он создал manifest.json, content.js и README."
+                                },
+                                {
+                                        "time": "19:09",
+                                        "text": "Давай мне пошагово: что мне сначала надо сделать."
+                                },
+                                {
+                                        "time": "22:57",
+                                        "text": "Заходим на YouTube, рефрешим страницу, смотрим, работает или нет."
+                                }
+                        ],
+                        "theses": [
+                                "Проверка результата происходит в браузере.",
+                                "Пошаговый режим снижает тревогу новичка.",
+                                "Расширение можно поставить локально без публикации в магазине."
+                        ]
+                },
+                {
+                        "id": 6,
+                        "timeStart": "20:39",
+                        "title": "Типичная ошибка: не тот чат",
+                        "preview": "В VS Code можно писать не агенту проекта, а обычному чату.",
+                        "color": "var(--yellow)",
+                        "paragraphs": [
+                                "На уроке всплывает частая ловушка: участник пишет в обычный чат VS Code, а не в окно Codex. Внешне это похоже на работу с помощником, но проектный агент не получает задачу так, как нужно.",
+                                "Решение простое: открывать именно Codex-агента через нужную панель или команду, следить, что открыт правильный проект, и не смешивать старую папку с новой."
+                        ],
+                        "list": [
+                                "Проверьте, что открыт именно Codex / Claude Code.",
+                                "Проверьте, что открыта папка текущего расширения.",
+                                "Если файлы создаются “не там”, сначала проверьте рабочую папку."
+                        ],
+                        "inlineQuote": "В VS Code есть свой чатик, и легко ошибочно говорить с ним.",
+                        "quotes": [
+                                {
+                                        "time": "20:39",
+                                        "text": "У меня открыто окно кодекса, но в окне кодекса пусто."
+                                },
+                                {
+                                        "time": "21:11",
+                                        "text": "Это типичная штука, на которую легко пойматься."
+                                },
+                                {
+                                        "time": "21:36",
+                                        "text": "Открыть Codex можно разными способами."
+                                }
+                        ],
+                        "theses": [
+                                "Интерфейс VS Code может путать новичка.",
+                                "Нужно явно понимать, с каким агентом идет разговор.",
+                                "Правильная папка важнее красивого промпта."
+                        ]
+                },
+                {
+                        "id": 7,
+                        "timeStart": "25:11",
+                        "title": "Где еще полезны расширения",
+                        "preview": "Bitrix, автозапись встреч, комментарии Ozon и свои фильтры.",
+                        "color": "var(--secondary)",
+                        "paragraphs": [
+                                "YouTube Shorts - учебный пример, но смысл шире: расширение удобно, когда нужно чуть изменить сайт под себя. Можно добавлять кнопки, скрывать отвлекающие блоки, собирать данные со страницы или запускать повторяющееся действие.",
+                                "Обсуждаются примеры из рабочих процессов: Bitrix, автозапись встреч, парсинг отзывов, анализ комментариев и публикация в магазине расширений, если инструмент нужен другим людям."
+                        ],
+                        "list": [
+                                "Докрутить интерфейс рабочего сервиса.",
+                                "Автоматизировать повторяющийся клик.",
+                                "Собрать отзывы или комментарии со страницы.",
+                                "Опубликовать расширение, если оно нужно шире личного использования."
+                        ],
+                        "inlineQuote": "Когда у вас что-то связано с сайтом, этим можно пользоваться.",
+                        "quotes": [
+                                {
+                                        "time": "25:11",
+                                        "text": "Главное, чтобы в голове было много разных примеров."
+                                },
+                                {
+                                        "time": "25:35",
+                                        "text": "Можно добавлять недостающие фичи к Битриксу."
+                                },
+                                {
+                                        "time": "25:48",
+                                        "text": "Можно сделать кнопку записи без лишних кликов."
+                                }
+                        ],
+                        "theses": [
+                                "Расширение - способ адаптировать чужой сайт под свою задачу.",
+                                "Учебный пример должен открыть класс применений.",
+                                "Публикация в магазине нужна только если инструмент выходит за личный контур."
+                        ]
+                },
+                {
+                        "id": 8,
+                        "timeStart": "29:09",
+                        "title": "Git: коммит как слепок",
+                        "preview": "Ctrl+Z на весь проект не существует, поэтому нужен коммит.",
+                        "color": "var(--accent)",
+                        "paragraphs": [
+                                "После рабочей версии расширения появляется Git. Объяснение максимально прикладное: это не GitHub и не сложная разработка, а локальный способ сохранить состояние проекта.",
+                                "Коммит нужен, чтобы завтра можно было попросить агента вернуться к прошлой версии. Для вайбкодинга это кнопка спокойствия: сделал, проверил, сохранил слепок."
+                        ],
+                        "list": [
+                                "Git - программа на компьютере.",
+                                "GitHub - сайт для хранения и совместной работы.",
+                                "Коммит - точка возврата внутри конкретного проекта."
+                        ],
+                        "inlineQuote": "Git - это единственная возможность положить слепок проекта в заначку.",
+                        "quotes": [
+                                {
+                                        "time": "29:42",
+                                        "text": "Нельзя просто нажать Ctrl+Z и откатить весь путь."
+                                },
+                                {
+                                        "time": "30:31",
+                                        "text": "Git - единственная возможность слепок проекта положить в заначку."
+                                },
+                                {
+                                        "time": "33:57",
+                                        "text": "Можно сказать: верни ту версию, которая была 9 июня в 18:39."
+                                }
+                        ],
+                        "theses": [
+                                "Коммит делается после проверенного результата.",
+                                "Откат работает внутри конкретной папки проекта.",
+                                "Историю можно смотреть в панели системы управления версиями."
+                        ]
+                },
+                {
+                        "id": 9,
+                        "timeStart": "37:52",
+                        "title": "Docs: память проекта",
+                        "preview": "Коммит хранит код, документация хранит договоренности.",
+                        "color": "var(--primary)",
+                        "paragraphs": [
+                                "Следующий слой страховки - документация. Если коммит сохраняет файлы, то docs сохраняют исходный запрос, принятые решения, инструкции по установке, полезные замечания и контекст дня.",
+                                "Агенту можно прямо сказать: я уйду гулять, закрою сессию, хочу потом продолжить; создай папку docs и сохрани ключевое. Формат может быть README или отдельные markdown-файлы по сессиям."
+                        ],
+                        "list": [
+                                "Сохранить исходный запрос и цель.",
+                                "Записать, что уже сделано и как проверить.",
+                                "Описать важные решения и ограничения.",
+                                "Дать новой сессии быстрый вход в проект."
+                        ],
+                        "inlineQuote": "Коммит - способ хранить файлы, а документация - то, что ты просил.",
+                        "quotes": [
+                                {
+                                        "time": "37:52",
+                                        "text": "Важно документацию хранить."
+                                },
+                                {
+                                        "time": "39:34",
+                                        "text": "Мне важно, чтобы ты помнил документацию об этом проекте."
+                                },
+                                {
+                                        "time": "40:54",
+                                        "text": "Создал документацию и туда все сложил."
+                                }
+                        ],
+                        "theses": [
+                                "Docs компенсируют короткую память чата.",
+                                "Markdown удобен для проектной документации.",
+                                "Большой проект лучше дробить на несколько файлов."
+                        ]
+                },
+                {
+                        "id": 10,
+                        "timeStart": "42:18",
+                        "title": "Если агент завис",
+                        "preview": "Пробуем реанимировать, потом переносим контекст в новую сессию.",
+                        "color": "var(--yellow)",
+                        "paragraphs": [
+                                "Вопрос участника: что делать, если агент ушел в ступор и новый разговор уже не знает старый контекст. Ответ практичный: сначала попробовать реанимировать, проверить VPN, перебить вопросом “ты тут?”, а если не помогло - открыть новую сессию.",
+                                "Новому окну можно дать контекст голосом, скриншотами, документацией и ссылкой на рабочие файлы. Именно поэтому коммит и docs делаются заранее, пока старая сессия еще жива."
+                        ],
+                        "list": [
+                                "Проверить сеть и VPN.",
+                                "Спросить агента, жив ли он, и перебить зависание.",
+                                "Если умер - открыть новую сессию.",
+                                "Передать контекст через docs, скрины и голос."
+                        ],
+                        "inlineQuote": "Если сессия умерла, новому окну можно отдать контекст скринами или документацией.",
+                        "quotes": [
+                                {
+                                        "time": "43:36",
+                                        "text": "Перед тем как он полностью сдох, я предпочитаю попробовать реанимировать."
+                                },
+                                {
+                                        "time": "44:33",
+                                        "text": "Можно его атаковать скрином."
+                                },
+                                {
+                                        "time": "45:11",
+                                        "text": "Закрывай окно, не парься, работай в новом окне."
+                                }
+                        ],
+                        "theses": [
+                                "Зависание агента - нормальная рабочая ситуация.",
+                                "Стабильный VPN снижает вероятность проблемы.",
+                                "Новая сессия не страшна, если у проекта есть память."
+                        ]
+                },
+                {
+                        "id": 11,
+                        "timeStart": "47:50",
+                        "title": "Домашка и следующий урок",
+                        "preview": "Доделать расширение, загрузить в Chrome, сделать коммит и docs.",
+                        "color": "var(--secondary)",
+                        "paragraphs": [
+                                "Домашнее задание сформулировано как минимальный рабочий контур: если не успели, доделать расширение, загрузить его в Chrome, проверить на YouTube, сделать коммит и сохранить ключевую документацию.",
+                                "Следующий урок переносит тот же подход в сайт: будет немного теории, практика сборки страницы и деплой результата на сервер."
+                        ],
+                        "list": [
+                                "Доделать YouTube Shorts blocker.",
+                                "Загрузить расширение в Chrome.",
+                                "Сделать коммит рабочей версии.",
+                                "Сохранить docs или README.",
+                                "Подготовиться к сайту и деплою на сервер."
+                        ],
+                        "inlineQuote": "Завтра будем делать сайт и деплоить его на сервер.",
+                        "quotes": [
+                                {
+                                        "time": "47:50",
+                                        "text": "Если кто-то сегодня не успел сделать Shorts-расширение, сделайте."
+                                },
+                                {
+                                        "time": "48:04",
+                                        "text": "Важно попросить агента сделать коммит рабочей версии."
+                                },
+                                {
+                                        "time": "48:51",
+                                        "text": "Завтра будем делать сайт."
+                                }
+                        ],
+                        "theses": [
+                                "Минимум урока - работающий локальный инструмент.",
+                                "Коммит и docs обязательны для продолжения.",
+                                "Урок 3 добавит сайт и деплой."
+                        ]
+                }
+        ]
+};
+
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[char]);
+      }
+
+      function renderLinks() {
+        const grid = document.querySelector("#linksGrid");
+        grid.innerHTML = DATA.links.map((link) => {
+          let host = link.href;
+          try {
+            host = new URL(link.href).host.replace(/^www\./, "");
+          } catch (error) {}
+
+          return `
+            <a class="link-card" href="${escapeHtml(link.href)}" target="_blank" rel="noreferrer">
+              <div class="link-head">
+                <span class="icon-tile">${escapeHtml(link.icon)}</span>
+                <span class="link-title">${escapeHtml(link.title)}</span>
+              </div>
+              <p>${escapeHtml(link.desc)}</p>
+              <span class="link-host">${escapeHtml(host)}</span>
+            </a>
+          `;
+        }).join("");
+      }
+
+      function renderOverview() {
+        const grid = document.querySelector("#overviewGrid");
+        const panels = document.querySelector("#overviewPanels");
+
+        DATA.overview.forEach((item, index) => {
+          const button = document.createElement("button");
+          button.className = `overview-card${index === 0 ? " active" : ""}`;
+          button.type = "button";
+          button.innerHTML = `
+            <strong>${escapeHtml(item.icon)} ${escapeHtml(item.title)}</strong>
+            <span>${escapeHtml(item.preview)}</span>
+          `;
+          button.addEventListener("click", () => switchOverview(index));
+          grid.appendChild(button);
+
+          const panel = document.createElement("article");
+          panel.className = `overview-panel${index === 0 ? " active" : ""}`;
+          panel.innerHTML = `
+            <h3>${escapeHtml(item.subtitle)}</h3>
+            ${item.content.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+            <ul>${item.list.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>
+            <div class="overview-quote">${escapeHtml(item.quote)}</div>
+          `;
+          panels.appendChild(panel);
+        });
+      }
+
+      function switchOverview(activeIndex) {
+        document.querySelectorAll(".overview-card").forEach((card, index) => {
+          card.classList.toggle("active", index === activeIndex);
+        });
+        document.querySelectorAll(".overview-panel").forEach((panel, index) => {
+          panel.classList.toggle("active", index === activeIndex);
+        });
+      }
+
+      const quizState = {
+        index: 0,
+        answers: [],
+        completed: false,
+      };
+
+      function renderQuiz() {
+        const host = document.querySelector("#quizShell");
+        if (!host || !DATA.quiz?.length) return;
+
+        const current = DATA.quiz[quizState.index];
+        const answered = quizState.answers[quizState.index];
+        const score = quizState.answers.filter((answer) => answer?.correct).length;
+        const progress = ((quizState.index + 1) / DATA.quiz.length) * 100;
+
+        if (quizState.completed) {
+          host.innerHTML = `
+            <div class="quiz-card quiz-result">
+              <h3>Квиз завершён</h3>
+              <p>Твой результат: ${score} из ${DATA.quiz.length}. Можно пройти ещё раз или вернуться к материалам урока.</p>
+              <div class="quiz-nav">
+                <button type="button" data-quiz-reset>Пройти ещё раз</button>
+                <a class="resource-link" href="#homework">К домашке <span>→</span></a>
+              </div>
+            </div>
+          `;
+          host.querySelector("[data-quiz-reset]")?.addEventListener("click", () => {
+            quizState.index = 0;
+            quizState.answers = [];
+            quizState.completed = false;
+            renderQuiz();
+            scrollQuizIntoView();
+          });
+          return;
+        }
+
+        host.innerHTML = `
+          <div class="quiz-top">
+            <div>
+              <span class="quiz-kicker">Закрепление</span>
+              <p>Проверь, как усвоились главные идеи второго урока.</p>
+            </div>
+            <div class="quiz-score">${score}/${DATA.quiz.length}</div>
+          </div>
+          <div class="quiz-progress" aria-hidden="true"><span style="width:${progress}%"></span></div>
+          <article class="quiz-card">
+            <span class="quiz-question-count">Вопрос ${quizState.index + 1} из ${DATA.quiz.length}</span>
+            <h3 class="quiz-question">${escapeHtml(current.question)}</h3>
+            <div class="quiz-options">
+              ${current.options.map((option, optionIndex) => {
+                const isSelected = answered?.optionIndex === optionIndex;
+                const showCorrect = answered && option.correct;
+                const showWrong = isSelected && !option.correct;
+                const className = ["quiz-option", showCorrect ? "is-correct" : "", showWrong ? "is-wrong" : ""].filter(Boolean).join(" ");
+                return `
+                  <button class="${className}" type="button" data-quiz-option="${optionIndex}">
+                    ${escapeHtml(option.text)}
+                    ${answered ? `<span class="quiz-explain">${escapeHtml(option.explain)}</span>` : ""}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+            <div class="quiz-nav">
+              <button type="button" data-quiz-prev ${quizState.index === 0 ? "disabled" : ""}>Назад</button>
+              <button type="button" data-quiz-next ${!answered ? "disabled" : ""}>${quizState.index === DATA.quiz.length - 1 ? "Завершить" : "Дальше"}</button>
+            </div>
+          </article>
+        `;
+
+        host.querySelectorAll("[data-quiz-option]").forEach((button) => {
+          button.addEventListener("click", () => {
+            if (!quizState.answers[quizState.index]) {
+              const optionIndex = Number(button.dataset.quizOption);
+              quizState.answers[quizState.index] = {
+                optionIndex,
+                correct: current.options[optionIndex].correct,
+              };
+            }
+            renderQuiz();
+          });
+        });
+
+        host.querySelector("[data-quiz-prev]")?.addEventListener("click", () => {
+          quizState.index = Math.max(0, quizState.index - 1);
+          renderQuiz();
+          scrollQuizIntoView();
+        });
+
+        host.querySelector("[data-quiz-next]")?.addEventListener("click", () => {
+          if (quizState.index < DATA.quiz.length - 1) {
+            quizState.index += 1;
+            renderQuiz();
+            scrollQuizIntoView();
+          } else {
+            quizState.completed = true;
+            renderQuiz();
+            scrollQuizIntoView();
+          }
+        });
+      }
+
+      function scrollQuizIntoView() {
+        document.querySelector("#quiz")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function renderTimeline() {
+        const host = document.querySelector("#timelineHost");
+        const topicMap = new Map(DATA.topics.map((topic) => [topic.id, topic]));
+        host.innerHTML = DATA.parts.map((part) => `
+          <div class="part-divider"><span>${escapeHtml(part.name)}</span></div>
+          <div class="timeline">
+            ${part.topicIds.map((id) => renderTopic(topicMap.get(id))).join("")}
+          </div>
+        `).join("");
+      }
+
+      function renderTopic(topic) {
+        if (!topic) return "";
+        return `
+          <article class="topic" id="topic-${topic.id}">
+            <button class="topic-header" type="button" aria-expanded="false">
+              <span class="topic-time">${escapeHtml(topic.timeStart)}</span>
+              <span>
+                <span class="topic-title">${escapeHtml(topic.title)}</span>
+                <span class="topic-preview">${escapeHtml(topic.preview)}</span>
+              </span>
+              <span class="topic-dot" style="background:${topic.color}"></span>
+              <span class="topic-toggle">▼</span>
+            </button>
+            <div class="topic-body">
+              <div class="topic-content">
+                ${topic.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+                <ul>${topic.list.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>
+                <div class="topic-quote">${escapeHtml(topic.inlineQuote)}</div>
+                <button class="quotes-button" type="button" data-modal="${topic.id}">Цитаты и тезисы</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      function bindTimeline() {
+        document.querySelectorAll(".topic-header").forEach((button) => {
+          button.addEventListener("click", () => {
+            const topic = button.closest(".topic");
+            const isOpen = topic.classList.toggle("open");
+            button.setAttribute("aria-expanded", String(isOpen));
+          });
+        });
+
+        document.querySelectorAll("[data-modal]").forEach((button) => {
+          button.addEventListener("click", () => openModal(Number(button.dataset.modal)));
+        });
+      }
+
+      function renderModals() {
+        const host = document.querySelector("#modalHost");
+        host.innerHTML = DATA.topics.map((topic) => `
+          <div class="modal-layer" id="modal-${topic.id}">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-${topic.id}">
+              <div class="modal-head">
+                <h3 id="modal-title-${topic.id}">${escapeHtml(topic.title)}</h3>
+                <button class="modal-close" type="button" aria-label="Закрыть">×</button>
+              </div>
+              <div class="modal-body">
+                ${topic.quotes.map((quote) => `
+                  <div class="quote-item">
+                    <time>${escapeHtml(quote.time)}</time>
+                    <span>${escapeHtml(quote.text)}</span>
+                  </div>
+                `).join("")}
+                ${topic.theses.map((thesis, index) => `
+                  <div class="thesis-item">
+                    <span>${index + 1}</span>
+                    <span>${escapeHtml(thesis)}</span>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+        `).join("");
+
+        document.querySelectorAll(".modal-layer").forEach((layer) => {
+          layer.addEventListener("click", (event) => {
+            if (event.target === layer) closeModals();
+          });
+        });
+        document.querySelectorAll(".modal-close").forEach((button) => {
+          button.addEventListener("click", closeModals);
+        });
+      }
+
+      function openModal(id) {
+        document.querySelector(`#modal-${id}`).classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModals() {
+        document.querySelectorAll(".modal-layer.active").forEach((layer) => layer.classList.remove("active"));
+        document.body.style.overflow = "";
+      }
+
+      function bindProgress() {
+        const fill = document.querySelector("#progressFill");
+        const update = () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          fill.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+        };
+        window.addEventListener("scroll", update, { passive: true });
+        update();
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeModals();
+      });
+
+      renderLinks();
+      renderQuiz();
+      renderOverview();
+      renderTimeline();
+      renderModals();
+      bindTimeline();
+      bindProgress();
+    </script>
+  </body>
+</html>
