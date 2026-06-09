@@ -455,6 +455,20 @@
         margin: 28px 0 0;
         color: var(--text-muted);
         font-size: 1rem;
+        animation: scrollHintFloat 1.8s ease-in-out infinite;
+      }
+
+      @keyframes scrollHintFloat {
+        0%,
+        100% {
+          opacity: 0.58;
+          transform: translateY(0);
+        }
+
+        50% {
+          opacity: 1;
+          transform: translateY(8px);
+        }
       }
 
       .section {
@@ -2177,7 +2191,7 @@
           <div class="quiz-top">
             <div>
               <span class="quiz-kicker">Закрепление</span>
-              <p>Один вопрос на экран. Можно открыть варианты и разобрать объяснения; счёт считает только первый клик по каждому вопросу.</p>
+              <p>Проверь, как усвоились главные идеи первого урока.</p>
             </div>
             <div class="quiz-score">${score}/${DATA.quiz.length}</div>
           </div>
