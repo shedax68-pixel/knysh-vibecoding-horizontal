@@ -1616,7 +1616,7 @@
             <label><input type="checkbox" /> Установить Visual Studio Code.</label>
             <label><input type="checkbox" /> Поставить расширение Codex или Claude Code.</label>
             <label><input type="checkbox" /> Включить стабильный системный VPN.</label>
-            <label><input type="checkbox" /> Создать корневую папку <code>DEV</code> и отдельную папку проекта.</label>
+            <label><input type="checkbox" /> Создать корневую папку DEV и отдельную папку проекта.</label>
             <label><input type="checkbox" /> Попросить агента сделать простую игру в браузере.</label>
             <label><input type="checkbox" /> Поставить Handy или другой голосовой ввод, если хочется ускориться.</label>
             <label><input type="checkbox" /> Сделать скрин проблемы и отправить вопрос, если что-то не получилось.</label>
@@ -2144,6 +2144,40 @@
         completed: false,
       };
 
+      function shuffleItems(items) {
+        const shuffled = [...items];
+        for (let index = shuffled.length - 1; index > 0; index -= 1) {
+          const randomIndex = Math.floor(Math.random() * (index + 1));
+          [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+        }
+        return shuffled;
+      }
+
+      function correctOptionPositions() {
+        return DATA.quiz.map((question) => question.options.findIndex((option) => option.correct));
+      }
+
+      function shuffleQuizOptions() {
+        if (!DATA.quiz?.length) return;
+
+        for (let attempt = 0; attempt < 8; attempt += 1) {
+          DATA.quiz.forEach((question) => {
+            question.options = shuffleItems(question.options);
+          });
+
+          const positions = correctOptionPositions();
+          if (new Set(positions).size > 1) return;
+        }
+
+        DATA.quiz.forEach((question, questionIndex) => {
+          const correctIndex = question.options.findIndex((option) => option.correct);
+          if (correctIndex < 0) return;
+          const targetIndex = questionIndex % question.options.length;
+          const [correctOption] = question.options.splice(correctIndex, 1);
+          question.options.splice(targetIndex, 0, correctOption);
+        });
+      }
+
       function renderQuiz() {
         const host = document.querySelector("#quizShell");
         if (!host || !DATA.quiz?.length) return;
@@ -2168,6 +2202,7 @@
             quizState.index = 0;
             quizState.answers = [];
             quizState.completed = false;
+            shuffleQuizOptions();
             renderQuiz();
             scrollQuizIntoView();
           });
@@ -2355,6 +2390,7 @@
       });
 
       renderLinks();
+      shuffleQuizOptions();
       renderQuiz();
       renderOverview();
       renderTimeline();

@@ -1530,15 +1530,15 @@
               <div class="resource-head">
                 <div class="icon-tile">▶</div>
                 <div>
-                  <span class="resource-eyebrow">Разбор записи</span>
-                  <h2 class="resource-title">Summary второго урока</h2>
+                  <span class="resource-eyebrow">Запись встречи</span>
+                  <h2 class="resource-title">Посмотреть запись второго урока</h2>
                 </div>
               </div>
               <p>
-                Тяжелую запись не кладем в GitHub Pages. Здесь собран короткий
-                разбор занятия, а полный текст лежит в материалах ниже.
+                Запись лежит на Яндекс Диске, потому что GitHub Pages не подходит
+                для тяжелых видеофайлов.
               </p>
-              <a class="resource-link" href="#overview">К ключевым темам <span>→</span></a>
+              <a class="resource-link" href="https://disk.yandex.ru/d/a1HJ5Rf1KWuJwA?path=%2F%D0%A3%D1%80%D0%BE%D0%BA_2" target="_blank" rel="noreferrer">Смотреть запись <span>→</span></a>
             </article>
 
             <article class="resource-card">
@@ -1617,7 +1617,7 @@
             <label><input type="checkbox" /> Загрузить его в Chrome через режим разработчика.</label>
             <label><input type="checkbox" /> Проверить результат на YouTube после обновления страницы.</label>
             <label><input type="checkbox" /> Попросить агента сделать коммит рабочей версии.</label>
-            <label><input type="checkbox" /> Попросить сохранить ключевые решения в <code>docs/</code> или <code>README.md</code>.</label>
+            <label><input type="checkbox" /> Попросить сохранить ключевые решения в docs или README.md.</label>
             <label><input type="checkbox" /> Открыть новую сессию и проверить, что агент понимает проект по документации.</label>
           </div>
           <div class="homework-card next">
@@ -1640,12 +1640,6 @@
     <script>
       const DATA = {
         "links": [
-                {
-                        "icon": "🧩",
-                        "title": "Chrome extensions",
-                        "href": "chrome://extensions/",
-                        "desc": "Страница, где включается режим разработчика и загружается распакованное расширение."
-                },
                 {
                         "icon": "🤖",
                         "title": "Лимиты Codex",
@@ -2495,6 +2489,40 @@
         completed: false,
       };
 
+      function shuffleItems(items) {
+        const shuffled = [...items];
+        for (let index = shuffled.length - 1; index > 0; index -= 1) {
+          const randomIndex = Math.floor(Math.random() * (index + 1));
+          [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+        }
+        return shuffled;
+      }
+
+      function correctOptionPositions() {
+        return DATA.quiz.map((question) => question.options.findIndex((option) => option.correct));
+      }
+
+      function shuffleQuizOptions() {
+        if (!DATA.quiz?.length) return;
+
+        for (let attempt = 0; attempt < 8; attempt += 1) {
+          DATA.quiz.forEach((question) => {
+            question.options = shuffleItems(question.options);
+          });
+
+          const positions = correctOptionPositions();
+          if (new Set(positions).size > 1) return;
+        }
+
+        DATA.quiz.forEach((question, questionIndex) => {
+          const correctIndex = question.options.findIndex((option) => option.correct);
+          if (correctIndex < 0) return;
+          const targetIndex = questionIndex % question.options.length;
+          const [correctOption] = question.options.splice(correctIndex, 1);
+          question.options.splice(targetIndex, 0, correctOption);
+        });
+      }
+
       function renderQuiz() {
         const host = document.querySelector("#quizShell");
         if (!host || !DATA.quiz?.length) return;
@@ -2519,6 +2547,7 @@
             quizState.index = 0;
             quizState.answers = [];
             quizState.completed = false;
+            shuffleQuizOptions();
             renderQuiz();
             scrollQuizIntoView();
           });
@@ -2706,6 +2735,7 @@
       });
 
       renderLinks();
+      shuffleQuizOptions();
       renderQuiz();
       renderOverview();
       renderTimeline();
