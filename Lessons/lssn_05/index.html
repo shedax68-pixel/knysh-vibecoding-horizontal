@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
-    <title>Урок 5 - финальный процесс</title>
+    <title>Урок 5 - финальный Q&A и личный процесс</title>
     <meta
       name="description"
-      content="Пятый урок интенсива от 15.06.2026: финальный Q&A, глоссарий, лайфхаки, дизайн-бонус и следующие личные проекты."
+      content="Пятый урок интенсива: финальный Q&A, глоссарий, правила работы с агентами, дизайн-инструменты, кейсы и следующий личный проект."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,16 +17,33 @@
     />
     <style>
       :root {
-        --black: #050505;
-        --white: #ffffff;
-        --paper: #f5f5f0;
-        --blue: #1da1f2;
-        --green: #d6ff55;
+        --primary: #129df3;
+        --primary-hover: #0d8ddd;
+        --primary-soft: rgba(18, 157, 243, 0.11);
+        --secondary: #d6ff6b;
+        --secondary-soft: rgba(214, 255, 107, 0.18);
+        --accent: #050505;
+        --accent-soft: rgba(5, 5, 5, 0.06);
         --yellow: #ffe86b;
-        --muted: #64645f;
-        --line: rgba(5, 5, 5, 0.16);
+        --yellow-soft: rgba(255, 232, 107, 0.18);
+        --dark: #050505;
+        --text: #191919;
+        --text-soft: #5f5f5a;
+        --text-muted: #96968d;
+        --bg: #ffffff;
+        --surface: #fbfbf8;
+        --surface-2: #f5f5f0;
+        --border: rgba(5, 5, 5, 0.12);
+        --border-hard: rgba(5, 5, 5, 0.2);
+        --shadow-10: rgba(5, 5, 5, 0.08);
+        --shadow-20: rgba(5, 5, 5, 0.14);
+        --radius: 24px;
+        --radius-pill: 999px;
+        --content-wide: 1180px;
+        --content: 1040px;
         --font: Helvetica, "Helvetica Neue", Arial, sans-serif;
-        --head: "Montserrat", Helvetica, Arial, sans-serif;
+        --font-head: "Montserrat", Helvetica, Arial, sans-serif;
+        --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
       }
 
       * {
@@ -39,12 +56,14 @@
 
       body {
         margin: 0;
-        border: 1px solid #deded6;
-        border-bottom: 4px solid var(--black);
-        background: var(--paper);
-        color: var(--black);
+        background:
+          radial-gradient(circle at 78% 8%, rgba(214, 255, 107, 0.18), transparent 32rem),
+          radial-gradient(circle at 8% 30%, rgba(18, 157, 243, 0.09), transparent 32rem),
+          var(--bg);
+        color: var(--text);
         font-family: var(--font);
-        line-height: 1.35;
+        line-height: 1.6;
+        overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
       }
 
@@ -52,1150 +71,2493 @@
         color: inherit;
       }
 
+      button {
+        font: inherit;
+      }
+
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 300;
+        width: 100%;
+        height: 4px;
+        background: var(--surface-2);
+      }
+
+      .progress-fill {
+        width: 0;
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+      }
+
+      .lesson-topbar {
+        position: sticky;
+        top: 10px;
+        z-index: 220;
+        padding: 16px clamp(18px, 5vw, 96px) 0;
+      }
+
+      .lesson-nav-shell {
+        width: min(1660px, 100%);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 14px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.34);
+        border-radius: 28px;
+        background: linear-gradient(135deg, var(--primary) 0%, #0871b5 58%, var(--dark) 115%);
+        color: #fff;
+        box-shadow: 0 18px 42px rgba(18, 157, 243, 0.18);
+        backdrop-filter: blur(16px);
+      }
+
+      .lesson-brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        min-width: 0;
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .lesson-brand-mark {
+        width: 58px;
+        height: 58px;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.16);
+        font-family: var(--font-head);
+        font-size: 1rem;
+        font-weight: 900;
+      }
+
+      .lesson-brand-title,
+      .lesson-brand-sub,
+      .lesson-nav-link,
+      .hero-badge,
+      .hero-lead-label,
+      .resource-eyebrow,
+      .resource-title,
+      .section-title,
+      .link-title,
+      .bundle-eyebrow,
+      .bundle-title,
+      .overview-card,
+      .overview-panel h3,
+      .part-divider span,
+      .topic-title,
+      .topic-time,
+      .quotes-button,
+      .homework-card h3,
+      .footer {
+        font-family: var(--font-head);
+      }
+
+      .lesson-brand-title {
+        display: block;
+        font-size: 1.18rem;
+        font-weight: 900;
+        line-height: 1.1;
+      }
+
+      .lesson-brand-sub {
+        display: block;
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 0.92rem;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+
+      .lesson-nav-list {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .lesson-nav-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .lesson-nav-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 112px;
+        min-height: 48px;
+        flex: 0 0 auto;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: var(--radius-pill);
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        padding: 12px 20px;
+        font-size: 0.96rem;
+        font-weight: 800;
+        line-height: 1;
+        text-decoration: none;
+        transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      }
+
+      .lesson-nav-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+      }
+
+      .lesson-nav-link.disabled {
+        opacity: 0.55;
+        pointer-events: none;
+        cursor: default;
+      }
+
+      .lesson-nav-link.active {
+        background: #fff;
+        color: var(--primary);
+        box-shadow: 0 12px 28px rgba(5, 5, 5, 0.16);
+      }
+
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        padding: 26px 24px 0;
+        overflow: hidden;
+        text-align: center;
+        background:
+          radial-gradient(circle at 50% 22%, rgba(214, 255, 107, 0.18), transparent 23rem),
+          linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(18, 157, 243, 0.05) 100%);
+      }
+
+      .hero::before,
+      .hero::after {
+        content: "";
+        position: absolute;
+        width: 560px;
+        height: 560px;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(4px);
+      }
+
+      .hero::before {
+        top: 70px;
+        right: -120px;
+        background: radial-gradient(circle, rgba(214, 255, 107, 0.22), transparent 70%);
+      }
+
+      .hero::after {
+        bottom: -220px;
+        left: -140px;
+        background: radial-gradient(circle, rgba(18, 157, 243, 0.12), transparent 70%);
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        width: min(var(--content-wide), 100%);
+        margin: 0 auto;
+        padding-top: 62px;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        margin-bottom: 22px;
+        border-radius: var(--radius-pill);
+        background: var(--primary-soft);
+        color: var(--primary);
+        padding: 10px 26px;
+        font-size: 0.86rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
       h1,
       h2,
       h3,
-      h4,
-      .lesson-tab,
-      .topbar-links a,
-      .section-kicker,
-      .plan-summary,
-      .case-type,
-      .metric strong,
-      .footer {
-        font-family: var(--head);
-        letter-spacing: 0;
-      }
-
-      .lesson-switcher {
-        min-height: 62px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 10px;
-        padding: 10px clamp(20px, 6vw, 132px);
-        border-bottom: 4px solid var(--black);
-        background: var(--paper);
-      }
-
-      .lesson-tab {
-        display: inline-flex;
-        min-width: 110px;
-        min-height: 38px;
-        align-items: center;
-        justify-content: center;
-        border: 3px solid var(--black);
-        background: var(--white);
-        padding: 8px 16px;
-        box-shadow: 5px 5px 0 var(--black);
-        font-size: 0.9rem;
-        font-weight: 900;
-        line-height: 1;
-        text-decoration: none;
-        text-transform: uppercase;
-      }
-
-      .lesson-tab.active {
-        background: var(--blue);
-        color: var(--white);
-      }
-
-      .lesson-nav-only {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-      }
-
-      .topbar {
-        min-height: 68px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-        padding: 10px clamp(20px, 6vw, 132px);
-        border-bottom: 4px solid var(--black);
-        background: rgba(245, 245, 240, 0.96);
-        backdrop-filter: blur(8px);
-      }
-
-      .lesson-status,
-      .section-kicker {
-        display: inline-flex;
-        width: fit-content;
-        align-items: center;
-        min-height: 38px;
-        border: 3px solid var(--black);
-        background: var(--green);
-        padding: 7px 13px;
-        box-shadow: 5px 5px 0 var(--black);
-        font-family: var(--head);
-        font-size: 0.9rem;
-        font-weight: 900;
-        line-height: 1;
-        text-transform: uppercase;
-      }
-
-      .topbar-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-        gap: 9px;
-      }
-
-      .topbar-links a {
-        min-height: 38px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border: 3px solid var(--black);
-        background: var(--white);
-        padding: 8px 13px;
-        font-size: 0.84rem;
-        font-weight: 900;
-        line-height: 1;
-        text-decoration: none;
-        text-transform: uppercase;
-      }
-
-      .topbar-links a.is-current {
-        background: var(--blue);
-        color: var(--white);
-        box-shadow: 5px 5px 0 var(--black);
-      }
-
-      .lesson-section {
-        min-height: 100vh;
-        padding: 64px clamp(20px, 6vw, 132px) 70px;
-      }
-
-      .section-head {
-        display: grid;
-        grid-template-columns: minmax(0, 0.74fr) minmax(280px, 0.36fr);
-        gap: 32px;
-        align-items: end;
-        margin-bottom: 30px;
-      }
-
-      h1,
-      h2 {
-        margin: 24px 0 0;
-        font-size: clamp(3.4rem, 6vw, 5.8rem);
-        font-weight: 900;
-        line-height: 0.95;
-        text-transform: uppercase;
-      }
-
-      .section-head p,
-      .lead {
-        max-width: 760px;
-        margin: 0;
-        font-size: clamp(1.08rem, 1.5vw, 1.4rem);
-        line-height: 1.32;
-      }
-
-      .lead {
-        margin-top: 18px;
-      }
-
-      .plan-track {
-        display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: clamp(14px, 1.5vw, 22px);
-        margin-top: 28px;
-      }
-
-      .plan-track article {
-        min-height: 270px;
-        display: flex;
-        flex-direction: column;
-        border: 4px solid var(--black);
-        background: var(--white);
-        padding: 24px;
-        box-shadow: 9px 9px 0 var(--black);
-      }
-
-      .plan-track article.current {
-        background: var(--blue);
-        color: var(--white);
-        box-shadow: 9px 9px 0 var(--green);
-      }
-
-      .lesson-chip {
-        width: fit-content;
-        border: 3px solid var(--black);
-        background: var(--yellow);
-        color: var(--black);
-        padding: 7px 11px;
-        font-family: var(--head);
-        font-size: 0.9rem;
-        font-weight: 900;
-        line-height: 1;
-        text-transform: uppercase;
-      }
-
-      .plan-track time {
-        display: block;
-        margin: 24px 0 10px;
-        color: #66665f;
-        font-family: var(--head);
-        font-size: 0.92rem;
-        font-weight: 900;
-      }
-
-      .plan-track .current time {
-        color: var(--white);
-      }
-
-      .plan-track h3 {
-        margin: 0 0 12px;
-        font-size: clamp(1.16rem, 1.6vw, 1.65rem);
-        font-weight: 900;
-        line-height: 1.05;
-        text-transform: uppercase;
-      }
-
-      .plan-track p {
-        margin: 0;
-        font-size: clamp(0.96rem, 1.15vw, 1.1rem);
-      }
-
-      .plan-summary {
-        margin-top: 44px;
-        border: 4px solid var(--black);
-        background: var(--green);
-        padding: 24px;
-        box-shadow: 9px 9px 0 var(--black);
-        font-size: clamp(1.4rem, 2.2vw, 2rem);
-        font-weight: 900;
-        line-height: 1.08;
-        text-align: center;
-        text-transform: uppercase;
-      }
-
-      .finish-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 0.96fr) minmax(360px, 0.54fr);
-        gap: 28px;
-        align-items: stretch;
-      }
-
-      .finish-note {
-        display: flex;
-        min-height: 360px;
-        flex-direction: column;
-        justify-content: space-between;
-        border: 4px solid var(--black);
-        background: var(--white);
-        padding: 34px;
-        box-shadow: 9px 9px 0 var(--green);
-      }
-
-      .finish-note h2 {
-        max-width: 880px;
+      p {
         margin-top: 0;
       }
 
-      .finish-note h2 span {
-        color: var(--blue);
-      }
-
-      .finish-note p {
-        max-width: 880px;
-        margin: 18px 0 0;
-        font-size: clamp(1.2rem, 1.7vw, 1.7rem);
-      }
-
-      .finish-points {
-        display: grid;
-        gap: 14px;
-      }
-
-      .finish-points article,
-      .term-card,
-      .hack-card,
-      .api-card,
-      .tool-card {
-        border: 3px solid var(--black);
-        background: var(--white);
-        padding: 18px;
-      }
-
-      .finish-points strong,
-      .term-card strong,
-      .hack-card strong,
-      .api-card strong,
-      .tool-card strong {
-        display: block;
-        margin-bottom: 8px;
-        font-family: var(--head);
-        font-size: 1.05rem;
+      .hero h1 {
+        max-width: 1260px;
+        margin: 0 auto 16px;
+        color: var(--text);
+        font-family: var(--font-head);
+        font-size: clamp(2.55rem, 4.05vw, 4.55rem);
         font-weight: 900;
         line-height: 1.1;
-        text-transform: uppercase;
+        letter-spacing: 0;
       }
 
-      .finish-points p,
-      .term-card p,
-      .hack-card p,
-      .api-card p,
-      .tool-card p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 0.98rem;
+      .accent {
+        color: var(--primary);
       }
 
-      .glossary-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 14px;
+      .accent-warm {
+        color: var(--primary);
       }
 
-      .term-card {
-        min-height: 138px;
+      .hero-subtitle {
+        max-width: 680px;
+        margin: 0 auto 22px;
+        color: var(--text-soft);
+        font-size: clamp(1.05rem, 1.35vw, 1.42rem);
+        line-height: 1.45;
       }
 
-      .term-card:nth-child(4n + 1) {
-        background: #e7f6ff;
-      }
-
-      .term-card:nth-child(4n + 2) {
-        background: #f1ffd0;
-      }
-
-      .hack-grid,
-      .api-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 18px;
-      }
-
-      .hack-card {
-        min-height: 260px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        box-shadow: 7px 7px 0 var(--black);
-      }
-
-      .hack-card.bonus {
-        background: var(--green);
-      }
-
-      .hack-num {
-        display: grid;
-        width: 42px;
-        height: 42px;
-        place-items: center;
-        border: 3px solid var(--black);
-        border-radius: 50%;
-        background: var(--yellow);
-        font-family: var(--head);
-        font-weight: 900;
-      }
-
-      .api-card {
-        min-height: 210px;
-      }
-
-      .design-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 0.95fr) minmax(330px, 0.5fr);
+      .hero-lead {
+        width: fit-content;
+        min-width: 260px;
+        min-height: 52px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         gap: 24px;
+        margin: 0 auto 24px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-pill);
+        background: rgba(255, 255, 255, 0.86);
+        padding: 11px 28px;
+        box-shadow: 0 12px 36px var(--shadow-10);
+        text-decoration: none;
       }
 
-      .design-board {
-        display: grid;
-        grid-template-columns: 0.82fr 1.18fr;
-        gap: 18px;
-        border: 4px solid var(--black);
-        background: var(--white);
-        padding: 22px;
-        box-shadow: 9px 9px 0 var(--black);
-      }
-
-      .prompt-mini,
-      .phone-mini {
-        border: 3px solid var(--black);
-        background: var(--paper);
-        padding: 18px;
-      }
-
-      .prompt-bubble {
-        margin-top: 110px;
-        border: 3px solid var(--black);
-        background: var(--green);
-        padding: 14px;
-        font-family: var(--head);
+      .hero-lead-label {
+        color: var(--text-muted);
         font-size: 1rem;
         font-weight: 900;
-        line-height: 1.22;
-      }
-
-      .phone-mini {
-        display: grid;
-        place-items: center;
-      }
-
-      .phone-shell {
-        width: min(220px, 80%);
-        min-height: 420px;
-        border: 4px solid var(--black);
-        border-radius: 34px;
-        background: var(--white);
-        padding: 18px;
-      }
-
-      .phone-hero {
-        height: 122px;
-        border-radius: 20px;
-        background: linear-gradient(135deg, #ff5fb8, #875cff 55%, #ffb84d);
-        color: var(--white);
-        padding: 18px;
-        font-family: var(--head);
-        font-weight: 900;
-      }
-
-      .phone-line,
-      .phone-card {
-        display: block;
-        border-radius: 14px;
-        background: #eeeeea;
-      }
-
-      .phone-line {
-        height: 14px;
-        margin-top: 16px;
-      }
-
-      .phone-card {
-        height: 70px;
-        margin-top: 12px;
-      }
-
-      .tool-stack {
-        display: grid;
-        gap: 12px;
-      }
-
-      .tool-card {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-      }
-
-      .tool-card span {
-        color: var(--blue);
-        font-family: var(--head);
-        font-size: 0.82rem;
-        font-weight: 900;
-      }
-
-      .case-stack {
-        display: grid;
-        gap: 44px;
-      }
-
-      .story-case {
-        min-height: calc(100vh - 96px);
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        gap: 22px;
-        border: 4px solid var(--black);
-        background: var(--white);
-        padding: clamp(22px, 3vw, 42px);
-        box-shadow: 9px 9px 0 var(--black);
-      }
-
-      .case-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-      }
-
-      .case-type {
-        width: fit-content;
-        border: 3px solid var(--black);
-        background: var(--yellow);
-        padding: 7px 11px;
-        font-size: 0.78rem;
-        font-weight: 900;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
       }
 
-      .case-link {
-        color: var(--blue);
-        font-weight: 800;
-      }
-
-      .case-main {
-        display: grid;
-        grid-template-columns: minmax(0, 0.88fr) minmax(420px, 1fr);
-        gap: clamp(24px, 4vw, 54px);
-        align-items: stretch;
-      }
-
-      .case-copy {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .case-copy h3 {
-        margin: 0 0 26px;
-        font-size: clamp(2.1rem, 4.4vw, 5rem);
+      .hero-lead-name {
+        color: var(--primary);
+        font-family: var(--font-head);
+        font-size: 1.08rem;
         font-weight: 900;
-        line-height: 0.96;
-        text-transform: uppercase;
       }
 
-      .case-columns {
+      .hero-actions {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 22px;
+        gap: 18px;
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        text-align: left;
       }
 
-      .case-text-block h4 {
-        margin: 0 0 10px;
-        font-size: clamp(1.2rem, 1.7vw, 1.7rem);
+      .resource-card {
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 26px;
+        box-shadow: 0 18px 48px var(--shadow-10);
+      }
+
+      .resource-head {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .icon-tile {
+        width: 62px;
+        height: 62px;
+        flex: 0 0 auto;
+        display: grid;
+        place-items: center;
+        border-radius: 18px;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 1.7rem;
+      }
+
+      .resource-eyebrow {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--accent);
+        font-size: 0.76rem;
+        font-weight: 900;
+        letter-spacing: 0.16em;
         line-height: 1;
         text-transform: uppercase;
       }
 
-      .case-text-block p {
+      .resource-title {
         margin: 0;
-        color: var(--muted);
-        font-size: clamp(0.96rem, 1.1vw, 1.12rem);
-      }
-
-      .case-visual {
-        display: grid;
-        min-height: 430px;
-        place-items: center;
-        overflow: hidden;
-        border: 4px solid var(--black);
-        background: #f1f1ec;
-      }
-
-      .case-visual img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
-
-      .case-metrics {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px;
-        border-top: 3px solid var(--black);
-        padding-top: 18px;
-      }
-
-      .metric strong {
-        display: block;
-        font-size: clamp(2rem, 3.4vw, 4rem);
+        color: var(--text);
+        font-size: clamp(1.12rem, 1.42vw, 1.42rem);
         font-weight: 900;
-        line-height: 0.94;
+        line-height: 1.18;
       }
 
-      .metric span {
-        color: var(--muted);
+      .resource-card p {
+        margin-bottom: 22px;
+        color: var(--text-soft);
+        font-size: clamp(1rem, 1.16vw, 1.18rem);
+        line-height: 1.5;
       }
 
-      .mock-shot {
-        width: 100%;
-        height: 100%;
-        display: grid;
-        place-items: center;
-        background: linear-gradient(135deg, rgba(29, 161, 242, 0.16), rgba(214, 255, 85, 0.4));
-      }
-
-      .cal-phone,
-      .bot-window {
-        width: min(360px, 78%);
-        border: 4px solid var(--black);
-        background: var(--white);
-        padding: 24px;
-        box-shadow: 9px 9px 0 rgba(5, 5, 5, 0.14);
-      }
-
-      .cal-phone {
-        border-radius: 34px;
-      }
-
-      .food-photo {
-        aspect-ratio: 1;
-        border: 3px solid var(--black);
-        border-radius: 22px;
-        background:
-          radial-gradient(circle at 62% 44%, #ff785a 0 18%, transparent 19%),
-          radial-gradient(circle at 38% 54%, #52c56b 0 14%, transparent 15%),
-          radial-gradient(circle at 48% 45%, #ffe86b 0 27%, transparent 28%),
-          #f2f2ec;
-      }
-
-      .macro-row {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        margin-top: 14px;
-      }
-
-      .macro-row span,
-      .bot-line {
-        border-radius: 999px;
-        background: #ecece4;
-        padding: 8px;
-        font-family: var(--head);
-        font-size: 0.74rem;
+      .resource-link,
+      .bundle-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        min-height: 50px;
+        margin-top: auto;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+        padding: 14px 22px;
+        font-family: var(--font-head);
+        font-size: 0.98rem;
         font-weight: 900;
+        line-height: 1;
+        text-decoration: none;
+        box-shadow: 0 14px 34px rgba(18, 157, 243, 0.2);
+      }
+
+      .scroll-hint {
+        margin: 24px 0 34px;
+        color: var(--text-muted);
+        font-size: 1rem;
+        animation: scrollHintFloat 1.8s ease-in-out infinite;
+      }
+
+      @keyframes scrollHintFloat {
+        0%,
+        100% {
+          opacity: 0.58;
+          transform: translateY(0);
+        }
+
+        50% {
+          opacity: 1;
+          transform: translateY(8px);
+        }
+      }
+
+      .section {
+        padding: clamp(62px, 7vw, 96px) 24px;
+      }
+
+      .section-title {
+        margin: 0 auto clamp(32px, 4vw, 52px);
+        color: var(--text);
+        font-size: clamp(2rem, 3.1vw, 3.25rem);
+        font-weight: 900;
+        line-height: 1.12;
         text-align: center;
       }
 
-      .bot-window {
-        border-radius: 22px;
-        background: #101820;
-        color: #e9eef6;
+      .section-title .accent,
+      .section-title .accent-warm {
+        font-weight: 900;
       }
 
-      .bot-head {
+      .recording-card,
+      .video-stage {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        border-radius: 28px;
+        background: var(--surface-2);
+        padding: 22px;
+        box-shadow: 0 32px 82px var(--shadow-10);
+      }
+
+      .recording-card {
         display: flex;
         align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        background:
+          radial-gradient(circle at 90% 0%, rgba(214, 255, 107, 0.2), transparent 18rem),
+          #fff;
+        padding: clamp(28px, 4vw, 44px);
+      }
+
+      .recording-card p {
+        max-width: 640px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1.18rem;
+        line-height: 1.5;
+      }
+
+      .video-frame {
+        overflow: hidden;
+        border: 4px solid #fff;
+        border-radius: 18px;
+        background: #1c1c2a;
+      }
+
+      .video-frame video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #1c1c2a;
+      }
+
+      .video-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 18px 6px 2px;
+      }
+
+      .video-switcher {
+        display: flex;
+        flex-wrap: wrap;
         gap: 10px;
-        border-bottom: 2px solid #34506a;
-        padding-bottom: 12px;
+      }
+
+      .video-switcher button,
+      .video-tool {
+        min-height: 54px;
+        border: 0;
+        border-radius: 16px;
+        background: #e9ecf6;
+        color: #506090;
+        padding: 12px 18px;
+        font-family: var(--font-head);
         font-weight: 900;
+        cursor: pointer;
       }
 
-      .bot-avatar {
+      .video-switcher button.active {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .links-grid {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
         display: grid;
-        width: 38px;
-        height: 38px;
-        place-items: center;
-        border-radius: 50%;
-        background: var(--blue);
-        color: var(--white);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
       }
 
-      .bot-lines {
-        display: grid;
-        gap: 10px;
-        margin-top: 16px;
+      .link-card {
+        min-height: 200px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: #fff;
+        padding: 26px;
+        box-shadow: 0 12px 34px var(--shadow-10);
+        text-decoration: none;
       }
 
-      .bot-line {
-        background: #1f3346;
-        color: #e9eef6;
+      .link-head {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 22px;
       }
 
-      .final-strip {
-        margin-top: 44px;
-        border: 4px solid var(--black);
-        background: var(--green);
-        padding: 24px;
-        box-shadow: 9px 9px 0 var(--black);
-        font-family: var(--head);
-        font-size: clamp(1.45rem, 2.4vw, 2.4rem);
+      .link-title {
+        color: var(--text);
+        font-size: 1.42rem;
         font-weight: 900;
-        line-height: 1.08;
+        line-height: 1.15;
+      }
+
+      .link-card p {
+        margin-bottom: 22px;
+        color: var(--text-soft);
+        font-size: 1.2rem;
+        line-height: 1.5;
+      }
+
+      .link-host {
+        margin-top: auto;
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        letter-spacing: 0.02em;
+      }
+
+      .bundle-card {
+        width: min(var(--content), 100%);
+        margin: 34px auto 0;
+        border: 1px solid rgba(18, 157, 243, 0.28);
+        border-left: 7px solid var(--primary);
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at 85% 25%, rgba(214, 255, 107, 0.18), transparent 26rem),
+          rgba(18, 157, 243, 0.05);
+        padding: 30px 36px;
+        box-shadow: 0 20px 60px var(--shadow-10);
+      }
+
+      .bundle-top {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        margin-bottom: 20px;
+      }
+
+      .bundle-eyebrow {
+        display: inline-flex;
+        margin-bottom: 8px;
+        border-radius: var(--radius-pill);
+        background: var(--accent-soft);
+        color: var(--primary);
+        padding: 8px 18px;
+        font-size: 0.9rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .bundle-title {
+        margin: 0;
+        color: var(--text);
+        font-size: 1.55rem;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .bundle-card p {
+        color: var(--text-soft);
+        font-size: 1.18rem;
+      }
+
+      .bundle-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 26px;
+      }
+
+      .bundle-action {
+        justify-content: space-between;
+        min-height: 78px;
+        background: #fff;
+        color: var(--text);
+        border: 1px solid rgba(18, 157, 243, 0.24);
+        box-shadow: none;
+      }
+
+      .bundle-action .icon-tile {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        font-size: 1.4rem;
+      }
+
+      .bundle-action small {
+        display: block;
+        margin-top: 5px;
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-weight: 500;
+      }
+
+      .overview-layout {
+        width: min(var(--content-wide), 100%);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+        gap: 22px;
+        align-items: start;
+      }
+
+      .overview-grid {
+        position: sticky;
+        top: 136px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .overview-card {
+        min-height: 78px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: #fff;
+        color: var(--text);
+        padding: 20px 24px;
+        text-align: left;
+        box-shadow: 0 12px 30px var(--shadow-10);
+        cursor: pointer;
+      }
+
+      .overview-card strong {
+        display: block;
+        font-size: 1.25rem;
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .overview-card span {
+        display: none;
+        margin-top: 10px;
+        color: var(--text-muted);
+        font-family: var(--font);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.35;
+      }
+
+      .overview-card.active {
+        min-height: 190px;
+        border-color: var(--primary);
+        box-shadow: 0 18px 48px rgba(18, 157, 243, 0.16);
+      }
+
+      .overview-card.active span {
+        display: block;
+      }
+
+      .overview-panel {
+        display: none;
+        min-height: 430px;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: #fff;
+        padding: clamp(34px, 4vw, 54px);
+        box-shadow: 0 24px 62px var(--shadow-10);
+      }
+
+      .overview-panel.active {
+        display: block;
+      }
+
+      .overview-panel h3 {
+        margin-bottom: 24px;
+        color: var(--primary);
+        font-size: clamp(1.7rem, 2.5vw, 2.55rem);
+        font-weight: 900;
+        line-height: 1.25;
+      }
+
+      .overview-panel p,
+      .overview-panel li {
+        color: var(--text-soft);
+        font-size: 1.22rem;
+      }
+
+      .overview-panel ul {
+        margin: 22px 0;
+        padding-left: 1.2em;
+      }
+
+      .overview-quote {
+        margin-top: 28px;
+        border-left: 5px solid var(--primary);
+        border-radius: 0 20px 20px 0;
+        background: var(--primary-soft);
+        color: var(--text-soft);
+        padding: 24px 28px;
+        font-size: 1.15rem;
+        font-style: italic;
+      }
+
+      .part-divider {
+        width: min(1020px, calc(100% - 48px));
+        margin: 0 auto 86px;
+        display: flex;
+        align-items: center;
+        gap: 0;
+      }
+
+      .part-divider::before,
+      .part-divider::after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: var(--border-hard);
+      }
+
+      .part-divider span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 60px;
+        border: 1px solid var(--border-hard);
+        border-radius: var(--radius-pill);
+        background: #fff;
+        color: var(--accent);
+        padding: 16px 38px;
+        font-size: 1.02rem;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        line-height: 1;
         text-align: center;
         text-transform: uppercase;
       }
 
-      .footer {
-        display: flex;
-        justify-content: center;
-        padding: 42px 24px 70px;
-        color: var(--muted);
-        font-weight: 800;
+      .timeline {
+        width: min(var(--content), 100%);
+        margin: 0 auto clamp(82px, 8vw, 130px);
+        display: grid;
+        gap: 22px;
       }
 
-      @media (max-width: 1180px) {
-        .plan-track {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+      .topic {
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 8px 24px var(--shadow-10);
+        overflow: hidden;
+      }
 
-        .plan-track article.current {
-          grid-column: span 2;
-        }
+      .topic-header {
+        display: grid;
+        grid-template-columns: 110px minmax(0, 1fr) 22px 52px;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        border: 0;
+        background: transparent;
+        padding: 26px 32px;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .topic-time {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border-radius: var(--radius-pill);
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 1rem;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+      }
+
+      .topic-title {
+        display: block;
+        color: var(--text);
+        font-size: 1.35rem;
+        font-weight: 900;
+        line-height: 1.25;
+      }
+
+      .topic-preview {
+        display: block;
+        color: var(--text-muted);
+        font-size: 1.06rem;
+        line-height: 1.35;
+      }
+
+      .topic-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--primary);
+      }
+
+      .topic-toggle {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--surface-2);
+        color: var(--text-muted);
+        font-size: 1rem;
+      }
+
+      .topic-body {
+        display: none;
+        padding: 0 32px 32px 162px;
+      }
+
+      .topic.open .topic-body {
+        display: block;
+      }
+
+      .topic-content {
+        color: var(--text-soft);
+        font-size: 1.12rem;
+      }
+
+      .topic-content ul {
+        padding-left: 1.2em;
+      }
+
+      .topic-quote {
+        margin: 24px 0;
+        border-left: 5px solid var(--primary);
+        border-radius: 0 18px 18px 0;
+        background: var(--primary-soft);
+        padding: 20px 24px;
+        color: var(--text-soft);
+        font-size: 1.08rem;
+        font-style: italic;
+      }
+
+      .quotes-button {
+        min-height: 52px;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+        padding: 14px 22px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .homework-grid {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(0, 0.62fr) minmax(320px, 0.38fr);
+        gap: 18px;
+      }
+
+      .homework-card {
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: #fff;
+        padding: 30px;
+        box-shadow: 0 22px 60px var(--shadow-10);
+      }
+
+      .homework-card h3 {
+        margin-bottom: 22px;
+        color: var(--text);
+        font-size: 1.55rem;
+        font-weight: 900;
+      }
+
+      .homework-card label {
+        display: grid;
+        grid-template-columns: 22px minmax(0, 1fr);
+        gap: 12px;
+        margin-bottom: 14px;
+        color: var(--text-soft);
+        font-size: 1.08rem;
+      }
+
+      .homework-card input {
+        width: 18px;
+        height: 18px;
+        margin-top: 4px;
+        accent-color: var(--primary);
+      }
+
+      .homework-card.next {
+        background:
+          radial-gradient(circle at 80% 0%, rgba(214, 255, 107, 0.24), transparent 18rem),
+          var(--primary-soft);
+      }
+
+      .quiz-section {
+        background:
+          radial-gradient(circle at 12% 12%, rgba(18, 157, 243, 0.08), transparent 26rem),
+          linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(18, 157, 243, 0.04));
+      }
+
+      .quiz-shell {
+        width: min(var(--content), 100%);
+        margin: 0 auto;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.94);
+        padding: clamp(22px, 2.6vw, 30px);
+        box-shadow: 0 18px 52px var(--shadow-10);
+      }
+
+      .quiz-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+
+      .quiz-kicker,
+      .quiz-score,
+      .quiz-question-count,
+      .quiz-nav button {
+        font-family: var(--font-head);
+      }
+
+      .quiz-kicker {
+        display: inline-flex;
+        margin-bottom: 8px;
+        color: var(--primary);
+        font-size: 0.78rem;
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .quiz-top p {
+        max-width: 620px;
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 1.04rem;
+        line-height: 1.45;
+      }
+
+      .quiz-score {
+        flex: 0 0 auto;
+        border-radius: var(--radius-pill);
+        background: var(--primary-soft);
+        color: var(--primary);
+        padding: 10px 16px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .quiz-progress {
+        height: 8px;
+        overflow: hidden;
+        border-radius: var(--radius-pill);
+        background: var(--surface-2);
+        margin-bottom: 28px;
+      }
+
+      .quiz-progress span {
+        display: block;
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--primary), var(--dark));
+        transition: width 0.24s ease;
+      }
+
+      .quiz-card {
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: var(--surface);
+        padding: clamp(20px, 2.6vw, 28px);
+      }
+
+      .quiz-question-count {
+        display: block;
+        margin-bottom: 12px;
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .quiz-question {
+        margin: 0 0 22px;
+        color: var(--text);
+        font-family: var(--font-head);
+        font-size: clamp(1.35rem, 2.1vw, 2rem);
+        font-weight: 900;
+        line-height: 1.18;
+      }
+
+      .quiz-options {
+        display: grid;
+        gap: 10px;
+      }
+
+      .quiz-option {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: #fff;
+        color: var(--text);
+        padding: 16px 18px;
+        text-align: left;
+        cursor: pointer;
+        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+      }
+
+      .quiz-option:hover {
+        border-color: rgba(18, 157, 243, 0.36);
+        transform: translateY(-1px);
+      }
+
+      .quiz-option.is-correct {
+        border-color: rgba(20, 160, 92, 0.48);
+        background: rgba(20, 160, 92, 0.1);
+      }
+
+      .quiz-option.is-wrong {
+        border-color: rgba(220, 50, 50, 0.38);
+        background: rgba(220, 50, 50, 0.08);
+      }
+
+      .quiz-explain {
+        display: block;
+        margin-top: 8px;
+        color: var(--text-soft);
+        font-size: 0.96rem;
+        line-height: 1.4;
+      }
+
+      .quiz-nav {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .quiz-nav button {
+        min-height: 48px;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: var(--accent-soft);
+        color: var(--text);
+        padding: 13px 20px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .quiz-nav button:last-child {
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+      }
+
+      .quiz-nav button:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+      }
+
+      .quiz-result {
+        text-align: center;
+      }
+
+      .quiz-result h3 {
+        margin: 0 0 14px;
+        color: var(--text);
+        font-family: var(--font-head);
+        font-size: clamp(1.8rem, 3vw, 3rem);
+        font-weight: 900;
+        line-height: 1.15;
+      }
+
+      .quiz-result p {
+        max-width: 620px;
+        margin: 0 auto 24px;
+        color: var(--text-soft);
+        font-size: 1.12rem;
+      }
+
+      .modal-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 400;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(5, 5, 5, 0.58);
+        padding: 24px;
+      }
+
+      .modal-layer.active {
+        display: flex;
+      }
+
+      .modal {
+        width: min(780px, 100%);
+        max-height: 86vh;
+        overflow: auto;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow: 0 30px 80px rgba(5, 5, 5, 0.26);
+      }
+
+      .modal-head {
+        position: sticky;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        background: linear-gradient(135deg, var(--primary), var(--dark));
+        color: #fff;
+        padding: 22px 26px;
+      }
+
+      .modal-head h3 {
+        margin: 0;
+        font-family: var(--font-head);
+        font-size: 1.4rem;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+
+      .modal-close {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        cursor: pointer;
+        font-family: var(--font-head);
+        font-weight: 900;
+      }
+
+      .modal-body {
+        padding: 28px;
+      }
+
+      .quote-item,
+      .thesis-item {
+        display: grid;
+        grid-template-columns: 88px minmax(0, 1fr);
+        gap: 14px;
+        margin-bottom: 14px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: var(--surface);
+        padding: 16px;
+      }
+
+      .quote-item time,
+      .thesis-item span:first-child {
+        color: var(--accent);
+        font-family: var(--font-head);
+        font-weight: 900;
+      }
+
+      .thesis-item {
+        grid-template-columns: 34px minmax(0, 1fr);
+        background: var(--primary-soft);
+      }
+
+      .footer {
+        padding: 44px 24px 54px;
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        font-weight: 800;
+        text-align: center;
       }
 
       @media (max-width: 980px) {
-        .topbar {
-          align-items: flex-start;
-          flex-direction: column;
-          padding-inline: 16px;
-        }
-
-        .lesson-switcher {
-          padding-inline: 16px;
-        }
-
-        .topbar-links,
-        .lesson-switcher {
-          flex-wrap: nowrap;
-          justify-content: flex-start;
-          overflow-x: auto;
-          width: 100%;
-        }
-
-        .lesson-section {
-          padding: 48px 16px 58px;
-        }
-
-        .section-head,
-        .finish-grid,
-        .design-grid,
-        .design-board,
-        .case-main,
-        .case-columns {
+        .lesson-nav-shell,
+        .overview-layout,
+        .homework-grid {
           grid-template-columns: 1fr;
         }
 
-        .glossary-grid,
-        .hack-grid,
-        .api-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+        .lesson-nav-shell {
+          flex-direction: column;
+          align-items: flex-start;
+          border-radius: 28px;
+        }
+
+        .lesson-nav-list {
+          width: 100%;
+          justify-content: flex-start;
+        }
+
+        .hero {
+          padding-top: 70px;
+        }
+
+        .hero-actions,
+        .links-grid,
+        .bundle-actions {
+          grid-template-columns: 1fr;
+        }
+
+        .overview-grid {
+          position: static;
+        }
+
+        .topic-header {
+          grid-template-columns: 94px minmax(0, 1fr) 18px 44px;
+          padding: 22px;
+        }
+
+        .topic-body {
+          padding: 0 22px 26px;
         }
       }
 
-      @media (max-width: 640px) {
-        .lesson-tab {
-          min-width: 92px;
-          min-height: 34px;
-          padding: 7px 10px;
+      @media (max-width: 620px) {
+        .lesson-topbar {
+          position: static;
+          top: 8px;
+          padding: 10px 10px 0;
+        }
+
+        .lesson-nav-shell {
+          width: min(100%, calc(100vw - 20px));
+          max-width: calc(100vw - 20px);
+          flex-direction: column;
+          align-items: stretch;
+          gap: 14px;
+          padding: 14px;
+          border-radius: 22px;
+          overflow: hidden;
+        }
+
+        .lesson-brand,
+        .lesson-nav-list {
+          min-width: 0;
+          max-width: 100%;
+        }
+
+        .lesson-brand {
+          width: 100%;
+        }
+
+        .lesson-brand-mark {
+          width: 46px;
+          height: 46px;
+          border-radius: 16px;
+          font-size: 0.86rem;
+        }
+
+        .lesson-brand-title {
+          font-size: 1rem;
+        }
+
+        .lesson-brand-sub {
+          display: none;
+        }
+
+        .lesson-nav-list {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+          overflow: visible;
+        }
+
+        .lesson-nav-link {
+          min-width: 0;
+          width: 100%;
+          min-height: 38px;
+          padding: 10px 12px;
+          font-size: 0.78rem;
+        }
+
+        .hero {
+          min-height: auto;
+          padding: 48px 14px 0;
+          overflow: hidden;
+        }
+
+        .hero-inner {
+          width: 100%;
+          max-width: 100%;
+          padding-top: 28px;
+        }
+
+        .hero-badge {
+          max-width: 100%;
+          min-height: 42px;
+          margin-bottom: 24px;
+          padding: 12px 20px;
+          font-size: 0.72rem;
+          line-height: 1.25;
+          text-align: center;
+        }
+
+        .hero h1 {
+          max-width: 100%;
+          margin-bottom: 18px;
+          font-size: clamp(1.58rem, 7.2vw, 2.18rem);
+          line-height: 1.1;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+
+        .hero h1 .accent {
+          overflow-wrap: anywhere;
+          word-break: break-word;
+        }
+
+        .hero-subtitle {
+          margin-bottom: 26px;
+          font-size: 1.04rem;
+          overflow-wrap: break-word;
+        }
+
+        .hero-lead {
+          min-width: 0;
+          width: 100%;
+          min-height: 58px;
+          gap: 14px;
+          padding: 14px 18px;
+        }
+
+        .hero-actions {
+          gap: 18px;
+        }
+
+        .resource-card {
+          min-height: auto;
+          padding: 24px;
+        }
+
+        .resource-head {
+          align-items: flex-start;
+          gap: 14px;
+        }
+
+        .resource-title {
+          overflow-wrap: anywhere;
+        }
+
+        .resource-card p {
+          font-size: 1.04rem;
+        }
+
+        .section {
+          padding: 58px 14px;
+        }
+
+        .section-title {
+          margin-bottom: 36px;
+          font-size: 2.25rem;
+        }
+
+        .video-stage,
+        .bundle-card,
+        .link-card,
+        .overview-panel,
+        .homework-card {
+          border-radius: 20px;
+        }
+
+        .video-toolbar {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .link-card,
+        .bundle-card,
+        .overview-panel,
+        .homework-card {
+          padding: 24px;
+        }
+
+        .part-divider {
+          width: calc(100% - 28px);
+          margin-bottom: 44px;
+        }
+
+        .part-divider span {
+          min-height: 48px;
+          padding: 12px 18px;
           font-size: 0.76rem;
         }
 
-        .topbar {
-          position: static;
-        }
-
-        .lesson-nav-only {
-          position: static;
-        }
-
-        h1,
-        h2 {
-          font-size: clamp(2.55rem, 13vw, 4.1rem);
-        }
-
-        .plan-track,
-        .glossary-grid,
-        .hack-grid,
-        .api-grid,
-        .case-metrics {
-          grid-template-columns: 1fr;
-        }
-
-        .plan-track article.current {
-          grid-column: auto;
-        }
-
-        .plan-track article,
-        .finish-note,
-        .story-case {
+        .topic-header {
+          grid-template-columns: 82px minmax(0, 1fr) 12px 38px;
+          gap: 12px;
           padding: 18px;
         }
 
-        .case-visual {
-          min-height: 310px;
+        .topic-time {
+          min-height: 36px;
+          font-size: 0.82rem;
+        }
+
+        .topic-title {
+          font-size: 1.04rem;
+        }
+
+        .topic-preview {
+          font-size: 0.9rem;
+        }
+
+        .topic-toggle {
+          width: 36px;
+          height: 36px;
         }
       }
     </style>
   </head>
   <body>
-    <nav class="lesson-switcher" aria-label="Переключение уроков">
-      <a class="lesson-tab" href="../lssn_01/index.html">Урок 1</a>
-      <a class="lesson-tab" href="../lssn_02/index.html">Урок 2</a>
-      <a class="lesson-tab" href="../lssn_03/index.html">Урок 3</a>
-      <a class="lesson-tab" href="../lssn_04/index.html">Урок 4</a>
-      <a class="lesson-tab active" href="#lesson-5-plan">Урок 5</a>
-    </nav>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
-    <header class="lesson-nav-only" id="top">
-      <nav class="topbar" aria-label="Навигация по уроку 5">
-        <span class="lesson-status">Финальный процесс</span>
-        <div class="topbar-links">
-          <a href="#lesson-5-plan" class="is-current">План</a>
-          <a href="#lesson-5-finish">Финал</a>
-          <a href="#lesson-5-glossary">Словарь</a>
-          <a href="#lesson-5-lifehacks">Лайфхаки</a>
-          <a href="#lesson-5-api">MCP/API</a>
-          <a href="#lesson-5-design">Дизайн</a>
-          <a href="#lesson-5-cases">Кейсы</a>
-        </div>
-      </nav>
-    </header>
+    <div class="lesson-topbar">
+      <div class="lesson-nav-shell">
+        <a class="lesson-brand" href="#hero" aria-label="К началу страницы">
+          <span class="lesson-brand-mark">АК</span>
+          <span>
+            <span class="lesson-brand-title">Материалы интенсива</span>
+            <span class="lesson-brand-sub">Навигация по урокам и созвонам</span>
+          </span>
+        </a>
+        <nav class="lesson-nav-list" aria-label="Навигация по материалам">
+          <a class="lesson-nav-link" href="../lssn_01/">Урок 1</a>
+          <a class="lesson-nav-link" href="../lssn_02/">Урок 2</a>
+          <a class="lesson-nav-link" href="../lssn_03/">Урок 3</a>
+          <a class="lesson-nav-link" href="../lssn_04/">Урок 4</a>
+          <a class="lesson-nav-link active" href="#hero">Урок 5</a>
+        </nav>
+      </div>
+    </div>
 
     <main>
-      <section class="lesson-section" id="lesson-5-plan">
-        <div class="section-kicker">План интенсива</div>
-        <div class="section-head">
-          <div>
-            <h1>Где мы сейчас и что дальше</h1>
-            <p class="lead">
-              Финальный урок от 15.06.2026: коротко повторяем базу,
-              разбираем вопросы и выбираем, где применять вайбкодинг дальше.
-            </p>
-          </div>
-        </div>
+      <section class="hero" id="hero">
+        <div class="hero-inner">
+          <div class="hero-badge">Образовательный интенсив • ~57 мин</div>
+          <h1>Финальный Q&A:<br />процесс и <span class="accent">кейсы</span></h1>
+          <p class="hero-subtitle">
+            Закрепляем базу интенсива: Telegram-бот, глоссарий, сессии, коммиты, оркестратор, дизайн-инструменты и следующий личный проект.
+          </p>
+          <a class="hero-lead" href="https://t.me/kknysh" target="_blank" rel="noreferrer">
+            <span class="hero-lead-label">Ведущий</span>
+            <span class="hero-lead-name">Александр</span>
+          </a>
 
-        <div class="plan-track" aria-label="План пяти уроков интенсива">
-          <article>
-            <span class="lesson-chip">Урок 1</span>
-            <time>18:00-19:00</time>
-            <h3>Вводное занятие</h3>
-            <p>Ставим Codex или Claude Code, разбираемся в интерфейсе и делаем первую задачу.</p>
-          </article>
-          <article>
-            <span class="lesson-chip">Урок 2</span>
-            <time>18:00-19:00</time>
-            <h3>Расширение для браузера</h3>
-            <p>Собираем Chrome-расширение и смотрим, как агент работает с файлами, контекстом и git.</p>
-          </article>
-          <article>
-            <span class="lesson-chip">Урок 3</span>
-            <time>18:00-19:00</time>
-            <h3>Сайт</h3>
-            <p>Делаем одностраничный лендинг, правим через агента и публикуем его в интернете.</p>
-          </article>
-          <article>
-            <span class="lesson-chip">Урок 4</span>
-            <time>18:00-19:00</time>
-            <h3>Telegram-бот</h3>
-            <p>Собираем бота-помощника и подключаем внешние сервисы через API.</p>
-          </article>
-          <article class="current">
-            <span class="lesson-chip">Урок 5</span>
-            <time>18:00-19:00</time>
-            <h3>Финальный Q&amp;A</h3>
-            <p>Снимаем барьер окончательно и собираем личный процесс для следующих проектов.</p>
-          </article>
-        </div>
-
-        <div class="plan-summary">
-          Цель урока: закрепить базу и понять, как дальше превращать идеи в свои рабочие инструменты.
-        </div>
-      </section>
-
-      <section class="lesson-section" id="lesson-5-finish">
-        <div class="finish-grid">
-          <article class="finish-note">
-            <div>
-              <span class="section-kicker">Выпускной</span>
-              <h2>Главное уже случилось: <span>барьер снят</span></h2>
+          <div class="hero-actions">
+            <article class="resource-card">
+              <div class="resource-head">
+                <div class="icon-tile">▶</div>
+                <div>
+                  <span class="resource-eyebrow">Запись встречи</span>
+                  <h2 class="resource-title">Посмотреть запись пятого урока</h2>
+                </div>
+              </div>
               <p>
-                Нейронки будут меняться каждый день.
-                Основа остается: проект, контекст, запрос, проверка.
+                Запись лежит в общей папке на Яндекс Диске. GitHub Pages оставляем
+                для легких материалов: summary, квиза и транскрипта.
               </p>
-            </div>
-            <div class="plan-summary">Финиш - это старт своих проектов.</div>
-          </article>
-          <div class="finish-points">
-            <article>
-              <strong>Что есть</strong>
-              <p>Расширение, сайт, Telegram-бот и понимание, как агент работает с файлами.</p>
+              <a class="resource-link" href="https://disk.yandex.ru/d/a1HJ5Rf1KWuJwA?path=%2F%D0%A3%D1%80%D0%BE%D0%BA_5" target="_blank" rel="noreferrer">Смотреть запись <span>→</span></a>
             </article>
-            <article>
-              <strong>Что важно</strong>
-              <p>Не гнаться за всеми моделями, а выбирать инструмент под свою задачу.</p>
+
+            <article class="resource-card">
+              <div class="resource-head">
+                <div class="icon-tile">🎯</div>
+                <div>
+                  <span class="resource-eyebrow">Закрепление</span>
+                  <h2 class="resource-title">Квиз: 10 вопросов по уроку 5</h2>
+                </div>
+              </div>
+              <p>
+                Проверь себя по глоссарию, сессиям, коммитам, оркестратору,
+                дизайн-инструментам и следующему личному проекту.
+              </p>
+              <a class="resource-link" href="#quiz">Пройти квиз <span>→</span></a>
             </article>
-            <article>
-              <strong>Что дальше</strong>
-              <p>Взять один свой кейс и собрать маленький полезный инструмент.</p>
-            </article>
+          </div>
+
+          <div class="scroll-hint">▼ листай вниз</div>
+        </div>
+      </section>
+
+      <section class="section" id="links">
+        <h2 class="section-title">Ключевые <span class="accent">ссылки</span></h2>
+        <div class="links-grid" id="linksGrid"></div>
+        <div class="bundle-card">
+          <div class="bundle-top">
+            <div class="icon-tile">📁</div>
+            <div>
+              <span class="bundle-eyebrow">Материалы</span>
+              <h3 class="bundle-title">Транскрипт пятого урока и короткий источник</h3>
+            </div>
+          </div>
+          <p>
+            Транскрипция сделана короткими срезами по записи Телемоста от 15.06.2026.
+            Этого достаточно для summary и квиза без полного пересчета часовой записи.
+          </p>
+          <div class="bundle-actions">
+            <a class="bundle-action" href="./transcript.md" download>
+              <span class="icon-tile">📝</span>
+              <span>transcript.md<small>Markdown</small></span>
+              <span>→</span>
+            </a>
+            <a class="bundle-action" href="./transcription-clean.txt" download>
+              <span class="icon-tile">📄</span>
+              <span>transcription-clean.txt<small>TXT</small></span>
+              <span>→</span>
+            </a>
           </div>
         </div>
       </section>
 
-      <section class="lesson-section" id="lesson-5-glossary">
-        <div class="section-head">
-          <div>
-            <span class="section-kicker">Глоссарий</span>
-            <h2>Слова, которые теперь свои</h2>
-          </div>
-          <p>Короткий словарь по курсу. Нужен, чтобы не терять базу после выпуска.</p>
-        </div>
-        <div class="glossary-grid">
-          <article class="term-card"><strong>Вайбкодинг</strong><p>Работа с AI-агентом, который меняет файлы проекта.</p></article>
-          <article class="term-card"><strong>Агент</strong><p>Нейронка с доступом к папке, терминалу и проверкам.</p></article>
-          <article class="term-card"><strong>Контекстное окно</strong><p>Память текущей сессии. Чем больше шума, тем хуже качество.</p></article>
-          <article class="term-card"><strong>Промпт</strong><p>Задача для агента: цель, вводные, ограничения и критерий готовности.</p></article>
-          <article class="term-card"><strong>Токен</strong><p>Единица текста для модели. В боте токен может быть секретным ключом.</p></article>
-          <article class="term-card"><strong>API</strong><p>Официальная дверь сервиса для программы.</p></article>
-          <article class="term-card"><strong>MCP</strong><p>Слой поверх API, чтобы агент мог работать с сервисом удобнее.</p></article>
-          <article class="term-card"><strong>.env</strong><p>Локальный файл для секретов, которые нельзя коммитить.</p></article>
-          <article class="term-card"><strong>Git</strong><p>История версий проекта на компьютере.</p></article>
-          <article class="term-card"><strong>Коммит</strong><p>Контрольная точка, к которой можно вернуться.</p></article>
-          <article class="term-card"><strong>GitHub</strong><p>Удаленное хранилище кода и источник правды.</p></article>
-          <article class="term-card"><strong>VPS</strong><p>Сервер, где бот или backend работают без вашего ноутбука.</p></article>
-          <article class="term-card"><strong>Frontend</strong><p>То, что видит пользователь: страница, кнопки, формы.</p></article>
-          <article class="term-card"><strong>Backend</strong><p>Логика за экраном: API, боты, базы, обработка сообщений.</p></article>
-          <article class="term-card"><strong>Оркестратор</strong><p>Главная сессия, которая раздает задачи субагентам.</p></article>
-          <article class="term-card"><strong>Пайплайн</strong><p>Повторяемая цепочка шагов от входа к результату.</p></article>
+      <section class="section quiz-section" id="quiz">
+        <h2 class="section-title">Квиз <span class="accent">по уроку</span></h2>
+        <div class="quiz-shell" id="quizShell" aria-live="polite"></div>
+      </section>
+
+      <section class="section" id="overview">
+        <h2 class="section-title">Ключевые <span class="accent">темы</span></h2>
+        <div class="overview-layout">
+          <div class="overview-grid" id="overviewGrid" role="tablist" aria-label="Ключевые темы"></div>
+          <div id="overviewPanels"></div>
         </div>
       </section>
 
-      <section class="lesson-section" id="lesson-5-lifehacks">
-        <div class="section-head">
-          <div>
-            <span class="section-kicker">Лайфхаки курса</span>
-            <h2>Четыре правила после выпуска</h2>
-          </div>
-          <p>Это рабочая гигиена: она экономит контекст, нервы и результат.</p>
-        </div>
-        <div class="hack-grid">
-          <article class="hack-card">
-            <span class="hack-num">1</span>
-            <div><strong>Закрывайте старые сессии</strong><p>Если разговор раздулся, начните новый. Старый чат тащит лишний шум.</p></div>
-          </article>
-          <article class="hack-card">
-            <span class="hack-num">2</span>
-            <div><strong>Сохраняйте контекст в docs</strong><p>Перед новым окном попросите агента записать решения в Markdown.</p></div>
-          </article>
-          <article class="hack-card">
-            <span class="hack-num">3</span>
-            <div><strong>Делайте коммиты</strong><p>Перед крупной правкой фиксируйте рабочее состояние проекта.</p></div>
-          </article>
-          <article class="hack-card bonus">
-            <span class="hack-num">4</span>
-            <div><strong>Используйте оркестратора</strong><p>Главная сессия ставит задачи субагентам, собирает отчеты и валидирует итог.</p></div>
-          </article>
-          <article class="hack-card">
-            <span class="hack-num">5</span>
-            <div><strong>Просите промпт у агента</strong><p>Если сессия зашла в тупик, пусть агент сам сформулирует идеальный запрос для нового окна.</p></div>
-          </article>
-        </div>
+      <section class="section" id="timeline">
+        <div id="timelineHost"></div>
       </section>
 
-      <section class="lesson-section" id="lesson-5-api">
-        <div class="section-head">
-          <div>
-            <span class="section-kicker">MCP и API</span>
-            <h2>Идеи захотят подключений</h2>
+      <section class="section" id="homework">
+        <h2 class="section-title">Домашнее задание: <span class="accent">свой кейс</span></h2>
+        <div class="homework-grid">
+          <div class="homework-card">
+            <h3>Что сделать после урока</h3>
+            <label><input type="checkbox" /> Выбрать один личный или рабочий кейс для вайбкодинга.</label>
+            <label><input type="checkbox" /> Описать цель, входные данные и критерий готовности.</label>
+            <label><input type="checkbox" /> Попросить агента составить хороший стартовый промпт.</label>
+            <label><input type="checkbox" /> Сделать первый маленький прототип и коммит.</label>
+            <label><input type="checkbox" /> Если сессия заглохла, попросить summary для нового окна.</label>
+            <label><input type="checkbox" /> Записать выводы в docs или README.md.</label>
           </div>
-          <p>Когда проект становится полезным, ему нужно говорить с другими сервисами.</p>
-        </div>
-        <div class="api-grid">
-          <article class="api-card"><strong>Telegram token</strong><p>Берем ключ у BotFather и отдаём его backend-боту через .env.</p></article>
-          <article class="api-card"><strong>Deepgram</strong><p>Голосовое сообщение превращается в текст для дальнейшей обработки.</p></article>
-          <article class="api-card"><strong>Groq</strong><p>Быстрый AI-ответ поверх уже расшифрованного текста.</p></article>
-          <article class="api-card"><strong>GitHub + VPS</strong><p>Код хранится в репозитории, сервер берет проверенную версию.</p></article>
-        </div>
-        <div class="plan-summary">
-          Если у сервиса есть API или MCP - используем официальный вход.
-          Если нет - осторожно разбираемся с браузером, парсингом и рисками.
-        </div>
-      </section>
-
-      <section class="lesson-section" id="lesson-5-design">
-        <div class="section-head">
-          <div>
-            <span class="section-kicker">Бонус: дизайн</span>
-            <h2>Прототип можно попросить</h2>
-          </div>
-          <p>Инструменты не заменяют вкус, но быстро показывают направление.</p>
-        </div>
-        <div class="design-grid">
-          <div class="design-board" aria-label="Миниатюра промпта и мобильного прототипа">
-            <div class="prompt-mini">
-              <p>Есть лендинг курса, навигация, уроки и квиз.</p>
-              <div class="prompt-bubble">
-                У меня есть такой лендинг [ваш сайт], покажи,
-                как мог бы выглядеть прототип мобильного приложения?
-              </div>
-            </div>
-            <div class="phone-mini">
-              <div class="phone-shell">
-                <div class="phone-hero">AI<br />Intensive</div>
-                <span class="phone-line"></span>
-                <span class="phone-line"></span>
-                <span class="phone-card"></span>
-                <span class="phone-card"></span>
-              </div>
-            </div>
-          </div>
-          <div class="tool-stack">
-            <article class="tool-card"><strong>Claude Design</strong><span>прототипы</span></article>
-            <article class="tool-card"><strong>Google Stitch</strong><span>экраны</span></article>
-            <article class="tool-card"><strong>Lovable</strong><span>сайт сразу</span></article>
-            <article class="tool-card"><strong>Figma MCP</strong><span>доступ агенту</span></article>
-            <article class="tool-card"><strong>design.md</strong><span>правила стиля</span></article>
+          <div class="homework-card next">
+            <h3>Дальше</h3><p>Не обязательно вайбкодить каждый день. Важно понимать, когда агент может быстро собрать полезный инструмент под вашу задачу.</p>
           </div>
         </div>
-      </section>
-
-      <section class="lesson-section" id="lesson-5-cases">
-        <div class="section-head">
-          <div>
-            <span class="section-kicker">Референсы</span>
-            <h2>Один экран - один кейс</h2>
-          </div>
-          <p>Примеры, как люди превращают вайбкодинг в результат на работе или в жизни.</p>
-        </div>
-        <div class="case-stack">
-          <article class="story-case">
-            <div class="case-top">
-              <span class="case-type">Работа</span>
-              <a class="case-link" href="https://habr.com/ru/companies/sibur_official/articles/1039014/" target="_blank" rel="noreferrer">Открыть статью на Хабре</a>
-            </div>
-            <div class="case-main">
-              <div class="case-copy">
-                <h3>Команда джунов для дашборда</h3>
-                <div class="case-columns">
-                  <div class="case-text-block"><h4>Задача</h4><p>Быстро собрать рабочий аналитический интерфейс и проверить гипотезу.</p></div>
-                  <div class="case-text-block"><h4>Решение</h4><p>Использовать вайбкодинг как команду исполнителей, а финальное решение оставить человеку.</p></div>
-                </div>
-              </div>
-              <figure class="case-visual">
-                <img src="../../Assets/references/lesson-05/sibur-dashboard-case.png" alt="Скрин интерфейса Analytics Hub из статьи на Хабре" />
-              </figure>
-            </div>
-            <div class="case-metrics">
-              <div class="metric"><strong>8 814</strong><span>компаний в базе</span></div>
-              <div class="metric"><strong>541</strong><span>клик по контенту</span></div>
-              <div class="metric"><strong>42</strong><span>горячих к передаче</span></div>
-            </div>
-          </article>
-
-          <article class="story-case">
-            <div class="case-top">
-              <span class="case-type">Жизнь</span>
-              <a class="case-link" href="https://t.me/DmitryDostigaev/52" target="_blank" rel="noreferrer">Открыть пост в Telegram</a>
-            </div>
-            <div class="case-main">
-              <div class="case-copy">
-                <h3>Маршрут без глютена</h3>
-                <div class="case-columns">
-                  <div class="case-text-block"><h4>Задача</h4><p>Спланировать Сеул под семью, целиакию, блогерские точки, погоду и транспорт.</p></div>
-                  <div class="case-text-block"><h4>Решение</h4><p>Собрать проект с памятью, скиллами и проверкой актуальности данных.</p></div>
-                </div>
-              </div>
-              <figure class="case-visual">
-                <img src="../../Assets/references/lesson-05/seoul-map-case.jpeg" alt="Скрин индивидуальной карты Сеула с точками маршрута" />
-              </figure>
-            </div>
-            <div class="case-metrics">
-              <div class="metric"><strong>90</strong><span>мест на карте</span></div>
-              <div class="metric"><strong>10</strong><span>агентов сверяют данные</span></div>
-              <div class="metric"><strong>15 мин</strong><span>цель для нового города</span></div>
-            </div>
-          </article>
-
-          <article class="story-case">
-            <div class="case-top">
-              <span class="case-type">Продукт</span>
-              <a class="case-link" href="https://t.me/techmedia/21536" target="_blank" rel="noreferrer">Открыть пост в Telegram</a>
-            </div>
-            <div class="case-main">
-              <div class="case-copy">
-                <h3>Cal AI по фото еды</h3>
-                <div class="case-columns">
-                  <div class="case-text-block"><h4>Задача</h4><p>Убрать ручной ввод еды и считать КБЖУ по одному фото.</p></div>
-                  <div class="case-text-block"><h4>Решение</h4><p>Прикрутить AI API к мобильному приложению и сфокусироваться на одном сценарии.</p></div>
-                </div>
-              </div>
-              <figure class="case-visual">
-                <img src="../../Assets/cal_ai_ref.png" alt="Cal AI на телефоне сканирует еду для подсчета калорий" />
-              </figure>
-            </div>
-            <div class="case-metrics">
-              <div class="metric"><strong>$100 млн</strong><span>сумма продажи</span></div>
-              <div class="metric"><strong>10 млн+</strong><span>пользователей</span></div>
-              <div class="metric"><strong>$30 млн</strong><span>годовой доход</span></div>
-            </div>
-          </article>
-
-          <article class="story-case">
-            <div class="case-top">
-              <span class="case-type">Игра</span>
-              <a class="case-link" href="https://t.me/TochkiNadAI/2404" target="_blank" rel="noreferrer">Открыть пост в Telegram</a>
-            </div>
-            <div class="case-main">
-              <div class="case-copy">
-                <h3>Игра «КОРОВАНЫ» из одного ТЗ</h3>
-                <div class="case-columns">
-                  <div class="case-text-block"><h4>Задача</h4><p>Проверить Fable 5 на сложном фан-проекте: браузерной RPG про корованы.</p></div>
-                  <div class="case-text-block"><h4>Решение</h4><p>Дать агенту большое ТЗ, довести до playable demo и открыть исходники на GitHub.</p></div>
-                </div>
-              </div>
-              <figure class="case-visual">
-                <img src="../../Assets/photo_2026-06-15%2013.58.11.jpeg" alt="Промо-арт игры КОРОВАНЫ с персонажем в деревне" />
-              </figure>
-            </div>
-            <div class="case-metrics">
-              <div class="metric"><strong>Демо</strong><span>игра запускается в браузере</span></div>
-              <div class="metric"><strong>RPG</strong><span>квесты, бой, прокачка</span></div>
-              <div class="metric"><strong>Код</strong><span>исходники доступны на GitHub</span></div>
-            </div>
-          </article>
-
-          <article class="story-case">
-            <div class="case-top">
-              <span class="case-type">Инструмент</span>
-              <a class="case-link" href="https://t.me/imagine_picbot" target="_blank" rel="noreferrer">Открыть бота в Telegram</a>
-            </div>
-            <div class="case-main">
-              <div class="case-copy">
-                <h3>ИИ-фотошоп в Telegram</h3>
-                <div class="case-columns">
-                  <div class="case-text-block"><h4>Задача</h4><p>Дать генерацию и правку фото без сложного интерфейса.</p></div>
-                  <div class="case-text-block"><h4>Решение</h4><p>Собрать Telegram-бота с командами для картинки, промпта, фона и улучшения фото.</p></div>
-                </div>
-              </div>
-              <figure class="case-visual">
-                <div class="mock-shot" aria-label="Миниатюра Telegram-бота для генерации изображений">
-                  <div class="bot-window">
-                    <div class="bot-head"><span class="bot-avatar">AI</span><strong>@imagine_picbot</strong></div>
-                    <div class="bot-lines">
-                      <span class="bot-line">/pic - новая картинка</span>
-                      <span class="bot-line">/prompt - составить промпт</span>
-                      <span class="bot-line">/removebg - удалить фон</span>
-                      <span class="bot-line">/improve - улучшить фото</span>
-                    </div>
-                  </div>
-                </div>
-              </figure>
-            </div>
-            <div class="case-metrics">
-              <div class="metric"><strong>4</strong><span>быстрые кнопки</span></div>
-              <div class="metric"><strong>6</strong><span>ключевых команд</span></div>
-              <div class="metric"><strong>1 чат</strong><span>весь сценарий внутри Telegram</span></div>
-            </div>
-          </article>
-        </div>
-        <div class="final-strip">База есть. Барьер снят. Дальше - один свой прикладной кейс.</div>
       </section>
     </main>
 
     <footer class="footer">
-      <a href="#top">Наверх</a>
+      <a href="#hero">Наверх</a>
     </footer>
 
+    <div id="modalHost"></div>
+
     <script>
-      const navLinks = Array.from(document.querySelectorAll(".topbar-links a"));
-      const sections = navLinks
-        .map((link) => document.querySelector(link.getAttribute("href")))
-        .filter(Boolean);
+      const DATA = {
+        "links": [
+                {
+                        "icon": "T5",
+                        "title": "Транскрипт урока 5",
+                        "href": "./transcript.md",
+                        "desc": "Короткая сэмплированная расшифровка финального занятия 15.06.2026."
+                },
+                {
+                        "icon": "ST",
+                        "title": "Google Stitch",
+                        "href": "https://stitch.withgoogle.com/",
+                        "desc": "Дизайн-инструмент из демо: прототипы экранов и мобильных приложений по промпту."
+                },
+                {
+                        "icon": "LV",
+                        "title": "Lovable",
+                        "href": "https://lovable.dev/",
+                        "desc": "Сервис для быстрых прототипов сайтов и приложений по описанию."
+                },
+                {
+                        "icon": "GH",
+                        "title": "GitHub",
+                        "href": "https://github.com/",
+                        "desc": "Место, где хранится проверенная версия проекта и коммиты."
+                }
+        ],
+        "overview": [
+                {
+                        "icon": "📌",
+                        "title": "Финал",
+                        "preview": "Урок собирает весь интенсив в личный рабочий процесс.",
+                        "subtitle": "Главная мысль: база уже есть, дальше выбираем свои кейсы.",
+                        "content": [
+                                "Финальный созвон не добавляет тяжелую новую тему, а закрепляет то, что уже прошло: проект, контекст, запрос, проверка, коммиты и работа с агентом.",
+                                "Отдельно проговорили, что инструменты будут меняться, но рабочий навык остается: уметь ставить задачу агенту и проверять результат."
+                        ],
+                        "list": [
+                                "Повторить базовые термины.",
+                                "Понять, когда закрывать старую сессию.",
+                                "Выбрать один прикладной кейс после курса."
+                        ],
+                        "quote": "Цель урока - закрепить базу."
+                },
+                {
+                        "icon": "🧠",
+                        "title": "Гигиена сессий",
+                        "preview": "Старые окна шумят, поэтому контекст нужно переносить в docs.",
+                        "subtitle": "Одна из главных привычек после интенсива - не тащить всё в один чат.",
+                        "content": [
+                                "Если агент долго ходит кругами, полезно попросить его сохранить решения в Markdown, закрыть окно и начать заново.",
+                                "Коммиты нужны как контрольные точки: когда эксперимент пошел не туда, можно вернуться к рабочему состоянию."
+                        ],
+                        "list": [
+                                "Закрывать раздутые сессии.",
+                                "Писать summary перед новым окном.",
+                                "Делать коммит после мини-победы."
+                        ],
+                        "quote": "Старая сессия загнивает из-за контекстного окна."
+                },
+                {
+                        "icon": "🎛",
+                        "title": "Оркестратор",
+                        "preview": "Для сложных задач можно просить агента собрать команду субагентов.",
+                        "subtitle": "Главная сессия становится менеджером задачи, а не единственным исполнителем.",
+                        "content": [
+                                "В больших задачах один агент быстро забивает контекст. Поэтому можно просить его раздать роли: дизайнеру, копирайтеру, ревьюеру, разработчику.",
+                                "Такой подход помогает экономить контекст и получать более собранный результат."
+                        ],
+                        "list": [
+                                "Назвать нужные роли.",
+                                "Попросить собрать отчеты.",
+                                "Вернуть итог только после самопроверки."
+                        ],
+                        "quote": "Используйте принцип оркестратора."
+                },
+                {
+                        "icon": "🎨",
+                        "title": "Дизайн",
+                        "preview": "Claude Design, Google Stitch и Lovable помогают быстро увидеть вариант интерфейса.",
+                        "subtitle": "Дизайн-инструменты не заменяют вкус, но резко ускоряют первый прототип.",
+                        "content": [
+                                "На уроке показали, как по лендингу курса попросить прототип мобильного приложения: уроки, квизы, нижняя навигация, экраны.",
+                                "Вывод практичный: пробовать несколько инструментов и брать сильную сторону каждого."
+                        ],
+                        "list": [
+                                "Stitch рисует экраны на доске.",
+                                "Lovable быстро собирает сайт.",
+                                "Claude Design дает интерактивные прототипы."
+                        ],
+                        "quote": "У каждого инструмента своя сильная сторона."
+                }
+        ],
+        "quiz": [
+                {
+                        "question": "Какая цель пятого урока?",
+                        "options": [
+                                {
+                                        "text": "Закрепить базу и собрать личный процесс после курса",
+                                        "correct": true,
+                                        "explain": "Да, это финальная сборка курса."
+                                },
+                                {
+                                        "text": "Начать HTML с нуля",
+                                        "correct": false,
+                                        "explain": "HTML был темой сайта."
+                                },
+                                {
+                                        "text": "Заменить GitHub на Telegram",
+                                        "correct": false,
+                                        "explain": "GitHub остается важным."
+                                },
+                                {
+                                        "text": "Выучить весь Python",
+                                        "correct": false,
+                                        "explain": "Такой цели не было."
+                                }
+                        ]
+                },
+                {
+                        "question": "Что делать, если сессия агента зашла в тупик?",
+                        "options": [
+                                {
+                                        "text": "Попросить summary или идеальный промпт и открыть новое окно",
+                                        "correct": true,
+                                        "explain": "Да, это ключевой прием."
+                                },
+                                {
+                                        "text": "Продолжать просить то же самое",
+                                        "correct": false,
+                                        "explain": "Так контекст шумит сильнее."
+                                },
+                                {
+                                        "text": "Удалить проект",
+                                        "correct": false,
+                                        "explain": "Не нужно."
+                                },
+                                {
+                                        "text": "Писать токены в README",
+                                        "correct": false,
+                                        "explain": "Секреты нельзя публиковать."
+                                }
+                        ]
+                },
+                {
+                        "question": "Зачем нужны коммиты?",
+                        "options": [
+                                {
+                                        "text": "Чтобы фиксировать рабочие состояния и откатываться",
+                                        "correct": true,
+                                        "explain": "Да."
+                                },
+                                {
+                                        "text": "Чтобы ускорить интернет",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                },
+                                {
+                                        "text": "Чтобы заменить промпт",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                },
+                                {
+                                        "text": "Чтобы удалить docs",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                }
+                        ]
+                },
+                {
+                        "question": "Что такое оркестратор в контексте урока?",
+                        "options": [
+                                {
+                                        "text": "Главная сессия, которая менеджерит субагентов",
+                                        "correct": true,
+                                        "explain": "Да."
+                                },
+                                {
+                                        "text": "Новый язык программирования",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                },
+                                {
+                                        "text": "Файл с паролями",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                },
+                                {
+                                        "text": "Кнопка в Telegram",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                }
+                        ]
+                },
+                {
+                        "question": "Зачем просить агента написать промпт для самого себя?",
+                        "options": [
+                                {
+                                        "text": "Чтобы перенести задачу в новое окно чище",
+                                        "correct": true,
+                                        "explain": "Да."
+                                },
+                                {
+                                        "text": "Чтобы сломать историю Git",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                },
+                                {
+                                        "text": "Чтобы не проверять результат",
+                                        "correct": false,
+                                        "explain": "Проверка всё равно нужна."
+                                },
+                                {
+                                        "text": "Чтобы заменить запись урока",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                }
+                        ]
+                },
+                {
+                        "question": "Что показали в дизайн-блоке?",
+                        "options": [
+                                {
+                                        "text": "Быстрые прототипы через AI-дизайн инструменты",
+                                        "correct": true,
+                                        "explain": "Да."
+                                },
+                                {
+                                        "text": "Ручную верстку без агента",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                },
+                                {
+                                        "text": "Настройку VPS",
+                                        "correct": false,
+                                        "explain": "Это урок 4."
+                                },
+                                {
+                                        "text": "Только работу с Excel",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                }
+                        ]
+                },
+                {
+                        "question": "Что важно при выборе Codex или Claude Code?",
+                        "options": [
+                                {
+                                        "text": "Проверить, что лучше подходит под личные задачи и бюджет",
+                                        "correct": true,
+                                        "explain": "Да."
+                                },
+                                {
+                                        "text": "Всегда брать самый дорогой тариф",
+                                        "correct": false,
+                                        "explain": "Не обязательно."
+                                },
+                                {
+                                        "text": "Не тестировать инструменты",
+                                        "correct": false,
+                                        "explain": "Тестировать полезно."
+                                },
+                                {
+                                        "text": "Удалить старые проекты",
+                                        "correct": false,
+                                        "explain": "Нет."
+                                }
+                        ]
+                },
+                {
+                        "question": "Какой подход к домашке обсуждался как удобный?",
+                        "options": [
+                                {
+                                        "text": "После урока взять свой кейс и попробовать отдельно",
+                                        "correct": true,
+                                        "explain": "Да."
+                                },
+                                {
+                                        "text": "Во время объяснения полностью уходить в свой проект",
+                                        "correct": false,
+                                        "explain": "Это может распылить внимание."
+                                },
+                                {
+                                        "text": "Не делать ничего",
+                                        "correct": false,
+                                        "explain": "Лучше взять маленький кейс."
+                                },
+                                {
+                                        "text": "Сразу делать большой SaaS",
+                                        "correct": false,
+                                        "explain": "Начинать лучше компактно."
+                                }
+                        ]
+                },
+                {
+                        "question": "Что остается главным после курса?",
+                        "options": [
+                                {
+                                        "text": "Понимать процесс: проект, контекст, запрос, проверка",
+                                        "correct": true,
+                                        "explain": "Да."
+                                },
+                                {
+                                        "text": "Запомнить все названия сервисов",
+                                        "correct": false,
+                                        "explain": "Сервисы меняются."
+                                },
+                                {
+                                        "text": "Никогда не закрывать чат",
+                                        "correct": false,
+                                        "explain": "Наоборот."
+                                },
+                                {
+                                        "text": "Работать без Git",
+                                        "correct": false,
+                                        "explain": "Git нужен как страховка."
+                                }
+                        ]
+                },
+                {
+                        "question": "Какой следующий шаг самый разумный?",
+                        "options": [
+                                {
+                                        "text": "Выбрать один прикладной кейс и собрать маленький прототип",
+                                        "correct": true,
+                                        "explain": "Да."
+                                },
+                                {
+                                        "text": "Ждать идеальный инструмент",
+                                        "correct": false,
+                                        "explain": "Лучше практиковаться."
+                                },
+                                {
+                                        "text": "Сразу переписывать весь бизнес",
+                                        "correct": false,
+                                        "explain": "Слишком широко."
+                                },
+                                {
+                                        "text": "Удалить материалы курса",
+                                        "correct": false,
+                                        "explain": "Материалы пригодятся."
+                                }
+                        ]
+                }
+        ],
+        "parts": [
+                {
+                        "name": "Часть 1 - финальная база",
+                        "topicIds": [
+                                1,
+                                2
+                        ]
+                },
+                {
+                        "name": "Часть 2 - процесс и дизайн",
+                        "topicIds": [
+                                3,
+                                4,
+                                5
+                        ]
+                },
+                {
+                        "name": "Часть 3 - кейсы и следующий шаг",
+                        "topicIds": [
+                                6,
+                                7,
+                                8
+                        ]
+                }
+        ],
+        "topics": [
+                {
+                        "id": 1,
+                        "timeStart": "00:00",
+                        "title": "Что было в Telegram-боте",
+                        "preview": "Коротко вернулись к пропущенному уроку 4.",
+                        "color": "var(--primary)",
+                        "paragraphs": [
+                                "В начале участники возвращаются к Telegram-боту: BotFather, токен, голосовое сообщение, расшифровка и ответ нейронки.",
+                                "Финальный урок не углубляется заново во весь backend, а связывает четвертый урок с общей картиной интенсива."
+                        ],
+                        "list": [
+                                "BotFather выдает токен.",
+                                "Бот принимает голосовое.",
+                                "Deepgram делает текст.",
+                                "AI-сервис возвращает ответ."
+                        ],
+                        "inlineQuote": "Когда руками делаешь, оно лучше оседает.",
+                        "quotes": [
+                                {
+                                        "time": "00:01:39",
+                                        "text": "Telegram bot принимает голосовуху."
+                                }
+                        ],
+                        "theses": [
+                                "Урок 4 остается практической backend-точкой.",
+                                "Финал нужен, чтобы собрать курс целиком."
+                        ]
+                },
+                {
+                        "id": 2,
+                        "timeStart": "02:20",
+                        "title": "Глоссарий курса",
+                        "preview": "Повторили слова, которые теперь должны быть своими.",
+                        "color": "var(--secondary)",
+                        "paragraphs": [
+                                "Ведущий собирает базовые термины курса на одной странице: вайбкодинг, агент, frontend, backend, API, MCP, GitHub, commit, VPS, pipeline.",
+                                "Смысл не в заучивании терминов, а в том, что одно точное слово часто экономит длинное объяснение агенту."
+                        ],
+                        "list": [
+                                "Вайбкодинг.",
+                                "Контекстное окно.",
+                                "API и MCP.",
+                                "Коммит и GitHub.",
+                                "Оркестратор."
+                        ],
+                        "inlineQuote": "Главное, чтобы мысль была понятная.",
+                        "quotes": [
+                                {
+                                        "time": "00:02:32",
+                                        "text": "Во-первых, глоссарий."
+                                }
+                        ],
+                        "theses": [
+                                "Словарь помогает точнее ставить задачи.",
+                                "Простыми словами тоже можно работать."
+                        ]
+                },
+                {
+                        "id": 3,
+                        "timeStart": "04:15",
+                        "title": "Сессии, docs и коммиты",
+                        "preview": "Главные правила рабочей гигиены после курса.",
+                        "color": "var(--yellow)",
+                        "paragraphs": [
+                                "Старые сессии со временем загрязняются контекстом. Когда агент начал хуже понимать задачу, полезно закрыть окно и начать заново.",
+                                "Перед переходом нужно попросить агента сохранить важные решения в Markdown. А после рабочей мини-победы - сделать коммит."
+                        ],
+                        "list": [
+                                "Закрывать старые сессии.",
+                                "Сохранять решения в docs.",
+                                "Делать коммиты.",
+                                "Не надеяться на Ctrl+Z."
+                        ],
+                        "inlineQuote": "Старая сессия загнивает из-за контекстного окна.",
+                        "quotes": [
+                                {
+                                        "time": "00:04:21",
+                                        "text": "Закрывайте старые сессии."
+                                }
+                        ],
+                        "theses": [
+                                "Контекст нужно чистить.",
+                                "Документация переносит память проекта.",
+                                "Коммит страхует эксперимент."
+                        ]
+                },
+                {
+                        "id": 4,
+                        "timeStart": "05:26",
+                        "title": "Принцип оркестратора",
+                        "preview": "Большую задачу можно отдавать команде субагентов.",
+                        "color": "var(--accent)",
+                        "paragraphs": [
+                                "Если задача сложная, можно просить главного агента выступить менеджером: создать роли, раздать части работы и вернуть собранный итог.",
+                                "Такой подход особенно полезен там, где нужны дизайн, тексты, проверка, код и ревью одновременно."
+                        ],
+                        "list": [
+                                "Главная сессия ставит задачу.",
+                                "Субагенты работают независимо.",
+                                "Итог собирается после самопроверки."
+                        ],
+                        "inlineQuote": "За менеджери всю команду агентов.",
+                        "quotes": [
+                                {
+                                        "time": "00:05:49",
+                                        "text": "Принцип оркестратора означает, что вы пишете промпт."
+                                }
+                        ],
+                        "theses": [
+                                "Оркестратор экономит контекст.",
+                                "Роли повышают качество большой задачи."
+                        ]
+                },
+                {
+                        "id": 5,
+                        "timeStart": "13:00",
+                        "title": "Дизайн-инструменты",
+                        "preview": "AI уже помогает быстро увидеть прототип сайта или приложения.",
+                        "color": "var(--primary)",
+                        "paragraphs": [
+                                "На уроке показали Google Stitch и Lovable: по странице курса можно попросить мобильное приложение с уроками, квизами и навигацией.",
+                                "Вывод: один инструмент лучше рисует прототипы, другой быстрее собирает сайт, третий удобнее для визуального направления."
+                        ],
+                        "list": [
+                                "Google Stitch.",
+                                "Lovable.",
+                                "Claude Design.",
+                                "Figma MCP."
+                        ],
+                        "inlineQuote": "У каждого инструмента своя сильная сторона.",
+                        "quotes": [
+                                {
+                                        "time": "00:13:18",
+                                        "text": "Попросил сделать прототипы мобильного приложения."
+                                }
+                        ],
+                        "theses": [
+                                "Дизайн можно просить как первый черновик.",
+                                "Человек всё равно отвечает за вкус и выбор."
+                        ]
+                },
+                {
+                        "id": 6,
+                        "timeStart": "25:00",
+                        "title": "Промпт для нового окна",
+                        "preview": "Codex можно попросить подготовить себе же идеальное ТЗ.",
+                        "color": "var(--secondary)",
+                        "paragraphs": [
+                                "Если задача не получается, не обязательно уходить в ChatGPT отдельно. Можно прямо в Codex попросить: посмотри нашу переписку и сформулируй идеальный промпт для нового окна.",
+                                "Это превращает тупик в чистый старт без накопленного шума."
+                        ],
+                        "list": [
+                                "Описать, что не нравится.",
+                                "Попросить промпт для нового окна.",
+                                "Открыть свежую сессию.",
+                                "Продолжить с чистым контекстом."
+                        ],
+                        "inlineQuote": "Попросить за тебя писать промпт агента - хороший практик.",
+                        "quotes": [
+                                {
+                                        "time": "00:26:09",
+                                        "text": "Попросить его создать для самого себя идеальный промпт."
+                                }
+                        ],
+                        "theses": [
+                                "Агент может быть редактором ТЗ.",
+                                "Новая сессия лучше работает с чистым запросом."
+                        ]
+                },
+                {
+                        "id": 7,
+                        "timeStart": "28:00",
+                        "title": "Кейсы для вдохновения",
+                        "preview": "Простая идея плюс агент уже может стать продуктом.",
+                        "color": "var(--yellow)",
+                        "paragraphs": [
+                                "Обсудили персональные карты, AI-сервисы, счетчик калорий по фото еды и Telegram-боты как прикладные сценарии.",
+                                "Главный критерий - не модность, а близость к реальной задаче человека или бизнеса."
+                        ],
+                        "list": [
+                                "Персональная карта маршрута.",
+                                "Счетчик калорий по фото.",
+                                "Telegram-бот для рабочего процесса.",
+                                "Дашборд или отчет."
+                        ],
+                        "inlineQuote": "Применений достаточно много.",
+                        "quotes": [
+                                {
+                                        "time": "00:28:23",
+                                        "text": "Продал счетчик калорий за 100 миллионов."
+                                }
+                        ],
+                        "theses": [
+                                "Идея может быть простой.",
+                                "Ценность появляется в конкретном сценарии."
+                        ]
+                },
+                {
+                        "id": 8,
+                        "timeStart": "48:00",
+                        "title": "Как учиться дальше",
+                        "preview": "Повторять на уроке, а свой кейс делать после - нормальная стратегия.",
+                        "color": "var(--accent)",
+                        "paragraphs": [
+                                "В финальном фидбеке прозвучало, что во время урока удобно повторять за ведущим, чтобы не терять экран и процесс.",
+                                "Свой проект лучше брать отдельно после занятия: тогда можно спокойно экспериментировать, возвращаться к материалам и не распылять внимание."
+                        ],
+                        "list": [
+                                "На занятии повторять базовый пример.",
+                                "После занятия брать свой кейс.",
+                                "Начинать с маленького прототипа.",
+                                "Не обязательно вайбкодить каждый день."
+                        ],
+                        "inlineQuote": "Области применения для себя определены.",
+                        "quotes": [
+                                {
+                                        "time": "00:50:24",
+                                        "text": "Пять вечеров, быстро погружаешься."
+                                }
+                        ],
+                        "theses": [
+                                "Интенсив снял барьер.",
+                                "Дальше важен один свой прикладной кейс."
+                        ]
+                }
+        ]
+};
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const visible = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[char]);
+      }
 
-          if (!visible) return;
+      function renderLinks() {
+        const grid = document.querySelector("#linksGrid");
+        grid.innerHTML = DATA.links.map((link) => {
+          let host = link.href;
+          try {
+            host = new URL(link.href).host.replace(/^www\./, "");
+          } catch (error) {}
 
-          navLinks.forEach((link) => {
-            link.classList.toggle("is-current", link.getAttribute("href") === `#${visible.target.id}`);
+          return `
+            <a class="link-card" href="${escapeHtml(link.href)}" target="_blank" rel="noreferrer">
+              <div class="link-head">
+                <span class="icon-tile">${escapeHtml(link.icon)}</span>
+                <span class="link-title">${escapeHtml(link.title)}</span>
+              </div>
+              <p>${escapeHtml(link.desc)}</p>
+              <span class="link-host">${escapeHtml(host)}</span>
+            </a>
+          `;
+        }).join("");
+      }
+
+      function renderOverview() {
+        const grid = document.querySelector("#overviewGrid");
+        const panels = document.querySelector("#overviewPanels");
+
+        DATA.overview.forEach((item, index) => {
+          const button = document.createElement("button");
+          button.className = `overview-card${index === 0 ? " active" : ""}`;
+          button.type = "button";
+          button.innerHTML = `
+            <strong>${escapeHtml(item.icon)} ${escapeHtml(item.title)}</strong>
+            <span>${escapeHtml(item.preview)}</span>
+          `;
+          button.addEventListener("click", () => switchOverview(index));
+          grid.appendChild(button);
+
+          const panel = document.createElement("article");
+          panel.className = `overview-panel${index === 0 ? " active" : ""}`;
+          panel.innerHTML = `
+            <h3>${escapeHtml(item.subtitle)}</h3>
+            ${item.content.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+            <ul>${item.list.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>
+            <div class="overview-quote">${escapeHtml(item.quote)}</div>
+          `;
+          panels.appendChild(panel);
+        });
+      }
+
+      function switchOverview(activeIndex) {
+        document.querySelectorAll(".overview-card").forEach((card, index) => {
+          card.classList.toggle("active", index === activeIndex);
+        });
+        document.querySelectorAll(".overview-panel").forEach((panel, index) => {
+          panel.classList.toggle("active", index === activeIndex);
+        });
+      }
+
+      const quizState = {
+        index: 0,
+        answers: [],
+        completed: false,
+      };
+
+      function shuffleItems(items) {
+        const shuffled = [...items];
+        for (let index = shuffled.length - 1; index > 0; index -= 1) {
+          const randomIndex = Math.floor(Math.random() * (index + 1));
+          [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+        }
+        return shuffled;
+      }
+
+      function correctOptionPositions() {
+        return DATA.quiz.map((question) => question.options.findIndex((option) => option.correct));
+      }
+
+      function shuffleQuizOptions() {
+        if (!DATA.quiz?.length) return;
+
+        for (let attempt = 0; attempt < 8; attempt += 1) {
+          DATA.quiz.forEach((question) => {
+            question.options = shuffleItems(question.options);
           });
-        },
-        { rootMargin: "-90px 0px -58% 0px", threshold: [0.18, 0.32, 0.5] },
-      );
 
-      sections.forEach((section) => observer.observe(section));
+          const positions = correctOptionPositions();
+          if (new Set(positions).size > 1) return;
+        }
+
+        DATA.quiz.forEach((question, questionIndex) => {
+          const correctIndex = question.options.findIndex((option) => option.correct);
+          if (correctIndex < 0) return;
+          const targetIndex = questionIndex % question.options.length;
+          const [correctOption] = question.options.splice(correctIndex, 1);
+          question.options.splice(targetIndex, 0, correctOption);
+        });
+      }
+
+      function renderQuiz() {
+        const host = document.querySelector("#quizShell");
+        if (!host || !DATA.quiz?.length) return;
+
+        const current = DATA.quiz[quizState.index];
+        const answered = quizState.answers[quizState.index];
+        const score = quizState.answers.filter((answer) => answer?.correct).length;
+        const progress = ((quizState.index + 1) / DATA.quiz.length) * 100;
+
+        if (quizState.completed) {
+          host.innerHTML = `
+            <div class="quiz-card quiz-result">
+              <h3>Квиз завершён</h3>
+              <p>Твой результат: ${score} из ${DATA.quiz.length}. Можно пройти ещё раз или вернуться к материалам урока.</p>
+              <div class="quiz-nav">
+                <button type="button" data-quiz-reset>Пройти ещё раз</button>
+                <a class="resource-link" href="#homework">К домашке <span>→</span></a>
+              </div>
+            </div>
+          `;
+          host.querySelector("[data-quiz-reset]")?.addEventListener("click", () => {
+            quizState.index = 0;
+            quizState.answers = [];
+            quizState.completed = false;
+            shuffleQuizOptions();
+            renderQuiz();
+            scrollQuizIntoView();
+          });
+          return;
+        }
+
+        host.innerHTML = `
+          <div class="quiz-top">
+            <div>
+              <span class="quiz-kicker">Закрепление</span>
+              <p>Проверь, как усвоились главные идеи четвертого урока.</p>
+            </div>
+            <div class="quiz-score">${score}/${DATA.quiz.length}</div>
+          </div>
+          <div class="quiz-progress" aria-hidden="true"><span style="width:${progress}%"></span></div>
+          <article class="quiz-card">
+            <span class="quiz-question-count">Вопрос ${quizState.index + 1} из ${DATA.quiz.length}</span>
+            <h3 class="quiz-question">${escapeHtml(current.question)}</h3>
+            <div class="quiz-options">
+              ${current.options.map((option, optionIndex) => {
+                const isSelected = answered?.optionIndex === optionIndex;
+                const showCorrect = answered && option.correct;
+                const showWrong = isSelected && !option.correct;
+                const className = ["quiz-option", showCorrect ? "is-correct" : "", showWrong ? "is-wrong" : ""].filter(Boolean).join(" ");
+                return `
+                  <button class="${className}" type="button" data-quiz-option="${optionIndex}">
+                    ${escapeHtml(option.text)}
+                    ${answered ? `<span class="quiz-explain">${escapeHtml(option.explain)}</span>` : ""}
+                  </button>
+                `;
+              }).join("")}
+            </div>
+            <div class="quiz-nav">
+              <button type="button" data-quiz-prev ${quizState.index === 0 ? "disabled" : ""}>Назад</button>
+              <button type="button" data-quiz-next ${!answered ? "disabled" : ""}>${quizState.index === DATA.quiz.length - 1 ? "Завершить" : "Дальше"}</button>
+            </div>
+          </article>
+        `;
+
+        host.querySelectorAll("[data-quiz-option]").forEach((button) => {
+          button.addEventListener("click", () => {
+            if (!quizState.answers[quizState.index]) {
+              const optionIndex = Number(button.dataset.quizOption);
+              quizState.answers[quizState.index] = {
+                optionIndex,
+                correct: current.options[optionIndex].correct,
+              };
+            }
+            renderQuiz();
+          });
+        });
+
+        host.querySelector("[data-quiz-prev]")?.addEventListener("click", () => {
+          quizState.index = Math.max(0, quizState.index - 1);
+          renderQuiz();
+          scrollQuizIntoView();
+        });
+
+        host.querySelector("[data-quiz-next]")?.addEventListener("click", () => {
+          if (quizState.index < DATA.quiz.length - 1) {
+            quizState.index += 1;
+            renderQuiz();
+            scrollQuizIntoView();
+          } else {
+            quizState.completed = true;
+            renderQuiz();
+            scrollQuizIntoView();
+          }
+        });
+      }
+
+      function scrollQuizIntoView() {
+        document.querySelector("#quiz")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function renderTimeline() {
+        const host = document.querySelector("#timelineHost");
+        const topicMap = new Map(DATA.topics.map((topic) => [topic.id, topic]));
+        host.innerHTML = DATA.parts.map((part) => `
+          <div class="part-divider"><span>${escapeHtml(part.name)}</span></div>
+          <div class="timeline">
+            ${part.topicIds.map((id) => renderTopic(topicMap.get(id))).join("")}
+          </div>
+        `).join("");
+      }
+
+      function renderTopic(topic) {
+        if (!topic) return "";
+        return `
+          <article class="topic" id="topic-${topic.id}">
+            <button class="topic-header" type="button" aria-expanded="false">
+              <span class="topic-time">${escapeHtml(topic.timeStart)}</span>
+              <span>
+                <span class="topic-title">${escapeHtml(topic.title)}</span>
+                <span class="topic-preview">${escapeHtml(topic.preview)}</span>
+              </span>
+              <span class="topic-dot" style="background:${topic.color}"></span>
+              <span class="topic-toggle">▼</span>
+            </button>
+            <div class="topic-body">
+              <div class="topic-content">
+                ${topic.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+                <ul>${topic.list.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>
+                <div class="topic-quote">${escapeHtml(topic.inlineQuote)}</div>
+                <button class="quotes-button" type="button" data-modal="${topic.id}">Цитаты и тезисы</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }
+
+      function bindTimeline() {
+        document.querySelectorAll(".topic-header").forEach((button) => {
+          button.addEventListener("click", () => {
+            const topic = button.closest(".topic");
+            const isOpen = topic.classList.toggle("open");
+            button.setAttribute("aria-expanded", String(isOpen));
+          });
+        });
+
+        document.querySelectorAll("[data-modal]").forEach((button) => {
+          button.addEventListener("click", () => openModal(Number(button.dataset.modal)));
+        });
+      }
+
+      function renderModals() {
+        const host = document.querySelector("#modalHost");
+        host.innerHTML = DATA.topics.map((topic) => `
+          <div class="modal-layer" id="modal-${topic.id}">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-${topic.id}">
+              <div class="modal-head">
+                <h3 id="modal-title-${topic.id}">${escapeHtml(topic.title)}</h3>
+                <button class="modal-close" type="button" aria-label="Закрыть">×</button>
+              </div>
+              <div class="modal-body">
+                ${topic.quotes.map((quote) => `
+                  <div class="quote-item">
+                    <time>${escapeHtml(quote.time)}</time>
+                    <span>${escapeHtml(quote.text)}</span>
+                  </div>
+                `).join("")}
+                ${topic.theses.map((thesis, index) => `
+                  <div class="thesis-item">
+                    <span>${index + 1}</span>
+                    <span>${escapeHtml(thesis)}</span>
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+        `).join("");
+
+        document.querySelectorAll(".modal-layer").forEach((layer) => {
+          layer.addEventListener("click", (event) => {
+            if (event.target === layer) closeModals();
+          });
+        });
+        document.querySelectorAll(".modal-close").forEach((button) => {
+          button.addEventListener("click", closeModals);
+        });
+      }
+
+      function openModal(id) {
+        document.querySelector(`#modal-${id}`).classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModals() {
+        document.querySelectorAll(".modal-layer.active").forEach((layer) => layer.classList.remove("active"));
+        document.body.style.overflow = "";
+      }
+
+      function bindProgress() {
+        const fill = document.querySelector("#progressFill");
+        const update = () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          fill.style.width = `${max > 0 ? (window.scrollY / max) * 100 : 0}%`;
+        };
+        window.addEventListener("scroll", update, { passive: true });
+        update();
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeModals();
+      });
+
+      renderLinks();
+      shuffleQuizOptions();
+      renderQuiz();
+      renderOverview();
+      renderTimeline();
+      renderModals();
+      bindTimeline();
+      bindProgress();
     </script>
   </body>
 </html>
