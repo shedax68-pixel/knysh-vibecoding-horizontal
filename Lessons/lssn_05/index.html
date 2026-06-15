@@ -1,0 +1,1201 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>Урок 5 - финальный процесс</title>
+    <meta
+      name="description"
+      content="Пятый урок интенсива от 15.06.2026: финальный Q&A, глоссарий, лайфхаки, дизайн-бонус и следующие личные проекты."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --black: #050505;
+        --white: #ffffff;
+        --paper: #f5f5f0;
+        --blue: #1da1f2;
+        --green: #d6ff55;
+        --yellow: #ffe86b;
+        --muted: #64645f;
+        --line: rgba(5, 5, 5, 0.16);
+        --font: Helvetica, "Helvetica Neue", Arial, sans-serif;
+        --head: "Montserrat", Helvetica, Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        border: 1px solid #deded6;
+        border-bottom: 4px solid var(--black);
+        background: var(--paper);
+        color: var(--black);
+        font-family: var(--font);
+        line-height: 1.35;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      .lesson-tab,
+      .topbar-links a,
+      .section-kicker,
+      .plan-summary,
+      .case-type,
+      .metric strong,
+      .footer {
+        font-family: var(--head);
+        letter-spacing: 0;
+      }
+
+      .lesson-switcher {
+        min-height: 62px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 10px clamp(20px, 6vw, 132px);
+        border-bottom: 4px solid var(--black);
+        background: var(--paper);
+      }
+
+      .lesson-tab {
+        display: inline-flex;
+        min-width: 110px;
+        min-height: 38px;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid var(--black);
+        background: var(--white);
+        padding: 8px 16px;
+        box-shadow: 5px 5px 0 var(--black);
+        font-size: 0.9rem;
+        font-weight: 900;
+        line-height: 1;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .lesson-tab.active {
+        background: var(--blue);
+        color: var(--white);
+      }
+
+      .lesson-nav-only {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+
+      .topbar {
+        min-height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 10px clamp(20px, 6vw, 132px);
+        border-bottom: 4px solid var(--black);
+        background: rgba(245, 245, 240, 0.96);
+        backdrop-filter: blur(8px);
+      }
+
+      .lesson-status,
+      .section-kicker {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        min-height: 38px;
+        border: 3px solid var(--black);
+        background: var(--green);
+        padding: 7px 13px;
+        box-shadow: 5px 5px 0 var(--black);
+        font-family: var(--head);
+        font-size: 0.9rem;
+        font-weight: 900;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .topbar-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 9px;
+      }
+
+      .topbar-links a {
+        min-height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid var(--black);
+        background: var(--white);
+        padding: 8px 13px;
+        font-size: 0.84rem;
+        font-weight: 900;
+        line-height: 1;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .topbar-links a.is-current {
+        background: var(--blue);
+        color: var(--white);
+        box-shadow: 5px 5px 0 var(--black);
+      }
+
+      .lesson-section {
+        min-height: 100vh;
+        padding: 64px clamp(20px, 6vw, 132px) 70px;
+      }
+
+      .section-head {
+        display: grid;
+        grid-template-columns: minmax(0, 0.74fr) minmax(280px, 0.36fr);
+        gap: 32px;
+        align-items: end;
+        margin-bottom: 30px;
+      }
+
+      h1,
+      h2 {
+        margin: 24px 0 0;
+        font-size: clamp(3.4rem, 6vw, 5.8rem);
+        font-weight: 900;
+        line-height: 0.95;
+        text-transform: uppercase;
+      }
+
+      .section-head p,
+      .lead {
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(1.08rem, 1.5vw, 1.4rem);
+        line-height: 1.32;
+      }
+
+      .lead {
+        margin-top: 18px;
+      }
+
+      .plan-track {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: clamp(14px, 1.5vw, 22px);
+        margin-top: 28px;
+      }
+
+      .plan-track article {
+        min-height: 270px;
+        display: flex;
+        flex-direction: column;
+        border: 4px solid var(--black);
+        background: var(--white);
+        padding: 24px;
+        box-shadow: 9px 9px 0 var(--black);
+      }
+
+      .plan-track article.current {
+        background: var(--blue);
+        color: var(--white);
+        box-shadow: 9px 9px 0 var(--green);
+      }
+
+      .lesson-chip {
+        width: fit-content;
+        border: 3px solid var(--black);
+        background: var(--yellow);
+        color: var(--black);
+        padding: 7px 11px;
+        font-family: var(--head);
+        font-size: 0.9rem;
+        font-weight: 900;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .plan-track time {
+        display: block;
+        margin: 24px 0 10px;
+        color: #66665f;
+        font-family: var(--head);
+        font-size: 0.92rem;
+        font-weight: 900;
+      }
+
+      .plan-track .current time {
+        color: var(--white);
+      }
+
+      .plan-track h3 {
+        margin: 0 0 12px;
+        font-size: clamp(1.16rem, 1.6vw, 1.65rem);
+        font-weight: 900;
+        line-height: 1.05;
+        text-transform: uppercase;
+      }
+
+      .plan-track p {
+        margin: 0;
+        font-size: clamp(0.96rem, 1.15vw, 1.1rem);
+      }
+
+      .plan-summary {
+        margin-top: 44px;
+        border: 4px solid var(--black);
+        background: var(--green);
+        padding: 24px;
+        box-shadow: 9px 9px 0 var(--black);
+        font-size: clamp(1.4rem, 2.2vw, 2rem);
+        font-weight: 900;
+        line-height: 1.08;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .finish-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.96fr) minmax(360px, 0.54fr);
+        gap: 28px;
+        align-items: stretch;
+      }
+
+      .finish-note {
+        display: flex;
+        min-height: 360px;
+        flex-direction: column;
+        justify-content: space-between;
+        border: 4px solid var(--black);
+        background: var(--white);
+        padding: 34px;
+        box-shadow: 9px 9px 0 var(--green);
+      }
+
+      .finish-note h2 {
+        max-width: 880px;
+        margin-top: 0;
+      }
+
+      .finish-note h2 span {
+        color: var(--blue);
+      }
+
+      .finish-note p {
+        max-width: 880px;
+        margin: 18px 0 0;
+        font-size: clamp(1.2rem, 1.7vw, 1.7rem);
+      }
+
+      .finish-points {
+        display: grid;
+        gap: 14px;
+      }
+
+      .finish-points article,
+      .term-card,
+      .hack-card,
+      .api-card,
+      .tool-card {
+        border: 3px solid var(--black);
+        background: var(--white);
+        padding: 18px;
+      }
+
+      .finish-points strong,
+      .term-card strong,
+      .hack-card strong,
+      .api-card strong,
+      .tool-card strong {
+        display: block;
+        margin-bottom: 8px;
+        font-family: var(--head);
+        font-size: 1.05rem;
+        font-weight: 900;
+        line-height: 1.1;
+        text-transform: uppercase;
+      }
+
+      .finish-points p,
+      .term-card p,
+      .hack-card p,
+      .api-card p,
+      .tool-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.98rem;
+      }
+
+      .glossary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .term-card {
+        min-height: 138px;
+      }
+
+      .term-card:nth-child(4n + 1) {
+        background: #e7f6ff;
+      }
+
+      .term-card:nth-child(4n + 2) {
+        background: #f1ffd0;
+      }
+
+      .hack-grid,
+      .api-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .hack-card {
+        min-height: 260px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 7px 7px 0 var(--black);
+      }
+
+      .hack-card.bonus {
+        background: var(--green);
+      }
+
+      .hack-num {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border: 3px solid var(--black);
+        border-radius: 50%;
+        background: var(--yellow);
+        font-family: var(--head);
+        font-weight: 900;
+      }
+
+      .api-card {
+        min-height: 210px;
+      }
+
+      .design-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(330px, 0.5fr);
+        gap: 24px;
+      }
+
+      .design-board {
+        display: grid;
+        grid-template-columns: 0.82fr 1.18fr;
+        gap: 18px;
+        border: 4px solid var(--black);
+        background: var(--white);
+        padding: 22px;
+        box-shadow: 9px 9px 0 var(--black);
+      }
+
+      .prompt-mini,
+      .phone-mini {
+        border: 3px solid var(--black);
+        background: var(--paper);
+        padding: 18px;
+      }
+
+      .prompt-bubble {
+        margin-top: 110px;
+        border: 3px solid var(--black);
+        background: var(--green);
+        padding: 14px;
+        font-family: var(--head);
+        font-size: 1rem;
+        font-weight: 900;
+        line-height: 1.22;
+      }
+
+      .phone-mini {
+        display: grid;
+        place-items: center;
+      }
+
+      .phone-shell {
+        width: min(220px, 80%);
+        min-height: 420px;
+        border: 4px solid var(--black);
+        border-radius: 34px;
+        background: var(--white);
+        padding: 18px;
+      }
+
+      .phone-hero {
+        height: 122px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #ff5fb8, #875cff 55%, #ffb84d);
+        color: var(--white);
+        padding: 18px;
+        font-family: var(--head);
+        font-weight: 900;
+      }
+
+      .phone-line,
+      .phone-card {
+        display: block;
+        border-radius: 14px;
+        background: #eeeeea;
+      }
+
+      .phone-line {
+        height: 14px;
+        margin-top: 16px;
+      }
+
+      .phone-card {
+        height: 70px;
+        margin-top: 12px;
+      }
+
+      .tool-stack {
+        display: grid;
+        gap: 12px;
+      }
+
+      .tool-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .tool-card span {
+        color: var(--blue);
+        font-family: var(--head);
+        font-size: 0.82rem;
+        font-weight: 900;
+      }
+
+      .case-stack {
+        display: grid;
+        gap: 44px;
+      }
+
+      .story-case {
+        min-height: calc(100vh - 96px);
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        gap: 22px;
+        border: 4px solid var(--black);
+        background: var(--white);
+        padding: clamp(22px, 3vw, 42px);
+        box-shadow: 9px 9px 0 var(--black);
+      }
+
+      .case-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+      }
+
+      .case-type {
+        width: fit-content;
+        border: 3px solid var(--black);
+        background: var(--yellow);
+        padding: 7px 11px;
+        font-size: 0.78rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .case-link {
+        color: var(--blue);
+        font-weight: 800;
+      }
+
+      .case-main {
+        display: grid;
+        grid-template-columns: minmax(0, 0.88fr) minmax(420px, 1fr);
+        gap: clamp(24px, 4vw, 54px);
+        align-items: stretch;
+      }
+
+      .case-copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .case-copy h3 {
+        margin: 0 0 26px;
+        font-size: clamp(2.1rem, 4.4vw, 5rem);
+        font-weight: 900;
+        line-height: 0.96;
+        text-transform: uppercase;
+      }
+
+      .case-columns {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .case-text-block h4 {
+        margin: 0 0 10px;
+        font-size: clamp(1.2rem, 1.7vw, 1.7rem);
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .case-text-block p {
+        margin: 0;
+        color: var(--muted);
+        font-size: clamp(0.96rem, 1.1vw, 1.12rem);
+      }
+
+      .case-visual {
+        display: grid;
+        min-height: 430px;
+        place-items: center;
+        overflow: hidden;
+        border: 4px solid var(--black);
+        background: #f1f1ec;
+      }
+
+      .case-visual img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .case-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        border-top: 3px solid var(--black);
+        padding-top: 18px;
+      }
+
+      .metric strong {
+        display: block;
+        font-size: clamp(2rem, 3.4vw, 4rem);
+        font-weight: 900;
+        line-height: 0.94;
+      }
+
+      .metric span {
+        color: var(--muted);
+      }
+
+      .mock-shot {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, rgba(29, 161, 242, 0.16), rgba(214, 255, 85, 0.4));
+      }
+
+      .cal-phone,
+      .bot-window {
+        width: min(360px, 78%);
+        border: 4px solid var(--black);
+        background: var(--white);
+        padding: 24px;
+        box-shadow: 9px 9px 0 rgba(5, 5, 5, 0.14);
+      }
+
+      .cal-phone {
+        border-radius: 34px;
+      }
+
+      .food-photo {
+        aspect-ratio: 1;
+        border: 3px solid var(--black);
+        border-radius: 22px;
+        background:
+          radial-gradient(circle at 62% 44%, #ff785a 0 18%, transparent 19%),
+          radial-gradient(circle at 38% 54%, #52c56b 0 14%, transparent 15%),
+          radial-gradient(circle at 48% 45%, #ffe86b 0 27%, transparent 28%),
+          #f2f2ec;
+      }
+
+      .macro-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .macro-row span,
+      .bot-line {
+        border-radius: 999px;
+        background: #ecece4;
+        padding: 8px;
+        font-family: var(--head);
+        font-size: 0.74rem;
+        font-weight: 900;
+        text-align: center;
+      }
+
+      .bot-window {
+        border-radius: 22px;
+        background: #101820;
+        color: #e9eef6;
+      }
+
+      .bot-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 2px solid #34506a;
+        padding-bottom: 12px;
+        font-weight: 900;
+      }
+
+      .bot-avatar {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--blue);
+        color: var(--white);
+      }
+
+      .bot-lines {
+        display: grid;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .bot-line {
+        background: #1f3346;
+        color: #e9eef6;
+      }
+
+      .final-strip {
+        margin-top: 44px;
+        border: 4px solid var(--black);
+        background: var(--green);
+        padding: 24px;
+        box-shadow: 9px 9px 0 var(--black);
+        font-family: var(--head);
+        font-size: clamp(1.45rem, 2.4vw, 2.4rem);
+        font-weight: 900;
+        line-height: 1.08;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .footer {
+        display: flex;
+        justify-content: center;
+        padding: 42px 24px 70px;
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      @media (max-width: 1180px) {
+        .plan-track {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .plan-track article.current {
+          grid-column: span 2;
+        }
+      }
+
+      @media (max-width: 980px) {
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+          padding-inline: 16px;
+        }
+
+        .lesson-switcher {
+          padding-inline: 16px;
+        }
+
+        .topbar-links,
+        .lesson-switcher {
+          flex-wrap: nowrap;
+          justify-content: flex-start;
+          overflow-x: auto;
+          width: 100%;
+        }
+
+        .lesson-section {
+          padding: 48px 16px 58px;
+        }
+
+        .section-head,
+        .finish-grid,
+        .design-grid,
+        .design-board,
+        .case-main,
+        .case-columns {
+          grid-template-columns: 1fr;
+        }
+
+        .glossary-grid,
+        .hack-grid,
+        .api-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .lesson-tab {
+          min-width: 92px;
+          min-height: 34px;
+          padding: 7px 10px;
+          font-size: 0.76rem;
+        }
+
+        .topbar {
+          position: static;
+        }
+
+        .lesson-nav-only {
+          position: static;
+        }
+
+        h1,
+        h2 {
+          font-size: clamp(2.55rem, 13vw, 4.1rem);
+        }
+
+        .plan-track,
+        .glossary-grid,
+        .hack-grid,
+        .api-grid,
+        .case-metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .plan-track article.current {
+          grid-column: auto;
+        }
+
+        .plan-track article,
+        .finish-note,
+        .story-case {
+          padding: 18px;
+        }
+
+        .case-visual {
+          min-height: 310px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="lesson-switcher" aria-label="Переключение уроков">
+      <a class="lesson-tab" href="../lssn_01/index.html">Урок 1</a>
+      <a class="lesson-tab" href="../lssn_02/index.html">Урок 2</a>
+      <a class="lesson-tab" href="../lssn_03/index.html">Урок 3</a>
+      <a class="lesson-tab" href="../lssn_04/index.html">Урок 4</a>
+      <a class="lesson-tab active" href="#lesson-5-plan">Урок 5</a>
+    </nav>
+
+    <header class="lesson-nav-only" id="top">
+      <nav class="topbar" aria-label="Навигация по уроку 5">
+        <span class="lesson-status">Финальный процесс</span>
+        <div class="topbar-links">
+          <a href="#lesson-5-plan" class="is-current">План</a>
+          <a href="#lesson-5-finish">Финал</a>
+          <a href="#lesson-5-glossary">Словарь</a>
+          <a href="#lesson-5-lifehacks">Лайфхаки</a>
+          <a href="#lesson-5-api">MCP/API</a>
+          <a href="#lesson-5-design">Дизайн</a>
+          <a href="#lesson-5-cases">Кейсы</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="lesson-section" id="lesson-5-plan">
+        <div class="section-kicker">План интенсива</div>
+        <div class="section-head">
+          <div>
+            <h1>Где мы сейчас и что дальше</h1>
+            <p class="lead">
+              Финальный урок от 15.06.2026: коротко повторяем базу,
+              разбираем вопросы и выбираем, где применять вайбкодинг дальше.
+            </p>
+          </div>
+        </div>
+
+        <div class="plan-track" aria-label="План пяти уроков интенсива">
+          <article>
+            <span class="lesson-chip">Урок 1</span>
+            <time>18:00-19:00</time>
+            <h3>Вводное занятие</h3>
+            <p>Ставим Codex или Claude Code, разбираемся в интерфейсе и делаем первую задачу.</p>
+          </article>
+          <article>
+            <span class="lesson-chip">Урок 2</span>
+            <time>18:00-19:00</time>
+            <h3>Расширение для браузера</h3>
+            <p>Собираем Chrome-расширение и смотрим, как агент работает с файлами, контекстом и git.</p>
+          </article>
+          <article>
+            <span class="lesson-chip">Урок 3</span>
+            <time>18:00-19:00</time>
+            <h3>Сайт</h3>
+            <p>Делаем одностраничный лендинг, правим через агента и публикуем его в интернете.</p>
+          </article>
+          <article>
+            <span class="lesson-chip">Урок 4</span>
+            <time>18:00-19:00</time>
+            <h3>Telegram-бот</h3>
+            <p>Собираем бота-помощника и подключаем внешние сервисы через API.</p>
+          </article>
+          <article class="current">
+            <span class="lesson-chip">Урок 5</span>
+            <time>18:00-19:00</time>
+            <h3>Финальный Q&amp;A</h3>
+            <p>Снимаем барьер окончательно и собираем личный процесс для следующих проектов.</p>
+          </article>
+        </div>
+
+        <div class="plan-summary">
+          Цель урока: закрепить базу и понять, как дальше превращать идеи в свои рабочие инструменты.
+        </div>
+      </section>
+
+      <section class="lesson-section" id="lesson-5-finish">
+        <div class="finish-grid">
+          <article class="finish-note">
+            <div>
+              <span class="section-kicker">Выпускной</span>
+              <h2>Главное уже случилось: <span>барьер снят</span></h2>
+              <p>
+                Нейронки будут меняться каждый день.
+                Основа остается: проект, контекст, запрос, проверка.
+              </p>
+            </div>
+            <div class="plan-summary">Финиш - это старт своих проектов.</div>
+          </article>
+          <div class="finish-points">
+            <article>
+              <strong>Что есть</strong>
+              <p>Расширение, сайт, Telegram-бот и понимание, как агент работает с файлами.</p>
+            </article>
+            <article>
+              <strong>Что важно</strong>
+              <p>Не гнаться за всеми моделями, а выбирать инструмент под свою задачу.</p>
+            </article>
+            <article>
+              <strong>Что дальше</strong>
+              <p>Взять один свой кейс и собрать маленький полезный инструмент.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="lesson-5-glossary">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Глоссарий</span>
+            <h2>Слова, которые теперь свои</h2>
+          </div>
+          <p>Короткий словарь по курсу. Нужен, чтобы не терять базу после выпуска.</p>
+        </div>
+        <div class="glossary-grid">
+          <article class="term-card"><strong>Вайбкодинг</strong><p>Работа с AI-агентом, который меняет файлы проекта.</p></article>
+          <article class="term-card"><strong>Агент</strong><p>Нейронка с доступом к папке, терминалу и проверкам.</p></article>
+          <article class="term-card"><strong>Контекстное окно</strong><p>Память текущей сессии. Чем больше шума, тем хуже качество.</p></article>
+          <article class="term-card"><strong>Промпт</strong><p>Задача для агента: цель, вводные, ограничения и критерий готовности.</p></article>
+          <article class="term-card"><strong>Токен</strong><p>Единица текста для модели. В боте токен может быть секретным ключом.</p></article>
+          <article class="term-card"><strong>API</strong><p>Официальная дверь сервиса для программы.</p></article>
+          <article class="term-card"><strong>MCP</strong><p>Слой поверх API, чтобы агент мог работать с сервисом удобнее.</p></article>
+          <article class="term-card"><strong>.env</strong><p>Локальный файл для секретов, которые нельзя коммитить.</p></article>
+          <article class="term-card"><strong>Git</strong><p>История версий проекта на компьютере.</p></article>
+          <article class="term-card"><strong>Коммит</strong><p>Контрольная точка, к которой можно вернуться.</p></article>
+          <article class="term-card"><strong>GitHub</strong><p>Удаленное хранилище кода и источник правды.</p></article>
+          <article class="term-card"><strong>VPS</strong><p>Сервер, где бот или backend работают без вашего ноутбука.</p></article>
+          <article class="term-card"><strong>Frontend</strong><p>То, что видит пользователь: страница, кнопки, формы.</p></article>
+          <article class="term-card"><strong>Backend</strong><p>Логика за экраном: API, боты, базы, обработка сообщений.</p></article>
+          <article class="term-card"><strong>Оркестратор</strong><p>Главная сессия, которая раздает задачи субагентам.</p></article>
+          <article class="term-card"><strong>Пайплайн</strong><p>Повторяемая цепочка шагов от входа к результату.</p></article>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="lesson-5-lifehacks">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Лайфхаки курса</span>
+            <h2>Четыре правила после выпуска</h2>
+          </div>
+          <p>Это рабочая гигиена: она экономит контекст, нервы и результат.</p>
+        </div>
+        <div class="hack-grid">
+          <article class="hack-card">
+            <span class="hack-num">1</span>
+            <div><strong>Закрывайте старые сессии</strong><p>Если разговор раздулся, начните новый. Старый чат тащит лишний шум.</p></div>
+          </article>
+          <article class="hack-card">
+            <span class="hack-num">2</span>
+            <div><strong>Сохраняйте контекст в docs</strong><p>Перед новым окном попросите агента записать решения в Markdown.</p></div>
+          </article>
+          <article class="hack-card">
+            <span class="hack-num">3</span>
+            <div><strong>Делайте коммиты</strong><p>Перед крупной правкой фиксируйте рабочее состояние проекта.</p></div>
+          </article>
+          <article class="hack-card bonus">
+            <span class="hack-num">4</span>
+            <div><strong>Используйте оркестратора</strong><p>Главная сессия ставит задачи субагентам, собирает отчеты и валидирует итог.</p></div>
+          </article>
+          <article class="hack-card">
+            <span class="hack-num">5</span>
+            <div><strong>Просите промпт у агента</strong><p>Если сессия зашла в тупик, пусть агент сам сформулирует идеальный запрос для нового окна.</p></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="lesson-5-api">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">MCP и API</span>
+            <h2>Идеи захотят подключений</h2>
+          </div>
+          <p>Когда проект становится полезным, ему нужно говорить с другими сервисами.</p>
+        </div>
+        <div class="api-grid">
+          <article class="api-card"><strong>Telegram token</strong><p>Берем ключ у BotFather и отдаём его backend-боту через .env.</p></article>
+          <article class="api-card"><strong>Deepgram</strong><p>Голосовое сообщение превращается в текст для дальнейшей обработки.</p></article>
+          <article class="api-card"><strong>Groq</strong><p>Быстрый AI-ответ поверх уже расшифрованного текста.</p></article>
+          <article class="api-card"><strong>GitHub + VPS</strong><p>Код хранится в репозитории, сервер берет проверенную версию.</p></article>
+        </div>
+        <div class="plan-summary">
+          Если у сервиса есть API или MCP - используем официальный вход.
+          Если нет - осторожно разбираемся с браузером, парсингом и рисками.
+        </div>
+      </section>
+
+      <section class="lesson-section" id="lesson-5-design">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Бонус: дизайн</span>
+            <h2>Прототип можно попросить</h2>
+          </div>
+          <p>Инструменты не заменяют вкус, но быстро показывают направление.</p>
+        </div>
+        <div class="design-grid">
+          <div class="design-board" aria-label="Миниатюра промпта и мобильного прототипа">
+            <div class="prompt-mini">
+              <p>Есть лендинг курса, навигация, уроки и квиз.</p>
+              <div class="prompt-bubble">
+                У меня есть такой лендинг [ваш сайт], покажи,
+                как мог бы выглядеть прототип мобильного приложения?
+              </div>
+            </div>
+            <div class="phone-mini">
+              <div class="phone-shell">
+                <div class="phone-hero">AI<br />Intensive</div>
+                <span class="phone-line"></span>
+                <span class="phone-line"></span>
+                <span class="phone-card"></span>
+                <span class="phone-card"></span>
+              </div>
+            </div>
+          </div>
+          <div class="tool-stack">
+            <article class="tool-card"><strong>Claude Design</strong><span>прототипы</span></article>
+            <article class="tool-card"><strong>Google Stitch</strong><span>экраны</span></article>
+            <article class="tool-card"><strong>Lovable</strong><span>сайт сразу</span></article>
+            <article class="tool-card"><strong>Figma MCP</strong><span>доступ агенту</span></article>
+            <article class="tool-card"><strong>design.md</strong><span>правила стиля</span></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="lesson-5-cases">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Референсы</span>
+            <h2>Один экран - один кейс</h2>
+          </div>
+          <p>Примеры, как люди превращают вайбкодинг в результат на работе или в жизни.</p>
+        </div>
+        <div class="case-stack">
+          <article class="story-case">
+            <div class="case-top">
+              <span class="case-type">Работа</span>
+              <a class="case-link" href="https://habr.com/ru/companies/sibur_official/articles/1039014/" target="_blank" rel="noreferrer">Открыть статью на Хабре</a>
+            </div>
+            <div class="case-main">
+              <div class="case-copy">
+                <h3>Команда джунов для дашборда</h3>
+                <div class="case-columns">
+                  <div class="case-text-block"><h4>Задача</h4><p>Быстро собрать рабочий аналитический интерфейс и проверить гипотезу.</p></div>
+                  <div class="case-text-block"><h4>Решение</h4><p>Использовать вайбкодинг как команду исполнителей, а финальное решение оставить человеку.</p></div>
+                </div>
+              </div>
+              <figure class="case-visual">
+                <img src="../../Assets/references/lesson-05/sibur-dashboard-case.png" alt="Скрин интерфейса Analytics Hub из статьи на Хабре" />
+              </figure>
+            </div>
+            <div class="case-metrics">
+              <div class="metric"><strong>8 814</strong><span>компаний в базе</span></div>
+              <div class="metric"><strong>541</strong><span>клик по контенту</span></div>
+              <div class="metric"><strong>42</strong><span>горячих к передаче</span></div>
+            </div>
+          </article>
+
+          <article class="story-case">
+            <div class="case-top">
+              <span class="case-type">Жизнь</span>
+              <a class="case-link" href="https://t.me/DmitryDostigaev/52" target="_blank" rel="noreferrer">Открыть пост в Telegram</a>
+            </div>
+            <div class="case-main">
+              <div class="case-copy">
+                <h3>Маршрут без глютена</h3>
+                <div class="case-columns">
+                  <div class="case-text-block"><h4>Задача</h4><p>Спланировать Сеул под семью, целиакию, блогерские точки, погоду и транспорт.</p></div>
+                  <div class="case-text-block"><h4>Решение</h4><p>Собрать проект с памятью, скиллами и проверкой актуальности данных.</p></div>
+                </div>
+              </div>
+              <figure class="case-visual">
+                <img src="../../Assets/references/lesson-05/seoul-map-case.jpeg" alt="Скрин индивидуальной карты Сеула с точками маршрута" />
+              </figure>
+            </div>
+            <div class="case-metrics">
+              <div class="metric"><strong>90</strong><span>мест на карте</span></div>
+              <div class="metric"><strong>10</strong><span>агентов сверяют данные</span></div>
+              <div class="metric"><strong>15 мин</strong><span>цель для нового города</span></div>
+            </div>
+          </article>
+
+          <article class="story-case">
+            <div class="case-top">
+              <span class="case-type">Продукт</span>
+              <a class="case-link" href="https://t.me/techmedia/21536" target="_blank" rel="noreferrer">Открыть пост в Telegram</a>
+            </div>
+            <div class="case-main">
+              <div class="case-copy">
+                <h3>Cal AI по фото еды</h3>
+                <div class="case-columns">
+                  <div class="case-text-block"><h4>Задача</h4><p>Убрать ручной ввод еды и считать КБЖУ по одному фото.</p></div>
+                  <div class="case-text-block"><h4>Решение</h4><p>Прикрутить AI API к мобильному приложению и сфокусироваться на одном сценарии.</p></div>
+                </div>
+              </div>
+              <figure class="case-visual">
+                <img src="../../Assets/cal_ai_ref.png" alt="Cal AI на телефоне сканирует еду для подсчета калорий" />
+              </figure>
+            </div>
+            <div class="case-metrics">
+              <div class="metric"><strong>$100 млн</strong><span>сумма продажи</span></div>
+              <div class="metric"><strong>10 млн+</strong><span>пользователей</span></div>
+              <div class="metric"><strong>$30 млн</strong><span>годовой доход</span></div>
+            </div>
+          </article>
+
+          <article class="story-case">
+            <div class="case-top">
+              <span class="case-type">Игра</span>
+              <a class="case-link" href="https://t.me/TochkiNadAI/2404" target="_blank" rel="noreferrer">Открыть пост в Telegram</a>
+            </div>
+            <div class="case-main">
+              <div class="case-copy">
+                <h3>Игра «КОРОВАНЫ» из одного ТЗ</h3>
+                <div class="case-columns">
+                  <div class="case-text-block"><h4>Задача</h4><p>Проверить Fable 5 на сложном фан-проекте: браузерной RPG про корованы.</p></div>
+                  <div class="case-text-block"><h4>Решение</h4><p>Дать агенту большое ТЗ, довести до playable demo и открыть исходники на GitHub.</p></div>
+                </div>
+              </div>
+              <figure class="case-visual">
+                <img src="../../Assets/photo_2026-06-15%2013.58.11.jpeg" alt="Промо-арт игры КОРОВАНЫ с персонажем в деревне" />
+              </figure>
+            </div>
+            <div class="case-metrics">
+              <div class="metric"><strong>Демо</strong><span>игра запускается в браузере</span></div>
+              <div class="metric"><strong>RPG</strong><span>квесты, бой, прокачка</span></div>
+              <div class="metric"><strong>Код</strong><span>исходники доступны на GitHub</span></div>
+            </div>
+          </article>
+
+          <article class="story-case">
+            <div class="case-top">
+              <span class="case-type">Инструмент</span>
+              <a class="case-link" href="https://t.me/imagine_picbot" target="_blank" rel="noreferrer">Открыть бота в Telegram</a>
+            </div>
+            <div class="case-main">
+              <div class="case-copy">
+                <h3>ИИ-фотошоп в Telegram</h3>
+                <div class="case-columns">
+                  <div class="case-text-block"><h4>Задача</h4><p>Дать генерацию и правку фото без сложного интерфейса.</p></div>
+                  <div class="case-text-block"><h4>Решение</h4><p>Собрать Telegram-бота с командами для картинки, промпта, фона и улучшения фото.</p></div>
+                </div>
+              </div>
+              <figure class="case-visual">
+                <div class="mock-shot" aria-label="Миниатюра Telegram-бота для генерации изображений">
+                  <div class="bot-window">
+                    <div class="bot-head"><span class="bot-avatar">AI</span><strong>@imagine_picbot</strong></div>
+                    <div class="bot-lines">
+                      <span class="bot-line">/pic - новая картинка</span>
+                      <span class="bot-line">/prompt - составить промпт</span>
+                      <span class="bot-line">/removebg - удалить фон</span>
+                      <span class="bot-line">/improve - улучшить фото</span>
+                    </div>
+                  </div>
+                </div>
+              </figure>
+            </div>
+            <div class="case-metrics">
+              <div class="metric"><strong>4</strong><span>быстрые кнопки</span></div>
+              <div class="metric"><strong>6</strong><span>ключевых команд</span></div>
+              <div class="metric"><strong>1 чат</strong><span>весь сценарий внутри Telegram</span></div>
+            </div>
+          </article>
+        </div>
+        <div class="final-strip">База есть. Барьер снят. Дальше - один свой прикладной кейс.</div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <a href="#top">Наверх</a>
+    </footer>
+
+    <script>
+      const navLinks = Array.from(document.querySelectorAll(".topbar-links a"));
+      const sections = navLinks
+        .map((link) => document.querySelector(link.getAttribute("href")))
+        .filter(Boolean);
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+          if (!visible) return;
+
+          navLinks.forEach((link) => {
+            link.classList.toggle("is-current", link.getAttribute("href") === `#${visible.target.id}`);
+          });
+        },
+        { rootMargin: "-90px 0px -58% 0px", threshold: [0.18, 0.32, 0.5] },
+      );
+
+      sections.forEach((section) => observer.observe(section));
+    </script>
+  </body>
+</html>
