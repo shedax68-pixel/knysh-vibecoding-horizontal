@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Снимите AI-ступор за 2 часа</title>
+    <meta
+      name="description"
+      content="Однодневный практический интенсив: установим софт, разберем базовую теорию и сделаем первые задачи с AI-агентом."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css?v=a16f73a-final" />
+  </head>
+  <body>
+    <div class="horizontal-deck" id="deck">
+      <header class="hero asset-hero" id="top">
+        <div class="asset-stage">
+          <div class="asset-scene">
+            <img
+              class="asset-hero-image"
+              src="./Assets/hero-scene-clean.png?v=20260619-hero-fixes"
+              alt="Ночной лендинг интенсива: спящий кот рядом с ноутбуком и терминалом"
+            />
+            <div class="asset-stars" aria-hidden="true">
+              <span class="asset-star asset-star-plus star-left-1">+</span>
+              <span class="asset-star asset-star-plus star-left-2">+</span>
+              <span class="asset-star asset-star-dot star-left-3"></span>
+            </div>
+
+            <div class="asset-terminal" aria-label="Анимированный терминал">
+              <pre id="terminal-code" aria-live="polite"></pre>
+              <span class="terminal-caret" aria-hidden="true"></span>
+            </div>
+
+          </div>
+
+          <div class="asset-copy">
+            <h1 class="asset-title">
+              <span>Начните</span>
+              <span>вайбкодить</span>
+              <span>за день</span>
+            </h1>
+            <p class="asset-lead">
+              <span>«Возьмёмся за руки» и за 2 часа установим нужный софт и сразу</span>
+              <span>соберём первую игру, сайт и чат-бота с помощью вайбкодинга.</span>
+            </p>
+            <p class="asset-format">
+              Практический интенсив для тех, кто не знает, <span class="no-break">с чего начать</span> и живёт с FOMO
+            </p>
+            <div class="asset-difficulty asset-difficulty-left" aria-label="Сложность: 1 из 3">
+              <span>сложность</span>
+              <i class="is-active"></i>
+              <i></i>
+              <i></i>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="section vibe" aria-labelledby="vibe">
+          <div class="section-label">01</div>
+          <div class="section-body vibe-body">
+            <h2 id="vibe">Что такое вайбкодинг</h2>
+            <div class="vibe-grid">
+              <article class="vibe-card">
+                <span>не просто ChatGPT</span>
+                <p>
+                  Обычный запрос в ChatGPT дает текст:
+                  совет, кусок кода или инструкцию.
+                  Дальше вы сами копируете, вставляете,
+                  чините ошибки и пытаетесь понять, куда это положить.
+                </p>
+              </article>
+              <article class="vibe-card accent">
+                <span>а работа с AI-агентом</span>
+                <p>
+                  Вайбкодинг — это когда вы описываете задачу обычным языком,
+                  а AI-агент работает прямо в вашем проекте:
+                  ходит по папкам, читает контекст, создает и редактирует файлы,
+                  меняет код, запускает проверки и помогает довести идею до MVP.
+                </p>
+              </article>
+            </div>
+            <p class="vibe-note">
+              “Вайб” здесь — это буквально вайбовать с задачей:
+              держать в голове нужный результат, смотреть, что сделал агент,
+              и докручивать, пока штука не заработает.
+            </p>
+          </div>
+        </section>
+
+        <section class="section intro" aria-labelledby="for-whom">
+          <div class="section-label">02</div>
+          <div class="section-body intro-body">
+            <div class="intro-copy">
+              <h2 id="for-whom">Для кого интенсив</h2>
+              <div class="intro-text">
+                <p>
+                  Для тех, кто давно смотрит на вайбкодинг,
+                  но пока не понимает, как подступиться:
+                  куда нажимать, что писать агенту, как не сломать проект
+                  и как вообще довести идею до работающей штуки.
+                </p>
+                <p>
+                  Интенсив подойдет, если вы хотите делать сайты, ботов,
+                  расширения и простые внутренние инструменты для себя,
+                  команды или клиентов, но не хотите заходить
+                  в классическую разработку на месяцы.
+                </p>
+              </div>
+            </div>
+            <figure class="meme">
+              <img src="./Assets/js-meme-reference.png" alt="Мем про JavaScript" />
+            </figure>
+            <div class="intro-note">Опыт в программировании не нужен.</div>
+          </div>
+        </section>
+
+        <section class="section outcomes" aria-labelledby="outcomes">
+          <div class="section-label">03</div>
+          <div class="section-body">
+            <h2 id="outcomes">Что сможете делать после обучения?</h2>
+            <div class="outcome-grid">
+              <article data-step="01">
+                <h3>Chrome-расширение</h3>
+                <p>Например, прочитает все комментарии под роликом на YouTube и оценит позитив / негатив.</p>
+              </article>
+              <article data-step="02">
+                <h3>Сайт</h3>
+                <p>Например, соберет прототип лендинга с розыгрышем для любого клиента.</p>
+              </article>
+              <article data-step="03">
+                <h3>Чат-бот</h3>
+                <p>Например, будет каждый день мониторить тренды маркетинга и присылать короткую сводку.</p>
+              </article>
+              <article data-step="04">
+                <h3>Базы знаний</h3>
+                <p>Например, заберет все архивные идеи, систематизирует их и будет хранить в одном месте.</p>
+              </article>
+              <article data-step="05">
+                <h3>Игра</h3>
+                <p>Например, создаст антистресс-игру на 5 минут, чтобы перестать злиться на клиента.</p>
+              </article>
+              <article data-step="06">
+                <h3>Всё, на что хватит фантазии</h3>
+                <p>От таск-менеджера для команды до личного мини-сервиса или внутреннего инструмента.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section program" aria-labelledby="program">
+          <div class="section-label">04</div>
+          <div class="section-body">
+            <h2 id="program">5 вебинаров</h2>
+
+            <article class="lesson">
+              <p class="lesson-date">Урок 1 <span>18:00-19:00</span></p>
+              <h3>Вводное занятие</h3>
+              <p>
+                Ставим Visual Studio Code и Codex или Claude Code,
+                разбираемся в интерфейсе и делаем первую задачу.
+              </p>
+            </article>
+
+            <article class="lesson">
+              <p class="lesson-date">Урок 2 <span>18:00-19:00</span></p>
+              <h3>Расширение для браузера</h3>
+              <p>
+                Собираем простое Chrome-расширение и разбираемся,
+                как агент работает с файлами, контекстом и git.
+              </p>
+            </article>
+
+            <article class="lesson">
+              <p class="lesson-date">Урок 3 <span>18:00-19:00</span></p>
+              <h3>Собственный лендинг</h3>
+              <p>
+                Делаем одностраничный сайт, вносим изменения через агента,
+                публикуем его и разбираем, когда нужна аренда VPS-сервера.
+              </p>
+            </article>
+
+            <article class="lesson">
+              <p class="lesson-date">Урок 4 <span>18:00-19:00</span></p>
+              <h3>Telegram-бот</h3>
+              <p>
+                Собираем бота-помощника и подключаем внешние сервисы через API.
+              </p>
+            </article>
+
+            <article class="lesson">
+              <p class="lesson-date">Урок 5 <span>18:00-19:00</span></p>
+              <h3>Финальный Q&amp;A</h3>
+              <p>
+                Разбираем ошибки, отвечаем на вопросы,
+                обсуждаем, как дальше учиться и собирать свои проекты.
+              </p>
+            </article>
+
+            <div class="summary-strip">
+              Итого: настроите AI-агента, сделаете 3 проекта
+              и поймете, как продолжать дальше.
+            </div>
+            <p class="program-note">
+              После каждого урока будет простая домашка на 10–30 минут —
+              она легко впишется даже в самую жаркую рабочую неделю.
+            </p>
+          </div>
+        </section>
+
+        <section class="section speaker" aria-labelledby="speaker">
+          <div class="section-label">05</div>
+          <div class="section-body speaker-section">
+            <h2 id="speaker">Кто ведет интенсив</h2>
+            <div class="speaker-panel">
+              <div class="speaker-main">
+                <div class="speaker-card">
+                  <img
+                    class="speaker-avatar"
+                    src="./Assets/alexander-knysh-avatar.jpeg"
+                    alt="Александр Кныш"
+                  />
+                  <div>
+                    <h3>Александр Кныш</h3>
+                    <p class="speaker-role">
+                      <span>Ex-директор по развитию продуктов в JAMI LUP.</span>
+                      <span>Руководитель инвестиционных проектов</span>
+                      <span>в Газпром-Медиа Холдинге.</span>
+                    </p>
+                    <a class="speaker-link" href="https://t.me/kknysh" target="_blank" rel="noreferrer">
+                      @kknysh
+                    </a>
+                  </div>
+                </div>
+
+                <div class="speaker-text">
+                  <p>
+                    9+ лет в маркетинге и агентском бизнесе:
+                    запускал продукты, внедрял AI в рабочие процессы
+                    и работал с Lexus, Volkswagen, Skoda, Яндексом,
+                    Huawei, Honor, S7, МТС, Сбером, ВТБ, Yappy
+                    и другими брендами.
+                  </p>
+                  <p>
+                    Сейчас использует вайбкодинг, чтобы быстро собирать MVP,
+                    прототипировать процессы и закрывать задачи
+                    без долгих подрядов.
+                  </p>
+                </div>
+              </div>
+
+              <div class="logo-wall" aria-label="Опыт работы с брендами">
+                <p class="logo-wall-title">Опыт спикера</p>
+                <span>LEXUS</span>
+                <span>VOLKSWAGEN</span>
+                <span>SKODA</span>
+                <span>СБЕР</span>
+                <span>ЯНДЕКС</span>
+                <span>HUAWEI</span>
+                <span>HONOR</span>
+                <span>S7</span>
+                <span>МТС</span>
+                <span>БИЛАЙН</span>
+                <span>ВТБ</span>
+                <span>YAPPY</span>
+                <span>BOSCH</span>
+                <span>И ДРУГИЕ</span>
+              </div>
+
+              <blockquote class="speaker-quote">
+                Цель занятия — провести участника от “я слышал про это”
+                до “я понял механику и могу повторить сам”.
+              </blockquote>
+            </div>
+          </div>
+        </section>
+
+        <section class="section feedback" aria-labelledby="feedback">
+          <div class="section-label">06</div>
+          <div class="section-body feedback-section">
+            <div class="feedback-head">
+              <h2 id="feedback">Результаты учеников</h2>
+            </div>
+
+            <div class="feedback-grid">
+              <article class="feedback-card is-ready">
+                <div class="feedback-person">
+                  <img
+                    class="feedback-avatar"
+                    src="./Assets/avatars/alexander-agency.jpeg"
+                    alt="Александр Заклинский"
+                  />
+                  <div>
+                    <h3>Александр Заклинский</h3>
+                    <p>Операционный директор рекламного агентства</p>
+                  </div>
+                </div>
+                <dl>
+                  <div>
+                    <dt>До:</dt>
+                    <dd>
+                      Уверенно пользовался ChatGPT и понимал, как устроены код,
+                      разработка и сервер, но не мог сам собрать это
+                      в рабочий инструмент.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>После:</dt>
+                    <dd>
+                      Собрал Telegram-бота для регистрации гостей
+                      и после интенсива сделал контент-завод.
+                    </dd>
+                  </div>
+                </dl>
+                <blockquote>
+                  Нужен был бот — сделал рабочую версию.
+                  Теперь такие задачи смогу закрывать сам.
+                </blockquote>
+              </article>
+
+              <article class="feedback-card is-ready">
+                <div class="feedback-person">
+                  <img
+                    class="feedback-avatar"
+                    src="./Assets/avatars/alexander-studio.jpeg"
+                    alt="Александр Кадыкеев"
+                  />
+                  <div>
+                    <h3>Александр Кадыкеев</h3>
+                    <p>Генеральный директор студии разработки</p>
+                  </div>
+                </div>
+                <dl>
+                  <div>
+                    <dt>До:</dt>
+                    <dd>
+                      Много слышал про вайбкодинг и Claude,
+                      но из-за информационного шума откладывал первые тесты.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>После:</dt>
+                    <dd>
+                      Сделал несколько интерактивных брендовых игр,
+                      Chrome-расширение и свой сайт. Дальше будет применять
+                      подход в разработке и личных задачах.
+                    </dd>
+                  </div>
+                </dl>
+                <blockquote>
+                  Ценность в связке: ИИ и экспертиза,
+                  которая уже есть у меня и команды.
+                </blockquote>
+              </article>
+
+              <article class="feedback-card is-ready">
+                <div class="feedback-person">
+                  <img
+                    class="feedback-avatar"
+                    src="./Assets/avatars/igor-production.png"
+                    alt="Игорь"
+                  />
+                  <div>
+                    <h3>Игорь</h3>
+                    <p>Директор производства рекламного контента</p>
+                  </div>
+                </div>
+                <dl>
+                  <div>
+                    <dt>До:</dt>
+                    <dd>
+                      Уверенно пользовался ChatGPT в рабочих задачах,
+                      но не собирал свои инструменты для продакшена
+                      без разработчиков.
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>После:</dt>
+                    <dd>
+                      Вайбкодит внутренний инструмент,
+                      который оптимизирует процесс продакшена
+                      для всей команды.
+                    </dd>
+                  </div>
+                </dl>
+                <blockquote>
+                  Самым ценным было не сделать конкретный сайт или бот,
+                  а вообще начать.
+                </blockquote>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section price" aria-labelledby="price">
+          <div class="section-label">07</div>
+          <div class="section-body">
+            <h2 id="price">Условия</h2>
+            <div class="price-panel">
+              <div class="price-column price-person">
+                <p class="price-label">Цена за 1 человека</p>
+                <p class="price-number">10 000 ₽</p>
+                <p class="price-subcaption">однодневный практический формат</p>
+              </div>
+              <div class="price-column price-group">
+                <p class="price-label">Длительность</p>
+                <p class="price-number">2 часа</p>
+                <p class="price-caption">одна встреча</p>
+                <p class="price-subcaption">
+                  Рекомендованный размер группы — от 5 до 15 человек.
+                </p>
+              </div>
+              <div class="price-column price-details">
+                <p class="price-label">Что входит</p>
+                <p class="price-included">
+                  В стоимость входят: занятие в группе,
+                  настройка базового софта, практическая задача,
+                  разбор паттернов и ответы на вопросы.
+                </p>
+                <p class="price-contact">
+                  Записаться и задать вопросы:
+                  <a href="https://t.me/kknysh" target="_blank" rel="noreferrer">@kknysh</a>
+                </p>
+                <p class="price-footnote">
+                  Не входят: подписки на AI-сервисы
+                  и возможные расходы на сторонние инструменты.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="deck-progress" aria-hidden="true">
+      <div class="deck-progress-fill"></div>
+    </div>
+
+    <div class="deck-nav" aria-label="Навигация по слайдам">
+      <button class="deck-nav-button" type="button" data-direction="-1" aria-label="Предыдущий слайд">
+        &lt;
+      </button>
+      <button class="deck-nav-button" type="button" data-direction="1" aria-label="Следующий слайд">
+        &gt;
+      </button>
+    </div>
+
+    <script>
+      const deck = document.querySelector("#deck");
+      const progress = document.querySelector(".deck-progress-fill");
+      const navButtons = document.querySelectorAll(".deck-nav-button");
+      const pageParams = new URLSearchParams(window.location.search);
+
+      function getCurrentPanelIndex() {
+        return Math.round(deck.scrollLeft / deck.clientWidth);
+      }
+
+      function updateDeckProgress() {
+        const maxScroll = deck.scrollWidth - deck.clientWidth;
+        const progressValue = maxScroll > 0 ? deck.scrollLeft / maxScroll : 0;
+        progress.style.transform = `scaleX(${progressValue})`;
+
+        const currentIndex = getCurrentPanelIndex();
+        const lastIndex = Math.round(maxScroll / deck.clientWidth);
+        navButtons.forEach((button) => {
+          const direction = Number(button.dataset.direction);
+          button.disabled =
+            (direction < 0 && currentIndex <= 0) ||
+            (direction > 0 && currentIndex >= lastIndex);
+        });
+      }
+
+      deck.addEventListener("scroll", updateDeckProgress, { passive: true });
+
+      deck.addEventListener(
+        "wheel",
+        (event) => {
+          if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+          const activePanel = document.elementFromPoint(
+            window.innerWidth / 2,
+            window.innerHeight / 2,
+          )?.closest(".hero, .section");
+
+          const canScrollInside =
+            activePanel &&
+            activePanel.scrollHeight > activePanel.clientHeight &&
+            ((event.deltaY > 0 &&
+              activePanel.scrollTop + activePanel.clientHeight < activePanel.scrollHeight - 2) ||
+              (event.deltaY < 0 && activePanel.scrollTop > 0));
+
+          if (canScrollInside) return;
+
+          event.preventDefault();
+          deck.scrollBy({ left: event.deltaY, behavior: "smooth" });
+        },
+        { passive: false },
+      );
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight") {
+          deck.scrollBy({ left: window.innerWidth, behavior: "smooth" });
+        }
+
+        if (event.key === "ArrowLeft") {
+          deck.scrollBy({ left: -window.innerWidth, behavior: "smooth" });
+        }
+      });
+
+      navButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const direction = Number(button.dataset.direction);
+          deck.scrollTo({
+            left: (getCurrentPanelIndex() + direction) * deck.clientWidth,
+            behavior: "smooth",
+          });
+        });
+      });
+
+      window.addEventListener("resize", updateDeckProgress);
+      updateDeckProgress();
+
+      const terminalCode = document.querySelector("#terminal-code");
+      const terminalLines = [
+        "$ kot --run",
+        "meow@laptop:~$ kot compile Main.kot",
+        "Compiling purrfectly...",
+        "",
+        "meow@laptop:~$ kot run",
+        "  Purring output...",
+        "  Everything is kot-compiled.",
+        "",
+        "Kotting successful.",
+      ];
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (terminalCode) {
+        const terminalText = terminalLines.join("\n");
+
+        if (prefersReducedMotion || pageParams.get("terminal") === "ready") {
+          terminalCode.textContent = terminalText;
+        } else {
+          let characterIndex = 0;
+
+          function typeTerminal() {
+            terminalCode.textContent = terminalText.slice(0, characterIndex);
+
+            if (characterIndex >= terminalText.length) {
+              return;
+            }
+
+            characterIndex += 1;
+            const nextCharacter = terminalText[characterIndex];
+            const delay = nextCharacter === "\n" ? 260 : 36 + Math.random() * 42;
+            window.setTimeout(typeTerminal, delay);
+          }
+
+          typeTerminal();
+        }
+      }
+    </script>
+  </body>
+</html>
